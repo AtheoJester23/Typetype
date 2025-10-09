@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.Navbar{
+  background-color: blue;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.NonExistent{
+  @apply h-screen bg-gray-500 flex justify-center items-center flex-col;
+}
