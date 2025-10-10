@@ -1,11 +1,15 @@
 @import "tailwindcss";
 
 .Navbar{
-  background-color: blue;
+  background-color: rgb(23,23,23);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+}
+
+.dark{
+  background-color: rgb(11,11,11)
 }
 
 .NonExistent{
