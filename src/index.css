@@ -17,3 +17,7 @@
 .NonExistent{
   @apply h-screen bg-gray-500 flex justify-center items-center flex-col;
 }
+
+.refCont{
+  @apply flex items-center justify-center inline-block whitespace-normal break-all w-[90%];
+}
