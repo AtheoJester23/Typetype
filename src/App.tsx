@@ -3,10 +3,13 @@ import './App.css'
 import { ThemeProvider } from './context/ThemeContext'
 import Home from './components/Home'
 import NonExistent from './components/NonExistent'
+import Navbar from './components/Navbar'
 
 function App() {
   return (
     <ThemeProvider>
+      <Navbar/>
+
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home/>}/>
