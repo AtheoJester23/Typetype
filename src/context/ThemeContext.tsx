@@ -4,6 +4,8 @@ type Theme = "dark" | "light"
 
 interface ThemeContextType {
     theme: Theme,
+    url: string,
+    setUrl: (url: string) => void,
     toggleTheme: () => void;
 }
 
@@ -11,6 +13,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({children}: {children: ReactNode}){
     const [theme, setTheme] = useState<Theme>("dark");
+    const [url, setUrl] = useState<string>(`${import.meta.env.VITE_COMMANDMENTS_API}`); 
 
     useEffect(() => {
         if (theme === "dark") {
@@ -25,7 +28,7 @@ export function ThemeProvider({children}: {children: ReactNode}){
     }
 
     return (
-        <ThemeContext.Provider value={{theme, toggleTheme}}>
+        <ThemeContext.Provider value={{theme, toggleTheme, url, setUrl}}>
             <div className="theme">{children}</div>
         </ThemeContext.Provider>
     )
