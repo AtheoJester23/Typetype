@@ -11,18 +11,19 @@ const Navbar = () => {
                     <Keyboard className="inline text-white"/>
                     <a href="/" className="text-white font-bold text-3xl">Typetype</a>
                 </div>
-                <div className="flex justify-center items-center">
-                    <select 
-                        className="border border-white bg-white px-5 text-center" 
-                        defaultValue="default" 
-                        onChange={(e)=>(
-                            setUrl(e.target.value)
-                        )}>
-                            <option value="default" disabled>Select a mode</option>
-                            <option value={`${import.meta.env.VITE_QUOTES_API}`}>Quotes</option>
-                            <option value={`${import.meta.env.VITE_COMMANDMENTS_API}`} >10 Commandments</option>
-                    </select>
-                </div>
+            </div>
+
+            <div className="flex justify-center items-center">
+                <select 
+                    className="border border-white bg-white px-5 text-center" 
+                    defaultValue="default" 
+                    onChange={(e)=>(
+                        setUrl(e.target.value)
+                    )}>
+                        <option value="default" disabled>Select a mode</option>
+                        <option value={`${import.meta.env.VITE_QUOTES_API}`}>Quotes</option>
+                        <option value={`${import.meta.env.VITE_COMMANDMENTS_API}`} >10 Commandments</option>
+                </select>
             </div>
 
 

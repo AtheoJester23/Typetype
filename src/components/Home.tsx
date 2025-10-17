@@ -43,7 +43,9 @@ const Home = () => {
 
         fetchReferenceText();
 
-    }, [num, reference])
+        setInput("");
+
+    }, [num, reference, url])
     
     useEffect(() => {
         if (!enter) return;
