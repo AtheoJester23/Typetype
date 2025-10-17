@@ -4,7 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 const Home = () => {
     const {theme} = useTheme();
 
-    const textExample = "Abcdef test";
+    const textExample = "Abcdef";
 
     const textRef = useRef<HTMLTextAreaElement>(null);
 
