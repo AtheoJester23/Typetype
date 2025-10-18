@@ -1,8 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 import { ClipLoader } from "react-spinners";
+import type { AppDispatch, RootState } from "../state/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../state/Loading/loadingSlice";
+import { setDone, setPerfectScore, setScore } from "../state/Scoring/scoring";
+import Result from "./Result";
 
 const Home = () => {
+    // Redux state and dispatch
+    const loading = useSelector((state: RootState) => state.loading.isLoading);
+    const scoring = useSelector((state: RootState) => state.scoring.score)
+    const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore)
+    const done = useSelector((state: RootState) => state.scoring.done)
+    const dispatch = useDispatch<AppDispatch>()
+    // dispatch(setScore(0));
+
+
     const {theme, url} = useTheme();
     const [reference, setReference] = useState<string | null>(null)
     const [num, setNum] = useState<number>(2);
@@ -17,27 +31,36 @@ const Home = () => {
     const handleNext = () => {
         setInput("");
         setNum(prev => prev < 10 ? prev + 1 : 1);
+        dispatch(setDone(false));
     }
 
-    console.log(url)
+    const handleFinish = () => {
+        setInput("");
+        dispatch(setDone(true));
+    }
 
     useEffect(()=> {
         const fetchReferenceText = async () => {
             try {
                 const res = await fetch(`${url}/${num}.json`)
                 
+                // dispatch(setLoading(true))
+
                 if(!res.ok){
                     throw new Error(`.`)
                 }
 
                 const data = await res.json();
                 setReference(data);
+                dispatch(setPerfectScore(data.length));
 
                 setTimeout(() => {
                     textRef.current?.focus();
                 }, 0);
             } catch (error) {
                 console.log(error as Error)
+            }finally{
+                dispatch(setLoading(false))
             }
         }
 
@@ -53,7 +76,14 @@ const Home = () => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Enter") {
                 e.preventDefault();
-                handleNext();
+                // dispatch(setLoading(true))
+                // handleNext();
+                handleFinish();
+            }else if(e.key === "Backspace"){
+                // To decrease score on backspace if last character was correct;
+                if(input.split('').at(-1) === reference?.split("")[input.length - 1]){
+                    dispatch(setScore(scoring - 1));
+                }
             }
         };
 
@@ -64,11 +94,20 @@ const Home = () => {
         };
     }, [enter, handleNext]);
 
+    useEffect(()=>{
+        if(!reference) return;
+        if(reference?.split("")[input.length - 1] == input.split('').at(-1)){
+            //To increase score if inputted character is correct
+            dispatch(setScore(scoring + 1))
+        }else{
+            console.log('Did not matched')
+        }
+    }, [input])
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
             <div className="refCont" id="textDisplay" ref={textDisplayRef}>
-                {reference ? (
+                {reference && !loading && !done ? (
                     <>
                         {reference.split("").map((char, index) => {
                             const isCorrect = input[index] === char;
@@ -93,7 +132,11 @@ const Home = () => {
                             );
                             })}
                     </>
-                ):(
+                ): done ? (
+                    <>
+                        <Result/>
+                    </>
+                ) : (
                     <div className="block jusify-center items-center">
                         <div className="flex justify-center items-center">
                             <ClipLoader color={theme === "dark" ? "#ffffff" : "#000000"} size={50} />
@@ -108,6 +151,8 @@ const Home = () => {
                     <textarea ref={textRef} value={input} onChange={(e) => setInput(e.target.value)} className="border border-black p-5 w-[90%] bg-white rounded-lg" id="userInput" autoComplete="none" autoCorrect="none"></textarea>
                     <button onClick={()=>{
                         handleNext();
+                        console.log(perfectScore)
+                        console.log(done)
                     }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
                 </>
             )}

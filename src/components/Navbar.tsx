@@ -15,14 +15,14 @@ const Navbar = () => {
 
             <div className="flex justify-center items-center">
                 <select 
-                    className="border border-white bg-white px-5 text-center" 
+                    className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
                     defaultValue="default" 
                     onChange={(e)=>(
                         setUrl(e.target.value)
                     )}>
-                        <option value="default" disabled>Select a mode</option>
-                        <option value={`${import.meta.env.VITE_QUOTES_API}`}>Quotes</option>
-                        <option value={`${import.meta.env.VITE_COMMANDMENTS_API}`} >10 Commandments</option>
+                        <option className="text-gray-500 bg-gray-200" value="default" disabled>Select a mode</option>
+                        <option className="text-black" value={`${import.meta.env.VITE_QUOTES_API}`}>Quotes</option>
+                        <option className="text-black" value={`${import.meta.env.VITE_COMMANDMENTS_API}`} >10 Commandments</option>
                 </select>
             </div>
 

@@ -20,4 +20,9 @@
 
 .refCont{
   @apply flex items-center justify-center inline-block whitespace-normal break-all w-[90%];
+  pointer-events: none;
+}
+
+.resultContainer{
+  @apply bg-[rgb(18,18,18)] p-5 flex justify-center items-center
 }
