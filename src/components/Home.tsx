@@ -99,8 +99,10 @@ const Home = () => {
         if(reference?.split("")[input.length - 1] == input.split('').at(-1)){
             //To increase score if inputted character is correct
             dispatch(setScore(scoring + 1))
-        }else{
-            console.log('Did not matched')
+        }
+
+        if(reference?.length == input.length){
+            handleFinish();
         }
     }, [input])
 
