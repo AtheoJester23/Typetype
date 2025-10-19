@@ -32,6 +32,7 @@ const Home = () => {
         setInput("");
         setNum(prev => prev < 10 ? prev + 1 : 1);
         dispatch(setDone(false));
+        dispatch(setScore(0));
     }
 
     const handleFinish = () => {
@@ -108,6 +109,8 @@ const Home = () => {
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
+            <p className="text-gree-500 text-3xl">{scoring}</p>
+            
             <div className="refCont" id="textDisplay" ref={textDisplayRef}>
                 {reference && !loading && !done ? (
                     <>
