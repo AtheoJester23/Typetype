@@ -81,13 +81,25 @@ const Home = () => {
     useEffect(() => {
         if (!enter) return;
 
+        
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "Enter") {
+            const currentInput = input.split('').at(-1);
+            const currentChar = reference?.split("")[input.length]
+
+
+            if(e.key.length === 1){
+                console.log(e.key)
+                console.log(currentChar);
+
+                if(e.key === currentChar && scoring >= 0){
+                    dispatch(addScore());
+                } 
+            }else if (e.key === "Enter") {
                 e.preventDefault();
                 // dispatch(setLoading(true))
                 // handleNext();
                 handleFinish();
-            }else if(e.key === "Backspace"){
+            }else if(e.key === "Backspace" && input.length > 0){
                 // To decrease score on backspace if last character was correct;
                 if(input.split('').at(-1) === reference?.split("")[input.length - 1]){
                     dispatch(lessScore());
@@ -97,6 +109,11 @@ const Home = () => {
 
                 console.log(input.length)
             }
+
+            if(input.length == perfectScore - 1){
+                setInput("");
+                handleFinish();
+            }
         };
 
         enter.addEventListener("keydown", handleKeyDown);
@@ -105,18 +122,6 @@ const Home = () => {
             enter.removeEventListener("keydown", handleKeyDown);
         };
     }, [enter, handleNext]);
-
-    useEffect(()=>{
-        if(!reference) return;
-        if(reference?.split("")[input.length - 1] == input.split('').at(-1)){
-            //To increase score if inputted character is correct
-            dispatch(addScore());
-        }
-
-        if(reference?.length == input.length){
-            handleFinish();
-        }
-    }, [input])
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
@@ -164,7 +169,12 @@ const Home = () => {
 
             {reference && (
                 <>
-                    <textarea ref={textRef} value={input} onChange={(e) => setInput(e.target.value)} className="border border-black p-5 w-[90%] bg-white rounded-lg" id="userInput" autoComplete="none" autoCorrect="none"></textarea>
+                    {!done && (
+                        <textarea ref={textRef} value={input} onChange={(e) => setInput(e.target.value)} className="border border-black p-5 w-[90%] bg-white rounded-lg" id="userInput" autoComplete="none" autoCorrect="none"></textarea>
+                    )}
+                        
+                    
+
                     <button onClick={()=>{
                         handleNext();
                         console.log(perfectScore)

@@ -23,7 +23,7 @@ const scoring = createSlice({
             state.score += 1;
         },
         lessScore(state){
-            state.score -= 2;
+            state.score -= 1;
         },
         setPerfectScore(state, action){
             state.perfectScore = action.payload;
