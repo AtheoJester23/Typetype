@@ -6,11 +6,11 @@ const Result = () => {
     const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore);
 
     const handleAccurcacy = () => {
-        const fractionPart = scoring / perfectScore;
-        let overall = fractionPart * 100;
+        const fractionPart: number = scoring / perfectScore;
+        let overall: number = fractionPart * 100;
 
         if(overall < 100){
-            overall = overall.toFixed(2)
+            overall = parseFloat(overall.toFixed(2))
         }else{
             overall = Math.floor(overall)
         }

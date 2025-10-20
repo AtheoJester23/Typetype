@@ -19,6 +19,12 @@ const scoring = createSlice({
         setScore(state, action){
             state.score = action.payload;
         },
+        addScore(state){
+            state.score += 1;
+        },
+        lessScore(state){
+            state.score -= 2;
+        },
         setPerfectScore(state, action){
             state.perfectScore = action.payload;
         },
@@ -28,5 +34,5 @@ const scoring = createSlice({
     }
 })
 
-export const {setScore, setPerfectScore, setDone} = scoring.actions;
+export const {setScore, setPerfectScore, lessScore, addScore, setDone} = scoring.actions;
 export default scoring.reducer;

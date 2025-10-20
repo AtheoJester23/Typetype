@@ -4,8 +4,9 @@ import { ClipLoader } from "react-spinners";
 import type { AppDispatch, RootState } from "../state/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../state/Loading/loadingSlice";
-import { setDone, setPerfectScore, setScore } from "../state/Scoring/scoring";
+import { setDone, setPerfectScore, setScore, lessScore, addScore } from "../state/Scoring/scoring";
 import Result from "./Result";
+import { fetchData } from "../state/references/referenceSlice";
 
 const Home = () => {
     // Redux state and dispatch
@@ -14,6 +15,8 @@ const Home = () => {
     const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore)
     const done = useSelector((state: RootState) => state.scoring.done)
     const dispatch = useDispatch<AppDispatch>()
+    
+    const fetched = useSelector((state: RootState) => state.fetching.data);
     // dispatch(setScore(0));
 
 
@@ -39,6 +42,10 @@ const Home = () => {
         setInput("");
         dispatch(setDone(true));
     }
+
+    useEffect(()=>{
+        dispatch(fetchData());
+    }, [dispatch])
 
     useEffect(()=> {
         const fetchReferenceText = async () => {
@@ -83,8 +90,12 @@ const Home = () => {
             }else if(e.key === "Backspace"){
                 // To decrease score on backspace if last character was correct;
                 if(input.split('').at(-1) === reference?.split("")[input.length - 1]){
-                    dispatch(setScore(scoring - 1));
+                    dispatch(lessScore());
+                    console.log("right...")
+                    console.log(reference?.split('')[input.length - 1])
                 }
+
+                console.log(input.length)
             }
         };
 
@@ -99,7 +110,7 @@ const Home = () => {
         if(!reference) return;
         if(reference?.split("")[input.length - 1] == input.split('').at(-1)){
             //To increase score if inputted character is correct
-            dispatch(setScore(scoring + 1))
+            dispatch(addScore());
         }
 
         if(reference?.length == input.length){
@@ -159,6 +170,11 @@ const Home = () => {
                         console.log(perfectScore)
                         console.log(done)
                     }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
+                    <button onClick={()=>{
+                        console.log(fetched)
+                    }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Log</button>
+                
+                    
                 </>
             )}
         </div>
