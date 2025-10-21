@@ -15,7 +15,8 @@ const Home = () => {
     const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore)
     const done = useSelector((state: RootState) => state.scoring.done)
     const dispatch = useDispatch<AppDispatch>()
-    
+    const theRef = useSelector((state: RootState) => state.fetching.mode);
+
     const fetched = useSelector((state: RootState) => state.fetching.data);
     // dispatch(setScore(0));
 
@@ -44,11 +45,13 @@ const Home = () => {
     }
 
     useEffect(()=>{
-        dispatch(fetchData());
-    }, [dispatch])
+        // dispatch(fetchData(theRef));
+    }, [dispatch, theRef])
 
     useEffect(()=> {
         const fetchReferenceText = async () => {
+            // setReference(fetchData(theRef))
+            
             try {
                 const res = await fetch(`${url}/${num}.json`)
                 
@@ -180,11 +183,14 @@ const Home = () => {
                         console.log(perfectScore)
                         console.log(done)
                     }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
+
                     <button onClick={()=>{
-                        console.log(fetched)
+                        console.log(fetched[1])
                     }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Log</button>
                 
-                    
+                    <button onClick={()=>{
+                        console.log(theRef)
+                    }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Mode</button>
                 </>
             )}
         </div>

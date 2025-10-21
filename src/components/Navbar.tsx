@@ -1,5 +1,6 @@
 import { Keyboard, Moon, Sun } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
+import { fetchData, setMode } from "../state/references/referenceSlice";
 
 const Navbar = () => {
     const {theme, toggleTheme, setUrl} = useTheme();
@@ -18,11 +19,12 @@ const Navbar = () => {
                     className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
                     defaultValue="default" 
                     onChange={(e)=>(
-                        setUrl(e.target.value)
+                        console.log(e.target.value)
+                        // setMode(e.target.value)
                     )}>
-                        <option className="text-gray-500 bg-gray-200" value="default" disabled>Select a mode</option>
-                        <option className="text-black" value={`${import.meta.env.VITE_QUOTES_API}`}>Quotes</option>
-                        <option className="text-black" value={`${import.meta.env.VITE_COMMANDMENTS_API}`} >10 Commandments</option>
+                        <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
+                        <option className="text-white hover:cursor-pointer" value={`Quotes`}>Quotes</option>
+                        <option className="text-white hover:cursor-pointer" value={`Ten%20Commandments`} >10 Commandments</option>
                 </select>
             </div>
 
