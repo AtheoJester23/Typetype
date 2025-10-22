@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../state/Loading/loadingSlice";
 import { setDone, setPerfectScore, setScore, lessScore, addScore } from "../state/Scoring/scoring";
 import Result from "./Result";
-import { fetchData } from "../state/references/referenceSlice";
+import { fetchData, setMode } from "../state/references/referenceSlice";
 
 const Home = () => {
     // Redux state and dispatch
@@ -45,7 +45,7 @@ const Home = () => {
     }
 
     useEffect(()=>{
-        // dispatch(fetchData(theRef));
+        dispatch(fetchData());
     }, [dispatch, theRef])
 
     useEffect(()=> {
@@ -128,7 +128,19 @@ const Home = () => {
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
-            <p className="text-gree-500 text-3xl">{scoring}</p>
+            <div className="flex justify-center items-center">
+                <select 
+                    className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
+                    defaultValue="default" 
+                    onChange={(e)=> (dispatch(setMode(e.target.value)))}
+                >
+                        <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
+                        <option className="text-white hover:cursor-pointer" value={`Quotes`}>Quotes</option>
+                        <option className="text-white hover:cursor-pointer rounded-b" value={`Commandments`} >10 Commandments</option>
+                </select>
+            </div>
+
+            <p>{}</p>
             
             <div className="refCont" id="textDisplay" ref={textDisplayRef}>
                 {reference && !loading && !done ? (
@@ -177,20 +189,21 @@ const Home = () => {
                     )}
                         
                     
+                    <div className="flex gap-2">
+                        <button onClick={()=>{
+                            handleNext();
+                            console.log(perfectScore)
+                            console.log(done)
+                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
 
-                    <button onClick={()=>{
-                        handleNext();
-                        console.log(perfectScore)
-                        console.log(done)
-                    }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
-
-                    <button onClick={()=>{
-                        console.log(fetched[1])
-                    }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Log</button>
-                
-                    <button onClick={()=>{
-                        console.log(theRef)
-                    }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Mode</button>
+                        <button onClick={()=>{
+                            console.log(fetched)
+                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Log</button>
+                    
+                        <button onClick={()=>{
+                            console.log(theRef)
+                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Mode</button>
+                    </div>
                 </>
             )}
         </div>

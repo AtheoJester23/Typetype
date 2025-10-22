@@ -9,7 +9,7 @@ interface referenceState {
 
 const initialState: referenceState = {
     data: [],
-    mode: 'Ten%20Commandments',
+    mode: 'Commandments',
     status: 'idle',
     err: null
 }
@@ -17,7 +17,7 @@ const initialState: referenceState = {
 export const fetchData = createAsyncThunk(
     "referenceSlice/fetchData",
     async (choice) => {
-        const res = await fetch(`https://typetypeapi-976af-default-rtdb.firebaseio.com/${choice ? `${choice}.json` : "Quotes.json"}`);
+        const res = await fetch(`https://typetypeapi-976af-default-rtdb.firebaseio.com/.json`);
 
         if(!res.ok){
             throw new Error(`Error Occured: ${res.status}`);
