@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../state/Loading/loadingSlice";
 import { setDone, setPerfectScore, setScore, lessScore, addScore } from "../state/Scoring/scoring";
 import Result from "./Result";
-import { fetchData, setMode } from "../state/references/referenceSlice";
+import { fetchData, setChosen, setMode } from "../state/references/referenceSlice";
 
 const Home = () => {
     // Redux state and dispatch
@@ -19,6 +19,9 @@ const Home = () => {
 
     const fetched = useSelector((state: RootState) => state.fetching.data);
     // dispatch(setScore(0));
+
+    //Delete this:
+    const del = useSelector((state: RootState) => state.fetching.chosen);
 
 
     const {theme, url} = useTheme();
@@ -46,7 +49,12 @@ const Home = () => {
 
     useEffect(()=>{
         dispatch(fetchData());
-    }, [dispatch, theRef])
+    }, [])
+
+    useEffect(() => {
+        console.log("Changed mode...")
+        // dispatch(setChosen(theRef));
+    }, [theRef])
 
     useEffect(()=> {
         const fetchReferenceText = async () => {
@@ -132,7 +140,10 @@ const Home = () => {
                 <select 
                     className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
                     defaultValue="default" 
-                    onChange={(e)=> (dispatch(setMode(e.target.value)))}
+                    onChange={(e)=> {
+                        dispatch(setMode(e.target.value))
+                        dispatch(setChosen((e.target.value == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"])))
+                    }}
                 >
                         <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
                         <option className="text-white hover:cursor-pointer" value={`Quotes`}>Quotes</option>
@@ -191,6 +202,10 @@ const Home = () => {
                     
                     <div className="flex gap-2">
                         <button onClick={()=>{
+                            console.log(del)
+                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Chosen</button>
+                        
+                        <button onClick={()=>{
                             handleNext();
                             console.log(perfectScore)
                             console.log(done)
@@ -203,6 +218,7 @@ const Home = () => {
                         <button onClick={()=>{
                             console.log(theRef)
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Mode</button>
+                        
                     </div>
                 </>
             )}

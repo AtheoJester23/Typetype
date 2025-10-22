@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 interface referenceState {
     data: any[],
     mode: string,
+    chosen: any[],
     status: 'idle' | 'pending' | 'succeeded' | 'failed',
     err: string | null
 }
@@ -10,6 +11,7 @@ interface referenceState {
 const initialState: referenceState = {
     data: [],
     mode: 'Commandments',
+    chosen: [],
     status: 'idle',
     err: null
 }
@@ -37,6 +39,10 @@ const referenceSlice = createSlice({
     reducers: {
         setMode(state, action){
             state.mode = action.payload
+        },
+        setChosen(state, action){
+            state.chosen = action.payload
+            // console.log(state.data)
         }
     },
     extraReducers: (builder) => {
@@ -56,5 +62,5 @@ const referenceSlice = createSlice({
     }
 })
 
-export const {setMode} = referenceSlice.actions
+export const {setMode, setChosen} = referenceSlice.actions
 export default referenceSlice.reducer;
