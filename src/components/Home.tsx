@@ -21,7 +21,7 @@ const Home = () => {
     // dispatch(setScore(0));
 
     //Delete this:
-    const del = useSelector((state: RootState) => state.fetching.chosen);
+    const modeChosen = useSelector((state: RootState) => state.fetching.chosen);
 
 
     const {theme, url} = useTheme();
@@ -57,37 +57,23 @@ const Home = () => {
     }, [theRef])
 
     useEffect(()=> {
-        const fetchReferenceText = async () => {
-            // setReference(fetchData(theRef))
-            
-            try {
-                const res = await fetch(`${url}/${num}.json`)
-                
-                // dispatch(setLoading(true))
-
-                if(!res.ok){
-                    throw new Error(`.`)
-                }
-
-                const data = await res.json();
-                setReference(data);
-                dispatch(setPerfectScore(data.length));
-
-                setTimeout(() => {
-                    textRef.current?.focus();
-                }, 0);
-            } catch (error) {
-                console.log(error as Error)
-            }finally{
-                dispatch(setLoading(false))
-            }
+        // if(Object.keys(fetched).length > 0){
+        //     console.log("Existing")
+        // }else{
+        //     console.log("not")
+        // }
+        
+        // fetchReferenceText();
+        if(modeChosen.length < 1 && Object.keys(fetched).length > 0){
+            dispatch(setChosen(fetched["Ten Commandments"]))
+            console.log(fetched.Quotes)
+        }else{
+            setReference("Something went wrong, try reloading the page...")
         }
-
-        fetchReferenceText();
 
         setInput("");
 
-    }, [num, reference, url])
+    }, [num, reference, url, fetched])
     
     useEffect(() => {
         if (!enter) return;
@@ -142,8 +128,7 @@ const Home = () => {
                     defaultValue="default" 
                     onChange={(e)=> {
                         dispatch(setMode(e.target.value))
-                        dispatch(setChosen((e.target.value == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"])))
-                    }}
+                                  }}
                 >
                         <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
                         <option className="text-white hover:cursor-pointer" value={`Quotes`}>Quotes</option>
@@ -202,7 +187,11 @@ const Home = () => {
                     
                     <div className="flex gap-2">
                         <button onClick={()=>{
-                            console.log(del)
+                            dispatch(setChosen(fetched.Quotes))
+                        }} className="bg-yellow-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Test</button>
+                        
+                        <button onClick={()=>{
+                            console.log(modeChosen)
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Chosen</button>
                         
                         <button onClick={()=>{
