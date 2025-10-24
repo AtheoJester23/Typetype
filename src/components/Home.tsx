@@ -66,9 +66,14 @@ const Home = () => {
         // fetchReferenceText();
         if(modeChosen.length < 1 && Object.keys(fetched).length > 0){
             dispatch(setChosen(fetched["Ten Commandments"]))
+            console.log(modeChosen);
             console.log(fetched.Quotes)
         }else{
             setReference("Something went wrong, try reloading the page...")
+        }
+
+        if(modeChosen.length > 0){
+            setReference(modeChosen[num])
         }
 
         setInput("");
