@@ -136,7 +136,7 @@ const Home = () => {
         console.log(input.length)
         console.log(input.at(-1))
 
-        if(input.length == perfectScore){
+        if(input.length != 0 && input.length == perfectScore){
             setInput("");
             handleFinish();
         }
