@@ -85,7 +85,7 @@ const Home = () => {
 
         setInput("");
 
-    }, [theRef, num, reference, fetched])
+    }, [theRef, num, reference, fetched, modeChosen])
     
     useEffect(() => {
         if (!enter) return;
