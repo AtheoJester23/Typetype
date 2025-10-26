@@ -20,11 +20,11 @@ const Home = () => {
     const fetched = useSelector((state: RootState) => state.fetching.data);
     // dispatch(setScore(0));
 
-    //Delete this:
+    // Mode:
     const modeChosen = useSelector((state: RootState) => state.fetching.chosen);
+    let currentMode = "";
 
-
-    const {theme, url} = useTheme();
+    const {theme} = useTheme();
     const [reference, setReference] = useState<string | null>(null)
     const [num, setNum] = useState<number>(2);
 
@@ -51,11 +51,6 @@ const Home = () => {
         dispatch(fetchData());
     }, [])
 
-    useEffect(() => {
-        console.log("Changed mode...")
-        // dispatch(setChosen(theRef));
-    }, [theRef])
-
     useEffect(()=> {
         // if(Object.keys(fetched).length > 0){
         //     console.log("Existing")
@@ -63,22 +58,34 @@ const Home = () => {
         //     console.log("not")
         // }
         
-        // fetchReferenceText();
+        // console.log("abcTesting")
+
+        // initial setting for the reference;
         if(modeChosen.length < 1 && Object.keys(fetched).length > 0){
-            dispatch(setChosen(fetched["Ten Commandments"]))
-            console.log(modeChosen);
-            console.log(fetched.Quotes)
+            dispatch(setChosen(theRef == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"]))
+            currentMode = theRef;
+            // console.log("This is the chosen at first: " + currentMode) 
+            // console.log(modeChosen);
+            // console.log(fetched.Quotes)
         }else{
             setReference("Something went wrong, try reloading the page...")
         }
 
+        // if reference already exist
         if(modeChosen.length > 0){
+            if(theRef != currentMode){
+                currentMode = theRef
+                console.log("ito" + " " + theRef);
+                dispatch(setChosen(currentMode == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"]))
+            }
             setReference(modeChosen[num])
+            dispatch(setPerfectScore(modeChosen[num].length));
+            console.log("Perfect Score 2: " + perfectScore)
         }
 
         setInput("");
 
-    }, [num, reference, url, fetched])
+    }, [theRef, num, reference, fetched])
     
     useEffect(() => {
         if (!enter) return;
@@ -90,8 +97,8 @@ const Home = () => {
 
 
             if(e.key.length === 1){
-                console.log(e.key)
-                console.log(currentChar);
+                // console.log(e.key)
+                // console.log(currentChar);
 
                 if(e.key === currentChar && scoring >= 0){
                     dispatch(addScore());
@@ -105,11 +112,11 @@ const Home = () => {
                 // To decrease score on backspace if last character was correct;
                 if(input.split('').at(-1) === reference?.split("")[input.length - 1]){
                     dispatch(lessScore());
-                    console.log("right...")
-                    console.log(reference?.split('')[input.length - 1])
+                    // console.log("right...")
+                    // console.log(reference?.split('')[input.length - 1])
                 }
 
-                console.log(input.length)
+                // console.log(input.length)
             }
 
             if(input.length == perfectScore - 1){
@@ -124,6 +131,16 @@ const Home = () => {
             enter.removeEventListener("keydown", handleKeyDown);
         };
     }, [enter, handleNext]);
+
+    useEffect(()=>{
+        console.log(input.length)
+        console.log(input.at(-1))
+
+        if(input.length == perfectScore){
+            setInput("");
+            handleFinish();
+        }
+    }, [input])
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
@@ -192,7 +209,7 @@ const Home = () => {
                     
                     <div className="flex gap-2">
                         <button onClick={()=>{
-                            dispatch(setChosen(fetched.Quotes))
+                            console.log(currentMode)
                         }} className="bg-yellow-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Test</button>
                         
                         <button onClick={()=>{
