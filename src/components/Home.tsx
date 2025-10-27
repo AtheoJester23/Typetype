@@ -144,21 +144,21 @@ const Home = () => {
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
-            <div className="flex justify-center items-center">
-                <select 
-                    className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
-                    defaultValue="default" 
-                    onChange={(e)=> {
-                        dispatch(setMode(e.target.value))
-                                  }}
-                >
-                        <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
-                        <option className="text-white hover:cursor-pointer" value={`Quotes`}>Quotes</option>
-                        <option className="text-white hover:cursor-pointer rounded-b" value={`Commandments`} >10 Commandments</option>
-                </select>
-            </div>
-
-            <p>{}</p>
+            {!done && (
+                <div className="flex justify-center items-center">
+                    <select 
+                        className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
+                        defaultValue="default" 
+                        onChange={(e)=> {
+                            dispatch(setMode(e.target.value))
+                                        }}
+                    >
+                            <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
+                            <option className="text-white hover:cursor-pointer" value={`Quotes`}>Quotes</option>
+                            <option className="text-white hover:cursor-pointer rounded-b" value={`Commandments`} >10 Commandments</option>
+                    </select>
+                </div>
+            )}
             
             <div className="refCont" id="textDisplay" ref={textDisplayRef}>
                 {reference && !loading && !done ? (
