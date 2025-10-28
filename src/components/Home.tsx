@@ -35,6 +35,8 @@ const Home = () => {
     
     const enter = (document.getElementById("userInput") as HTMLTextAreaElement);
 
+
+
     const handleNext = () => {
         setInput("");
         setNum(prev => prev < 10 ? prev + 1 : 1);
@@ -80,7 +82,7 @@ const Home = () => {
             }
             setReference(modeChosen[num])
             dispatch(setPerfectScore(modeChosen[num].length));
-            console.log("Perfect Score 2: " + perfectScore)
+            // console.log("Perfect Score 2: " + perfectScore)
         }
 
         setInput("");
@@ -101,17 +103,26 @@ const Home = () => {
                 // console.log(currentChar);
 
                 if(e.key === currentChar && scoring >= 0){
-                    dispatch(addScore());
+                    // dispatch(addScore());
+                    console.log("score is counted on submission.. delete this")
                 } 
             }else if (e.key === "Enter") {
                 e.preventDefault();
                 // dispatch(setLoading(true))
-                // handleNext();
+                console.log(input);
+                const theReference = reference?.slice(0, input.length)
+
+                const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
+                dispatch(setScore(theScore));
+
+                console.log("Enter button pressed...")
+                
                 handleFinish();
             }else if(e.key === "Backspace" && input.length > 0){
                 // To decrease score on backspace if last character was correct;
                 if(input.split('').at(-1) === reference?.split("")[input.length - 1]){
-                    dispatch(lessScore());
+                    // dispatch(lessScore());
+                    console.log("score is counted on submission.. delete this 2")
                     // console.log("right...")
                     // console.log(reference?.split('')[input.length - 1])
                 }
@@ -119,10 +130,15 @@ const Home = () => {
                 // console.log(input.length)
             }
 
-            if(input.length == perfectScore - 1){
-                setInput("");
-                handleFinish();
-            }
+            // if(input.length == perfectScore){
+            //     setInput("");
+            //     const theReference = reference?.slice(0, input.length)
+
+            //     const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
+            //     dispatch(setScore(theScore));
+
+            //     handleFinish();
+            // }
         };
 
         enter.addEventListener("keydown", handleKeyDown);
@@ -133,10 +149,15 @@ const Home = () => {
     }, [enter, handleNext]);
 
     useEffect(()=>{
-        console.log(input.length)
-        console.log(input.at(-1))
+        // console.log(input.length)
+        // console.log(input.at(-1))
 
-        if(input.length != 0 && input.length == perfectScore){
+        if(input.length != 0 && input.length == perfectScore){            
+            const theReference = reference?.slice(0, input.length)
+
+            const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
+            dispatch(setScore(theScore));
+
             setInput("");
             handleFinish();
         }
@@ -144,6 +165,8 @@ const Home = () => {
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
+            <p className="text-white font-bold text-4xl">{scoring}</p>
+            
             {!done && (
                 <div className="flex justify-center items-center">
                     <select 
