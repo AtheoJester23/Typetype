@@ -149,9 +149,6 @@ const Home = () => {
     }, [enter, handleNext]);
 
     useEffect(()=>{
-        // console.log(input.length)
-        // console.log(input.at(-1))
-
         if(input.length != 0 && input.length == perfectScore){            
             const theReference = reference?.slice(0, input.length)
 
@@ -166,6 +163,8 @@ const Home = () => {
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
             <p className="text-white font-bold text-4xl">{scoring}</p>
+
+            <h1 className="text-white text-5xl font-bold">Commit Straight away about this checkbox...</h1>
             
             {!done && (
                 <div className="flex justify-center items-center">
@@ -180,6 +179,19 @@ const Home = () => {
                             <option className="text-white hover:cursor-pointer" value={`Quotes`}>Quotes</option>
                             <option className="text-white hover:cursor-pointer rounded-b" value={`Commandments`} >10 Commandments</option>
                     </select>
+
+                    <div className="flex gap-2 mx-2">
+                        <label htmlFor="" className="text-white flex gap-2 items-center font-bold">
+                            <input type="checkbox" name="" id="" />
+                            <span>
+                                Punctuation
+                            </span>
+                        </label>
+                        <label htmlFor=""  className="text-white flex gap-2 items-center font-bold">
+                            <input type="checkbox" name="" id="" />
+                            Numbers
+                        </label>
+                    </div>
                 </div>
             )}
             
