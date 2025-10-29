@@ -232,27 +232,10 @@ const Home = () => {
                     
                     <div className="flex gap-2">
                         <button onClick={()=>{
-                            console.log(currentMode)
-                        }} className="bg-yellow-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Test</button>
-                        
-                        <button onClick={()=>{
-                            console.log(modeChosen)
-                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Chosen</button>
-                        
-                        <button onClick={()=>{
                             handleNext();
                             console.log(perfectScore)
                             console.log(done)
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
-
-                        <button onClick={()=>{
-                            console.log(fetched)
-                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Log</button>
-                    
-                        <button onClick={()=>{
-                            console.log(theRef)
-                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Mode</button>
-                        
                     </div>
                 </>
             )}
