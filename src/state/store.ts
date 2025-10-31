@@ -2,12 +2,14 @@ import { configureStore} from "@reduxjs/toolkit";
 import loadingReducer from "./Loading/loadingSlice";
 import scoringReducer from "./Scoring/scoring";
 import referenceReducer from "./references/referenceSlice"
+import configReducer from "./Config/configSlice"
 
 const store = configureStore({
     reducer: {
         loading: loadingReducer,
         scoring: scoringReducer,
-        fetching: referenceReducer
+        fetching: referenceReducer,
+        config: configReducer
     }
 })
 
