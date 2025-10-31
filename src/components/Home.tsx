@@ -17,7 +17,7 @@ const Home = () => {
     const dispatch = useDispatch<AppDispatch>()
     const theRef = useSelector((state: RootState) => state.fetching.mode);
 
-    const fetched = useSelector((state: RootState) => state.fetching.data);
+    const fetched: any = useSelector((state: RootState) => state.fetching.data);
     // dispatch(setScore(0));
 
     // Mode:
@@ -35,7 +35,9 @@ const Home = () => {
     
     const enter = (document.getElementById("userInput") as HTMLTextAreaElement);
 
-
+    // Checkbox states
+    const [punctuationCheckbox, setPunctuationCheckbox] = useState<boolean>(true);
+    const [numbersCheckbox, setNumbersCheckbox] = useState(true);
 
     const handleNext = () => {
         setInput("");
@@ -54,14 +56,6 @@ const Home = () => {
     }, [])
 
     useEffect(()=> {
-        // if(Object.keys(fetched).length > 0){
-        //     console.log("Existing")
-        // }else{
-        //     console.log("not")
-        // }
-        
-        // console.log("abcTesting")
-
         // initial setting for the reference;
         if(modeChosen.length < 1 && Object.keys(fetched).length > 0){
             dispatch(setChosen(theRef == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"]))
@@ -80,14 +74,18 @@ const Home = () => {
                 console.log("ito" + " " + theRef);
                 dispatch(setChosen(currentMode == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"]))
             }
-            setReference(modeChosen[num])
+
+            if(punctuationCheckbox == true){
+                setReference(modeChosen[num])
+            }else{
+                setReference(modeChosen[num].toLocaleLowerCase().replace(/[^a-z0-9 ]/gi, ""))
+            }
             dispatch(setPerfectScore(modeChosen[num].length));
-            // console.log("Perfect Score 2: " + perfectScore)
         }
 
         setInput("");
 
-    }, [theRef, num, reference, fetched, modeChosen])
+    }, [theRef, num, reference, fetched, modeChosen, punctuationCheckbox])
     
     useEffect(() => {
         if (!enter) return;
@@ -99,16 +97,11 @@ const Home = () => {
 
 
             if(e.key.length === 1){
-                // console.log(e.key)
-                // console.log(currentChar);
-
                 if(e.key === currentChar && scoring >= 0){
-                    // dispatch(addScore());
                     console.log("score is counted on submission.. delete this")
                 } 
             }else if (e.key === "Enter") {
                 e.preventDefault();
-                // dispatch(setLoading(true))
                 console.log(input);
                 const theReference = reference?.slice(0, input.length)
 
@@ -121,24 +114,10 @@ const Home = () => {
             }else if(e.key === "Backspace" && input.length > 0){
                 // To decrease score on backspace if last character was correct;
                 if(input.split('').at(-1) === reference?.split("")[input.length - 1]){
-                    // dispatch(lessScore());
                     console.log("score is counted on submission.. delete this 2")
-                    // console.log("right...")
-                    // console.log(reference?.split('')[input.length - 1])
                 }
 
-                // console.log(input.length)
             }
-
-            // if(input.length == perfectScore){
-            //     setInput("");
-            //     const theReference = reference?.slice(0, input.length)
-
-            //     const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
-            //     dispatch(setScore(theScore));
-
-            //     handleFinish();
-            // }
         };
 
         enter.addEventListener("keydown", handleKeyDown);
@@ -160,12 +139,24 @@ const Home = () => {
         }
     }, [input])
 
+    
+    useEffect(()=>{
+        if(punctuationCheckbox == false && reference){
+            console.log(reference.toLocaleLowerCase())
+            
+            setReference(reference.toLocaleLowerCase())
+            console.log("Punctuation checkbox is false");
+        }
+
+        if(numbersCheckbox == false){
+            console.log("Numbers checkbox is false");
+        }
+    }, [punctuationCheckbox, numbersCheckbox])
+
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
             <p className="text-white font-bold text-4xl">{scoring}</p>
 
-            <h1 className="text-white text-5xl font-bold">Commit Straight away about this checkbox...</h1>
-            
             {!done && (
                 <div className="flex justify-center items-center">
                     <select 
@@ -181,15 +172,17 @@ const Home = () => {
                     </select>
 
                     <div className="flex gap-2 mx-2">
-                        <label htmlFor="" className="text-white flex gap-2 items-center font-bold">
-                            <input type="checkbox" name="" id="" />
+                        <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold">
+                            <input type="checkbox" name="Punctuation" id="Punctuation" onChange={()=>setPunctuationCheckbox(prev => !prev)} defaultChecked={punctuationCheckbox}/>
                             <span>
                                 Punctuation
                             </span>
                         </label>
-                        <label htmlFor=""  className="text-white flex gap-2 items-center font-bold">
-                            <input type="checkbox" name="" id="" />
-                            Numbers
+                        <label htmlFor="Numbers" className="text-white flex gap-2 items-center font-bold">
+                            <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> setNumbersCheckbox(prev => !prev)} defaultChecked={numbersCheckbox}/>
+                            <span>
+                                Numbers
+                            </span>
                         </label>
                     </div>
                 </div>
