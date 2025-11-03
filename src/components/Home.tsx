@@ -37,8 +37,8 @@ const Home = () => {
     const enter = (document.getElementById("userInput") as HTMLTextAreaElement);
 
     // Checkbox states
-    const punctuationCheckbox = useSelector((state: RootState) => state.config.punctuation)
-    const [numbersCheckbox, setNumbersCheckbox] = useState(true);
+    const punctuationCheckbox = useSelector((state: RootState) => state.config.punctuation);
+    const numbersCheckbox = useSelector((state: RootState) => state.config.numbers)
 
     const handleNext = () => {
         setInput("");
@@ -77,6 +77,7 @@ const Home = () => {
             }else{
                 setReference(modeChosen[num].toLocaleLowerCase().replace(/[^a-z0-9 ]/gi, ""))
             }
+
             dispatch(setPerfectScore(modeChosen[num].length));
         }
 
@@ -199,7 +200,7 @@ const Home = () => {
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
                         
                         <button onClick={()=>{
-                            console.log(!punctuationCheckbox)
+                            console.log(numbersCheckbox)
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Check</button>
                     </div>
                 </>

@@ -2,12 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { setMode } from "../state/references/referenceSlice";
 import { useEffect, useState } from "react";
-import { setPunctuation } from "../state/Config/configSlice";
+import { setNumbers, setPunctuation } from "../state/Config/configSlice";
 
 const Configuration = ({reference, setReference}: {reference: String, setReference: React.Dispatch<React.SetStateAction<string | null>>}) => {
     // Checkbox states
     const punctuationCheckbox = useSelector((state: RootState) => state.config.punctuation)
-    const [numbersCheckbox, setNumbersCheckbox] = useState(true);
+    const numbersCheckbox = useSelector((state: RootState) => state.config.numbers);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(()=>{
@@ -43,7 +43,7 @@ const Configuration = ({reference, setReference}: {reference: String, setReferen
                     </span>
                 </label>
                 <label htmlFor="Numbers" className="text-white flex gap-2 items-center font-bold">
-                    <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> setNumbersCheckbox(prev => !prev)} defaultChecked={numbersCheckbox}/>
+                    <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> dispatch(setNumbers(!numbersCheckbox))} defaultChecked={numbersCheckbox}/>
                     <span>
                         Numbers
                     </span>
