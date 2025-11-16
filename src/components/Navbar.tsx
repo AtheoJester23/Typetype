@@ -14,12 +14,18 @@ const Navbar = () => {
                 </div>
             </div>
 
-            <button onClick={toggleTheme} className="bg-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
-                {theme === "light" 
-                    ? (<span><Moon className="inline" /> Dark </span>) 
-                    : (<span><Sun className="inline" /> Light </span>)} 
-                        Mode
-            </button>
+            <div className="flex gap-2">
+                <button onClick={toggleTheme} className="bg-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
+                    {theme === "light" 
+                        ? (<span><Moon className="inline" /> Dark </span>) 
+                        : (<span><Sun className="inline" /> Light </span>)} 
+                            Mode
+                </button>
+
+                <button className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
+                    Login
+                </button>
+            </div>
         </div>
     );
 }
