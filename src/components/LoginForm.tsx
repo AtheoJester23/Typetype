@@ -1,9 +1,45 @@
 import { Link, type HTMLFormMethod } from "react-router-dom";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../state/store";
+import { setToken } from "../state/Token/tokenSlice";
+
+type cred = {
+    email: String,
+    password: String
+}
 
 const LoginForm = () => {
     const [show, setShow] = useState(false)
+    
+    const dispatch = useDispatch<AppDispatch>()
+
+    const getData = async(userCredentials: cred) => {
+        try {
+            const res = await fetch("http://localhost:8000/Login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userCredentials)
+            });
+            
+            if(!res.ok){
+                throw new Error(`Failed to get the data: ${res.status}`)
+            }
+
+            const data = await res.json();
+
+            console.log(data)
+
+            localStorage.setItem("token", data.token);
+            dispatch(setToken(data.token));
+        } catch (error) {
+            console.error("Failed to get the data: ", (error as Error).message)
+            alert(`Invalid Email Address or Password`)
+        }
+    }
 
     const handleLogin = async(e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
@@ -14,10 +50,17 @@ const LoginForm = () => {
 
         console.log("Email: ", email);
         console.log("Password: ", password);
+
+        const body: cred = {
+            email,
+            password
+        }
+
+        getData(body);
     }
 
     return (  
-        <form className="formLogin">
+        <form className="formLogin" onSubmit={(e)=>handleLogin(e)}>
             <h1 className="text-center font-bold text-3xl text-[rgb(23,23,23)]">Login</h1>
 
             <div className="flex flex-col gap-2">
@@ -34,7 +77,7 @@ const LoginForm = () => {
                 </div>
 
             </div>
-            <button className="bg-green-500 text-white font-bold rounded p-[7px]">Submit</button>
+            <button className="bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
         
             <p className="text-center">
                 Don't have an account? <Link to={'/'} className="text-green-500">Sign Up</Link>

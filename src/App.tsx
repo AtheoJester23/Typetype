@@ -12,9 +12,8 @@ function App() {
   return (
     <Provider store={store}>  
       <ThemeProvider>
-        <Navbar/>
-
         <BrowserRouter>
+        <Navbar/>
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/Login' element={<LoginPage/>}/>

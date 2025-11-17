@@ -3,13 +3,15 @@ import loadingReducer from "./Loading/loadingSlice";
 import scoringReducer from "./Scoring/scoring";
 import referenceReducer from "./references/referenceSlice"
 import configReducer from "./Config/configSlice"
+import tokenReducer from "./Token/tokenSlice"
 
 const store = configureStore({
     reducer: {
         loading: loadingReducer,
         scoring: scoringReducer,
         fetching: referenceReducer,
-        config: configReducer
+        config: configReducer,
+        token: tokenReducer
     }
 })
 
