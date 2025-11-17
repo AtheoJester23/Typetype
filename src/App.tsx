@@ -7,6 +7,8 @@ import Navbar from './components/Navbar'
 import { Provider } from 'react-redux'
 import store from './state/store'
 import LoginPage from './pages/login'
+import CustomText from './pages/CustomText'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
@@ -17,6 +19,11 @@ function App() {
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/Login' element={<LoginPage/>}/>
+            <Route path='/Custom' element={
+              <ProtectedRoute>
+                <CustomText/>
+              </ProtectedRoute>
+              }/>
             <Route path='*' element={<NonExistent/>}/>
           </Routes>
         </BrowserRouter>

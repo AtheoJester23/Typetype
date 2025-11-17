@@ -42,3 +42,9 @@
   gap: 10px;
   width: 30%;
 }
+
+.customPage{
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}

@@ -8,6 +8,7 @@ import { setDone, setPerfectScore, setScore, lessScore, addScore } from "../stat
 import Result from "./Result";
 import { fetchData, setChosen, setMode } from "../state/references/referenceSlice";
 import Configuration from "./Configuration";
+import { setToken } from "../state/Token/tokenSlice";
 
 const Home = () => {
     // Redux state and dispatch
@@ -54,6 +55,7 @@ const Home = () => {
 
     useEffect(()=>{
         dispatch(fetchData());
+        dispatch(setToken(localStorage.getItem("token")))
     }, [])
 
     useEffect(()=> {

@@ -10,7 +10,7 @@ const LoginPage = () => {;
 
     useEffect(()=>{
         if(token){
-            navigate("/")
+            navigate("/Custom")
         }
 
         console.log("This is token: ", token)
@@ -19,7 +19,6 @@ const LoginPage = () => {;
     return (  
         <div className="loginPage">
             <LoginForm/>
-            {/* <p>testing</p> */}
         </div>
     );
 }
