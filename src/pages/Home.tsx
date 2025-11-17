@@ -5,9 +5,9 @@ import type { AppDispatch, RootState } from "../state/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../state/Loading/loadingSlice";
 import { setDone, setPerfectScore, setScore, lessScore, addScore } from "../state/Scoring/scoring";
-import Result from "./Result";
+import Result from "../components/Result";
 import { fetchData, setChosen, setMode } from "../state/references/referenceSlice";
-import Configuration from "./Configuration";
+import Configuration from "../components/Configuration";
 import { setToken } from "../state/Token/tokenSlice";
 
 const Home = () => {
