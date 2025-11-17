@@ -6,7 +6,7 @@ import type { AppDispatch, RootState } from "../state/store";
 import { setToken } from "../state/Token/tokenSlice";
 
 const Navbar = () => {
-    const {theme, toggleTheme, setUrl} = useTheme();
+    const {theme, toggleTheme} = useTheme();
     const token = useSelector((state: RootState) => state.token.token)
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate();

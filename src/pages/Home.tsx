@@ -39,7 +39,7 @@ const Home = () => {
 
     // Checkbox states
     const punctuationCheckbox = useSelector((state: RootState) => state.config.punctuation);
-    const numbersCheckbox = useSelector((state: RootState) => state.config.numbers)
+    const numbersCheckbox = useSelector((state: RootState) => state.config.numbers);
 
     const handleNext = () => {
         setInput("");
@@ -74,18 +74,34 @@ const Home = () => {
                 dispatch(setChosen(currentMode == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"]))
             }
 
-            if(punctuationCheckbox == true){
+            //Situations:
+            // Punctuation with number
+            // Punctuation without number
+
+            // Without Punctuation but with number
+            // Without Punctuation and without number
+
+            if(punctuationCheckbox && numbersCheckbox){
                 setReference(modeChosen[num])
+            }else if(punctuationCheckbox && !numbersCheckbox ){
+                console.log("This one")
+                setReference(modeChosen[num].replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim())
+            }else if(!punctuationCheckbox && numbersCheckbox){
+                setReference(modeChosen[num].trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, ""))
             }else{
-                setReference(modeChosen[num].toLocaleLowerCase().replace(/[^a-z0-9 ]/gi, ""))
+                setReference(modeChosen[num].trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim())
             }
+
+            // if(numbersCheckbox == false){
+            //     setReference(modeChosen[num].replace(/[\d]/g, ""))
+            // }
 
             dispatch(setPerfectScore(modeChosen[num].length));
         }
 
         setInput("");
 
-    }, [theRef, num, reference, fetched, modeChosen, punctuationCheckbox])
+    }, [theRef, num, reference, fetched, modeChosen, punctuationCheckbox, numbersCheckbox])
     
     useEffect(() => {
         if (!enter) return;
