@@ -26,3 +26,19 @@
 .resultContainer{
   @apply bg-[rgb(18,18,18)] p-5 flex justify-center items-center border border-3 border-white rounded-xl shadow-lg flex-col
 }
+
+.loginPage{
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.formLogin{
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 30%;
+}

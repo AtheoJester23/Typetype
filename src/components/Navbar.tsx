@@ -1,6 +1,7 @@
 import { Keyboard, Moon, Sun } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { fetchData, setMode } from "../state/references/referenceSlice";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const {theme, toggleTheme, setUrl} = useTheme();
@@ -22,9 +23,9 @@ const Navbar = () => {
                             Mode
                 </button>
 
-                <button className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
+                <a href="/Login" className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
                     Login
-                </button>
+                </a>
             </div>
         </div>
     );

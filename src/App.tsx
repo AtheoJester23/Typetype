@@ -6,6 +6,7 @@ import NonExistent from './components/NonExistent'
 import Navbar from './components/Navbar'
 import { Provider } from 'react-redux'
 import store from './state/store'
+import LoginPage from './pages/login'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Home/>}/>
+            <Route path='/Login' element={<LoginPage/>}/>
             <Route path='*' element={<NonExistent/>}/>
           </Routes>
         </BrowserRouter>
