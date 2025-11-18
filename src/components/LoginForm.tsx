@@ -77,10 +77,10 @@ const LoginForm = () => {
                 </div>
 
             </div>
-            <button className="bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
+            <button className="border border-[rgb(23,23,23)] bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
         
             <p className="text-center">
-                Don't have an account? <Link to={'/'} className="text-green-500">Sign Up</Link>
+                Don't have an account? <Link to={'/Signup'} className="text-green-500">Sign Up</Link>
             </p>
         </form>
     );

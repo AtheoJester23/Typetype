@@ -10,6 +10,7 @@ import LoginPage from './pages/login'
 import CustomText from './pages/CustomText'
 import ProtectedRoute from './components/ProtectedRoute'
 import CheckJWT from './components/CheckJWT'
+import SignUp from './pages/SignUp'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 <CustomText/>
               </ProtectedRoute>
               }/>
+            <Route path='/Signup' element={<SignUp/>}/>
             <Route path='*' element={<NonExistent/>}/>
           </Routes>
         </BrowserRouter>

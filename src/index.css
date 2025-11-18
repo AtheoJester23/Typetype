@@ -48,3 +48,31 @@
   place-items: center;
   height: 100vh;
 }
+
+.signInPage{
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.formSignup{
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 35%
+}
+
+.input-box{
+  position: relative;
+}
+
+.input-box input{
+  width: 100%;
+}
+
+.input-box input:focus {
+  outline-color: #377ff3;
+}
