@@ -67,12 +67,21 @@
 
 .input-box{
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+
 .input-box input{
-  width: 100%;
+  width: 100%
 }
 
 .input-box input:focus {
   outline-color: #377ff3;
+}
+
+.passwordBox{
+  position: relative;
+  width: 100%;
 }
