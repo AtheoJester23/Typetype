@@ -1,25 +1,55 @@
 import { AtSign, Eye, EyeClosed, Lock, LockKeyhole, User } from "lucide-react";
 import { useState } from "react";
+import validator from "validator"
+
+type PossibleErrors = {
+    username?: boolean | null,
+    email?: boolean | null,
+    password?: boolean | null
+}
 
 const SignupForm = () => {
     const [show, setShow] = useState(false)
+    const [errors, setErrors] = useState<PossibleErrors>({});
 
     const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const username = formData.get("username") as String;
-        const email = formData.get("email") as String;
-        const password = formData.get("createPassword") as String;
-        const confirmPassword = formData.get("confirmPassword") as String;
+        const username = formData.get("username") as string;
+        const email = formData.get("email") as string;
+        const password = formData.get("createPassword") as string;
+        const confirmPassword = formData.get("confirmPassword") as string;
 
         console.log("Data", JSON.stringify({username, email, password, confirmPassword}))
+    
+        let newErrors: PossibleErrors = {};
+
+        try {
+            //check if the Email is valid:
+            const isValid = validator.isEmail(email);
+            if(!isValid){
+                newErrors.email = true
+                // throw new Error("Email address is invalid") 
+            }
+
+            //Double Check Password:
+            if(password != confirmPassword){
+                newErrors.password = true;
+                // throw new Error("Password did not matched...")
+            }
+
+            setErrors(newErrors);
+
+        } catch (error) {
+            console.error("Failed to Sign-up: ", (error as Error).message)
+        }
     }
 
     return (  
         <form className="formSignup" onSubmit={(e) => handleSignIn(e)}>
             <h1 className="text-center font-bold text-4xl text-[rgb(23,23,23)]">Sign Up</h1>
-
+            
             <div className="flex flex-col gap-2">
                 <div className="input-box">
                     <User className="text-[rgb(23,23,23)]"/>
@@ -27,7 +57,7 @@ const SignupForm = () => {
                 </div>
                 <div className="input-box">
                     <AtSign className="text-[rgb(23,23,23)]"/>
-                    <input type="text" name="email" id="email" className="border border-gray-500 px-3 py-2 rounded" placeholder="Email" autoComplete="off"/>
+                    <input type="text" name="email" id="email" className={`border ${errors.email == true ? "border-red-500" : "border-gray-500"} px-3 py-2 rounded`} placeholder="Email" autoComplete="off" onChange={() => setErrors((prev: PossibleErrors) => ({...prev, email: false }))}/>
                 </div>
                 <div className="input-box">
                     <Lock className="text-[rgb(23,23,23)]"/>
