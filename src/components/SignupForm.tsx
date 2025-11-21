@@ -5,6 +5,7 @@ import validator from "validator"
 type PossibleErrors = {
     username?: boolean | null,
     email?: boolean | null,
+    confirmPassword?: boolean | null
     password?: boolean | null
 }
 
@@ -34,12 +35,22 @@ const SignupForm = () => {
             }
 
             //Double Check Password:
+            if(!password || password.replace(/[ ]/g, "") == ""){
+                newErrors.password = true;
+            }
+            
+            if(!confirmPassword || confirmPassword.replace(/[ ]/g, "") == ""){
+                newErrors.confirmPassword = true;
+            }
+            
             if(password != confirmPassword){
                 newErrors.password = true;
                 // throw new Error("Password did not matched...")
             }
 
             setErrors(newErrors);
+
+
 
         } catch (error) {
             console.error("Failed to Sign-up: ", (error as Error).message)
@@ -61,12 +72,12 @@ const SignupForm = () => {
                 </div>
                 <div className="input-box">
                     <Lock className="text-[rgb(23,23,23)]"/>
-                    <input type={show ? "text" : "password"} name="createPassword" id="createPassword" className="border border-gray-500 px-3 py-2 rounded" placeholder="Create Password" autoComplete="off"/>
+                    <input type={show ? "text" : "password"} name="createPassword" id="createPassword" className={`border ${errors.password == true ? "border-red-500" : "border-gray-500"} px-3 py-2 rounded`} placeholder="Create Password" autoComplete="off" onChange={() => setErrors((prev)=> ({...prev, password: null}))}/>
                 </div>
                 <div className="input-box">
                     <Lock className="text-[rgb(23,23,23)]"/>
                     <div className="passwordBox">
-                        <input type={show ? "text" : "password"} name="confirmPassword" id="confirmPassword" className="border border-gray-500 px-3 py-2 rounded" placeholder="Confirm Password" autoComplete="off"/>
+                        <input type={show ? "text" : "password"} name="confirmPassword" id="confirmPassword" className={`border ${errors.confirmPassword == true ? "border-red-500" : "border-gray-500"} px-3 py-2 rounded`} placeholder="Confirm Password" autoComplete="off" onChange={() => setErrors((prev)=> ({...prev, confirmPassword: null}))}/>
                         <button type="button" onClick={() => setShow(prev => !prev)}>
                             {show ? <Eye className="absolute right-2 top-2.5 text-gray-500"/> : <EyeClosed className="absolute right-2 top-2.5 text-gray-500"/>}
                         </button>
