@@ -1,5 +1,6 @@
 import { AtSign, Eye, EyeClosed, Lock, LockKeyhole, User } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import validator from "validator"
 
 type PossibleErrors = {
@@ -12,8 +13,9 @@ type PossibleErrors = {
 const SignupForm = () => {
     const [show, setShow] = useState(false)
     const [errors, setErrors] = useState<PossibleErrors>({});
+    const navigate = useNavigate();
 
-    const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
@@ -50,7 +52,27 @@ const SignupForm = () => {
 
             setErrors(newErrors);
 
+            const res = await fetch(import.meta.env.VITE_USER, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            })
 
+            if(!res.ok){
+                throw new Error(`${res.status}`)
+            }
+
+            const data = await res.json();
+
+            console.log("Successfully created a new user...")
+            
+            navigate("/");
 
         } catch (error) {
             console.error("Failed to Sign-up: ", (error as Error).message)
