@@ -1,4 +1,4 @@
-import { AtSign, Eye, EyeClosed, Lock, LockKeyhole, User } from "lucide-react";
+import { AtSign, Eye, EyeClosed, Lock, User } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";

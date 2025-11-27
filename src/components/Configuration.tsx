@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { setMode } from "../state/references/referenceSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setNumbers, setPunctuation } from "../state/Config/configSlice";
 
-const Configuration = ({reference, setReference}: {reference: String, setReference: React.Dispatch<React.SetStateAction<string | null>>}) => {
+const Configuration = ({reference}: {reference: String}) => {
     // Checkbox states
     const punctuationCheckbox = useSelector((state: RootState) => state.config.punctuation)
     const numbersCheckbox = useSelector((state: RootState) => state.config.numbers);

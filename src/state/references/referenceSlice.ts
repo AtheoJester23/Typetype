@@ -18,7 +18,7 @@ const initialState: referenceState = {
 
 export const fetchData = createAsyncThunk(
     "referenceSlice/fetchData",
-    async (choice) => {
+    async () => {
         const res = await fetch(`https://typetypeapi-976af-default-rtdb.firebaseio.com/.json`);
 
         if(!res.ok){

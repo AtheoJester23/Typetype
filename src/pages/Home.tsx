@@ -3,10 +3,9 @@ import { useTheme } from "../context/ThemeContext";
 import { ClipLoader } from "react-spinners";
 import type { AppDispatch, RootState } from "../state/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "../state/Loading/loadingSlice";
-import { setDone, setPerfectScore, setScore, lessScore, addScore } from "../state/Scoring/scoring";
+import { setDone, setPerfectScore, setScore} from "../state/Scoring/scoring";
 import Result from "../components/Result";
-import { fetchData, setChosen, setMode } from "../state/references/referenceSlice";
+import { fetchData, setChosen} from "../state/references/referenceSlice";
 import Configuration from "../components/Configuration";
 import { setToken } from "../state/Token/tokenSlice";
 
@@ -108,7 +107,6 @@ const Home = () => {
 
         
         const handleKeyDown = (e: KeyboardEvent) => {
-            const currentInput = input.split('').at(-1);
             const currentChar = reference?.split("")[input.length]
 
 
@@ -160,7 +158,7 @@ const Home = () => {
             <p className="text-white font-bold text-4xl">{scoring}</p>
 
             {!done && (
-                <Configuration reference={reference!} setReference={setReference} />
+                <Configuration reference={reference!}/>
             )}
             
             <div className="refCont" id="textDisplay" ref={textDisplayRef}>
