@@ -85,3 +85,11 @@
   position: relative;
   width: 100%;
 }
+
+/* ------------------------------- */
+/* Forgot Password Page: */
+#passForgot{
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
