@@ -1,7 +1,10 @@
 import { AtSign, Eye, EyeClosed, Lock, LockKeyhole, User } from "lucide-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import validator from "validator"
+import type { AppDispatch } from "../state/store";
+import { setToken } from "../state/Token/tokenSlice";
 
 type PossibleErrors = {
     username?: boolean | null,
@@ -14,6 +17,7 @@ const SignupForm = () => {
     const [show, setShow] = useState(false)
     const [errors, setErrors] = useState<PossibleErrors>({});
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
 
     const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -52,6 +56,8 @@ const SignupForm = () => {
 
             setErrors(newErrors);
 
+            if(Object.values(newErrors).length > 0) return;
+
             const res = await fetch(import.meta.env.VITE_USER, {
                 method: "POST",
                 headers: {
@@ -72,6 +78,9 @@ const SignupForm = () => {
 
             console.log("Successfully created a new user...")
             
+            localStorage.setItem("token", data.token);
+            dispatch(setToken(data.token));
+
             navigate("/");
 
         } catch (error) {
