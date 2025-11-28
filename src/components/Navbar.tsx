@@ -1,6 +1,6 @@
-import { Keyboard, Moon, Sun } from "lucide-react";
+import { Keyboard, Moon, Plus, Sun, UserRound } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { setToken } from "../state/Token/tokenSlice";
@@ -37,8 +37,16 @@ const Navbar = () => {
                             Mode
                 </button>
 
-                <button onClick={() => handleAuth()}className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
-                    {token ? "Logout" : "Login"}
+                {token && (
+                    <Link to={"/custom"} className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
+                        <Plus/>
+                        Custom
+                    </Link>
+                )}
+
+                <button onClick={() => handleAuth()} className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
+                    
+                    {token ? <span className="flex gap-2"><UserRound/>Profile</span> : "Login"}
                 </button>
             </div>
         </div>

@@ -77,7 +77,15 @@ const LoginForm = () => {
                 </div>
 
             </div>
-            <Link to={"/forgotPassword"} className="text-green-500">Forgot Password</Link>
+
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <input type="checkbox" name="rememberMe" id="rememberMe" />
+                    <label htmlFor="rememberMe" className="font-bold text-[rgb(23,23,23)] select-none">Remember Me</label>
+                </div>
+                <Link to={"/forgotPassword"} className="text-green-500">Forgot Password</Link>
+            </div>
+
 
             <button className="border border-[rgb(23,23,23)] bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
         

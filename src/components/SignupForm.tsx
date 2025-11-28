@@ -118,7 +118,7 @@ const SignupForm = () => {
 
             <div className="flex items-center gap-2">
                 <input type="checkbox" name="rememberMe" id="rememberMe" />
-                <label htmlFor="rememberMe" className="font-bold text-[rgb(23,23,23)]">Remember Me</label>
+                <label htmlFor="rememberMe" className="font-bold text-[rgb(23,23,23)] select-none">Remember Me</label>
             </div>
 
             <button className="border border-[rgb(23,23,23)] font-bold text-[rgb(23,23,23)] py-2 rounded-full -translate-y-0.25 hover:translate-none cursor-pointer duration-200 hover:bg-green-500 hover:text-white">Sign up</button>

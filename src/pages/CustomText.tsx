@@ -1,7 +1,7 @@
 const CustomText = () => {
     return (  
         <div className="customPage">
-            <h1 className="text-white font-bold p-[50px]">This is a different page...</h1>
+            <textarea className="bg-white w-[80%] h-[80%] p-5"/>
         </div>
     );
 }
