@@ -1,7 +1,11 @@
+import FormCustom from "../components/FormCustom";
+
 const CustomText = () => {
     return (  
         <div className="customPage">
-            <textarea className="bg-white w-[80%] h-[80%] p-5"/>
+            <h1 className="text-white text-4xl select-none">Create Custom Text</h1>
+
+            <FormCustom/>
         </div>
     );
 }

@@ -11,8 +11,7 @@ type cred = {
 }
 
 const LoginForm = () => {
-    const [show, setShow] = useState(false)
-    
+    const [show, setShow] = useState(false)    
     const dispatch = useDispatch<AppDispatch>()
 
     const getData = async(userCredentials: cred) => {
@@ -50,12 +49,13 @@ const LoginForm = () => {
 
         console.log("Email: ", email);
         console.log("Password: ", password);
-
+        
+        
         const body: cred = {
             email,
             password
         }
-
+        
         getData(body);
     }
 
@@ -85,7 +85,6 @@ const LoginForm = () => {
                 </div>
                 <Link to={"/forgotPassword"} className="text-green-500">Forgot Password</Link>
             </div>
-
 
             <button className="border border-[rgb(23,23,23)] bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
         
