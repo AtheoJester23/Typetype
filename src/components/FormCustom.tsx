@@ -1,5 +1,3 @@
-import React from 'react'
-
 const FormCustom = () => {
   return (
     <form action="" className="customForm w-[80%] h-[80%] flex justify-center items-center flex-col gap-2">
