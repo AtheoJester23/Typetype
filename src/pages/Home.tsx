@@ -82,20 +82,22 @@ const Home = () => {
 
             if(punctuationCheckbox && numbersCheckbox){
                 setReference(modeChosen[num])
+                dispatch(setPerfectScore(modeChosen[num].length));
             }else if(punctuationCheckbox && !numbersCheckbox ){
                 console.log("This one")
                 setReference(modeChosen[num].replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim())
+                dispatch(setPerfectScore(modeChosen[num].replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim().length));
             }else if(!punctuationCheckbox && numbersCheckbox){
                 setReference(modeChosen[num].trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, ""))
+                dispatch(setPerfectScore(modeChosen[num].trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, "").length));
             }else{
                 setReference(modeChosen[num].trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim())
+                dispatch(setPerfectScore(modeChosen[num].trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim().length));
             }
 
             // if(numbersCheckbox == false){
             //     setReference(modeChosen[num].replace(/[\d]/g, ""))
             // }
-
-            dispatch(setPerfectScore(modeChosen[num].length));
         }
 
         setInput("");
