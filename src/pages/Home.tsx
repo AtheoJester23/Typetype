@@ -157,8 +157,6 @@ const Home = () => {
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
-            <p className="text-white font-bold text-4xl">{scoring}</p>
-
             {!done && (
                 <Configuration reference={reference!}/>
             )}
