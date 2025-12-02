@@ -7,11 +7,13 @@ import Navbar from './components/Navbar'
 import { Provider } from 'react-redux'
 import store from './state/store'
 import LoginPage from './pages/login'
-import CustomText from './pages/CustomText'
+import CustomOptions from './pages/CustomOptions'
 import ProtectedRoute from './components/ProtectedRoute'
 import CheckJWT from './components/CheckJWT'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
+import CustomText from './pages/CustomText'
+import ViewAll from './pages/ViewAll'
 
 function App() {
   return (
@@ -28,9 +30,19 @@ function App() {
             <Route path='/Login' element={<LoginPage/>}/>
             <Route path='/Custom' element={
               <ProtectedRoute>
-                <CustomText/>
+                <CustomOptions/>
               </ProtectedRoute>
               }/>
+            <Route path='/Custom/Create' element={
+              <ProtectedRoute>
+                <CustomText/>
+              </ProtectedRoute>
+            }/>
+            <Route path='/Custom/ViewAll' element={
+              <ProtectedRoute>
+                <ViewAll/>
+              </ProtectedRoute>
+            }/>
             <Route path='/Signup' element={<SignUp/>}/>
             <Route path='/forgotPassword' element={<ForgotPassword/>}/>
             <Route path='*' element={<NonExistent/>}/>

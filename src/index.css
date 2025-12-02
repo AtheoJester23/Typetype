@@ -43,7 +43,7 @@
   width: 30%;
 }
 
-.customPage{
+.customPage, .viewAll{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,6 +52,8 @@
   padding-top: 60px;
   flex-direction: column;
 }
+
+
 
 .signInPage{
   display: grid;
