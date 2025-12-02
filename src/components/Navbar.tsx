@@ -25,7 +25,7 @@ const Navbar = () => {
             <div className="flex gap-2">
                 <div className="flex justify-center items-center gap-2 p-2">
                     <Keyboard className="inline text-white"/>
-                    <a href="/" className="text-white font-bold text-3xl">Typetype</a>
+                    <Link to="/" className="text-white font-bold text-3xl">Typetype</Link>
                 </div>
             </div>
 
