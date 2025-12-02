@@ -33,6 +33,7 @@ const LoginForm = () => {
             console.log(data)
 
             localStorage.setItem("token", data.token);
+            localStorage.setItem("userId", data._id);
             dispatch(setToken(data.token));
         } catch (error) {
             console.error("Failed to get the data: ", (error as Error).message)

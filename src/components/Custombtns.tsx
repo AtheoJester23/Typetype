@@ -1,7 +1,5 @@
 import { Eye, Plus } from "lucide-react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import type { RootState } from "../state/store";
 import { useTheme } from "../context/ThemeContext";
 
 const Custombtns = () => {

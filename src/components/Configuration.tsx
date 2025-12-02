@@ -4,7 +4,7 @@ import { setMode } from "../state/references/referenceSlice";
 import { useEffect } from "react";
 import { setNumbers, setPunctuation } from "../state/Config/configSlice";
 import { useTheme } from "../context/ThemeContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Configuration = ({reference}: {reference: String}) => {
     // Checkbox states
@@ -40,7 +40,7 @@ const Configuration = ({reference}: {reference: String}) => {
                     <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
                     <option className="text-white hover:cursor-pointer" value={`Quotes`}>Quotes</option>
                     <option className="text-white hover:cursor-pointer rounded-b" value={`Commandments`} >10 Commandments</option>
-                    <option className="text-white hover:cursor-pointer rounded-b" value={`Custom`} >Custom</option>
+                    {localStorage.getItem("token") && (<option className="text-white hover:cursor-pointer rounded-b" value={`Custom`} >Custom</option>)}
                     
             </select>
 
