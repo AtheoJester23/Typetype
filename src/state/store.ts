@@ -4,6 +4,7 @@ import scoringReducer from "./Scoring/scoring";
 import referenceReducer from "./references/referenceSlice"
 import configReducer from "./Config/configSlice"
 import tokenReducer from "./Token/tokenSlice"
+import collectionReducer from "./Collections/collectionSlice"
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         scoring: scoringReducer,
         fetching: referenceReducer,
         config: configReducer,
-        token: tokenReducer
+        token: tokenReducer,
+        collections: collectionReducer
     }
 })
 

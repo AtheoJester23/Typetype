@@ -17,6 +17,7 @@ const ProtectedRoute = ({children}: {children: ReactNode}) => {
 
     if(isTokenExpired(token)){
         localStorage.removeItem("token");
+        localStorage.removeItem("userId");
         return null;
     }
 
@@ -32,6 +33,7 @@ const ProtectedRoute = ({children}: {children: ReactNode}) => {
         const timeoutId = setTimeout(()=>{
             console.log("Token Expired...");
             localStorage.removeItem("token");
+            localStorage.removeItem("userId");
             dispatch(setToken(null))
             navigate("/")
         }, timeUntilExpiration)
