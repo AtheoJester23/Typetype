@@ -155,19 +155,22 @@ const FormCustom = () => {
     <form onSubmit={(e) => handleSubmit(e)} className="customForm w-[80%] h-[80%] flex flex-col gap-2">
         <div className="flex justify-start flex-col">
           <div>
-            <p className="text-white font-bold">Collection<span className="text-red-500">*</span></p>
+            <p className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} font-bold`}>Collection<span className="text-red-500">*</span></p>
             <small className="text-gray-500">Add this content to a collection to organize your contents</small>
           </div>
           {createPlaylist ? (
             <div className="relative">
-              <input onChange={() => setErr(prev => ({...prev, collectionName: false}))} type="text" name="collectionName" className={`${theme == "light" ? "bg-white" : "bg-[rgb(23,23,23)]"} w-full rounded-xl p-5 border ${err.collectionName ? "border-red-500" : "border-gray-500"} placeholder-gray-500 text-white`} placeholder="What should be the title of this new collection?"/>
-              <X onClick={() => setCreatePlaylist(false)} className={`text-white absolute top-5 right-5 cursor-pointer -translate-y-0.25 hover:translate-none duration-500`}/>
+              <input onChange={() => setErr(prev => ({...prev, collectionName: false}))} type="text" name="collectionName" className={`${theme == "light" ? "bg-white text-[rgb(23,23,23)]" : "bg-[rgb(23,23,23)] text-white"} w-full rounded-xl p-5 border ${err.collectionName ? "border-red-500" : "border-gray-500"} placeholder-gray-500`} placeholder="What should be the title of this new collection?"/>
+              <X onClick={() => {
+                setCreatePlaylist(false)
+                setErr(prev => ({...prev, collectionId: false, collectionName: false}))
+              }} className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} absolute top-5 right-5 cursor-pointer -translate-y-0.25 hover:translate-none duration-500`}/>
             </div>
           ):(
             <div className="w-full flex gap-2">
               <div className={`relative w-full border ${err.collectionId ? "border-red-500" : "border-gray-500"} rounded`}>
                 <select 
-                  className="appearance-none bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center font-bold w-full"
+                  className={`appearance-none ${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} py-2 rounded px-5 text-center font-bold w-full`}
                   defaultValue="default"
                   name="collectionId"
                   id="collectionId" 
@@ -175,33 +178,33 @@ const FormCustom = () => {
                     setErr((prev) => ({...prev, collectionId: false}))
                   }}
                 >
-                  <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a collection</option>
+                  <option className={`${theme == "light" ? "text-[rgb(23,23,23)] bg-[rgb(200,200,200)]" : "text-white bg-[rgb(23,23,23)]"}`} value="default" disabled>Select a collection</option>
                   {choices.length > 0 && (
                     <>
                       {choices.map(item => (
-                        <option key={item.collectionId} className="text-white hover:cursor-pointer" value={`${item.collectionId}`}>{item.collectionName}</option>
+                        <option key={item.collectionId} className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white bg-[rgb(23,23,23)]"} hover:cursor-pointer`} value={`${item.collectionId}`}>{item.collectionName}</option>
                       ))}
                     </>
                   )}
                 </select>
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-white">
+                <span className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 ${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"}`}>
                   ▼
                 </span>
               </div>
-              <button onClick={()=>setCreatePlaylist(true)} type="button" className="px-2 rounded hover:bg-[rgba(37,37,37)] duration-200 cursor-pointer"><Plus className="text-white"/></button>
+              <button onClick={()=>setCreatePlaylist(true)} type="button" className={`${theme == "light" ? "border border-gray-500 hover:bg-[rgb(184,184,184)]" : "hover:bg-[rgb(37,37,37)]"} px-2 rounded duration-200 cursor-pointer`}><Plus className={`${theme == "light" ? "text-[rgb(23,23,23)] hover:text-white" : "text-white"}`}/></button>
             </div>
           )}
           
         </div>
 
         <div>
-          <p className="text-white font-bold">Title<span className="text-red-500">*</span></p>
-          <input onChange={()=>setErr(prev => ({...prev, title: false}))} type="text" name="title" className={`${theme == "light" ? "bg-white" : "bg-[rgb(23,23,23)]"} w-full rounded-xl p-5 border ${err.title ? "border-red-500" : "border-gray-500"} placeholder-gray-500 text-white`} placeholder="Add a title that best describe this content"/>
+          <p className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} font-bold`}>Title<span className="text-red-500">*</span></p>
+          <input onChange={()=>setErr(prev => ({...prev, title: false}))} type="text" name="title" className={`${theme == "light" ? "bg-white text-[rgb(23,23,23)]" : "bg-[rgb(23,23,23)] text-white"} w-full rounded-xl p-5 border ${err.title ? "border-red-500" : "border-gray-500"} placeholder-gray-500 `} placeholder="Add a title that best describe this content"/>
         </div>
 
         <div>
-          <p className="text-white font-bold">Content<span className="text-red-500">*</span></p>
-          <textarea onChange={() => setErr(prev => ({...prev, content: false}))} name="body" className={`${theme == "light" ? "bg-white" : "bg-[rgb(23,23,23)]"} w-[100%] h-[100%] p-5 text-white border ${err.content ? "border-red-500" : "border-gray-500"} rounded-xl placeholder-gray-500`} placeholder='Body text'/>
+          <p className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} font-bold`}>Content<span className="text-red-500">*</span></p>
+          <textarea onChange={() => setErr(prev => ({...prev, content: false}))} name="body" className={`${theme == "light" ? "bg-white text-[rgb(23,23,23)]" : "bg-[rgb(23,23,23)] text-white"} w-[100%] h-[100%] p-5 border ${err.content ? "border-red-500" : "border-gray-500"} rounded-xl placeholder-gray-500`} placeholder='Body text'/>
         </div>
         
         <div className="flex w-full justify-end mt-7">
