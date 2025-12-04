@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type collections = {
+export type collectionsType = {
     _id: string,
     title: string,
     content: string,
     userId: string,
-    createdAt: string 
+    createdAt: string,
+    collectionName: string,
+    collectionId: string
 }
 
 type initialType = {
-    value: collections[] | null
+    value: collectionsType[] | null
 }
 
 const initialState: initialType = {

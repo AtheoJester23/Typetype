@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import Custombtns from "../components/Custombtns";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../state/store";
+import { setCollections } from "../state/Collections/collectionSlice";
 
 const CustomOptions = () => {
-    const [collections, setCollections] = useState();
+    const dispatch = useDispatch<AppDispatch>()
     const userId = localStorage.getItem("userId")
 
     console.log("-------------------> ", userId)
@@ -20,6 +23,7 @@ const CustomOptions = () => {
                 }
 
                 const data = await res.json();
+                dispatch(setCollections(data.data));
 
                 console.log(data);
             } catch (error) {
