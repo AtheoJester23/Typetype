@@ -54,10 +54,11 @@
 }
 
 .viewAll{
+  display: flex;
+  flex-direction: column;
   gap: 30px;
   height: 100vh;
   padding: 120px 60px;
-  flex-direction: column;
 }
 
 .customContainer {

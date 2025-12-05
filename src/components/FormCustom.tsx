@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../state/store";
 import { useNavigate } from "react-router-dom";
 
-type namesCollectionType = {
+export type namesCollectionType = {
   _id: string,
   name: string,
   userId: string
