@@ -1,9 +1,17 @@
 import { useEffect, useState, type FormEvent } from "react"
 import { useTheme } from "../context/ThemeContext";
 import { Plus, X } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../state/store";
-import type { collectionsType } from "../state/Collections/collectionSlice.js";
+import { useSelector } from "react-redux";
+import type { RootState } from "../state/store";
+import { useNavigate } from "react-router-dom";
+
+type namesCollectionType = {
+  _id: string,
+  name: string,
+  userId: string
+  collectionId: string,
+  collectionName: string
+}
 
 type possibleErrors = {
   collection?: boolean,
@@ -13,15 +21,9 @@ type possibleErrors = {
   collectionName?: boolean
 }
 
-type typeChoices = {
-  collectionName: string,
-  collectionId: string
-}
-
 const FormCustom = () => {
   //Redux
   const collections = useSelector((state: RootState) => state.collections.value)
-  const dispatch = useDispatch<AppDispatch>();
   
   //Theme
   const { theme } = useTheme();
@@ -29,51 +31,35 @@ const FormCustom = () => {
   //Collections:
   const [err, setErr] = useState<possibleErrors>({collection: false, title: false, content: false, collectionId: false, collectionName: false});
   const [createPlaylist, setCreatePlaylist] = useState(false);
-  const [choices, setChoices] = useState<typeChoices[] | []>([])
+  const [choices, setChoices] = useState<namesCollectionType[] | []>([])
   const userId = localStorage.getItem("userId")
 
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let choicesNames = (collections?.map(item => item.collectionName))
-    let filtered = [...new Set(choicesNames)];
-
     console.log("These ones: ", collections)
 
     async function getData(){
       try {
-        const res = await fetch(import.meta.env.VITE_GET_COLLECTIONS + `/${userId}`)
+        const res = await fetch(import.meta.env.VITE_GET_COLLECTION_NAMES + `/${userId}`)
         
         if(!res.ok){
           throw new Error(`${res.status}`)
         }
         
         const data = await res.json();
-        
-        console.log(data.data);
 
-        const collectionNames: collectionsType[] = data.data.map((item: collectionsType) => ({collectionName: item.collectionName, collectionId: item.collectionId}))
-        const noDupli: typeChoices[] = [...new Set(collectionNames)];
-        const noDupli2 = [
-          ...new Map(
-            collectionNames.map(item => [item.collectionId, item])
-          ).values()
-        ]
-        
-        setChoices(noDupli2)
+        console.log("These are the raw data: ", data)
+
+        const collectionNames: namesCollectionType[] = data.map((item: namesCollectionType) => ({collectionName: item.name, collectionId: item._id}))        
+        setChoices(collectionNames);
         
       } catch (error) {
         console.error((error as Error).message)
       }
     }
 
-    if(!collections){
-      getData();
-      console.log("abcdefghijklmnopqrstuvwxyz")
-    }else{
-      const collectionNames: typeChoices[] = collections.map((item: collectionsType) => ({collectionName: item.collectionName, collectionId: item.collectionId}))
-      const noDupli: typeChoices[] = [...new Set(collectionNames)];
-      setChoices(noDupli)
-    }
+    getData();
 
   }, [collections])
 
@@ -123,32 +109,37 @@ const FormCustom = () => {
       return;
     }
     
-
-
-    console.log(JSON.stringify({
+    const wholeThing = {
       userId,
       title,
       content: body,
       collectionId: collectionId ?? null,
       collectionName: collectionName ?? null
-    }))
+    }
 
-    // try {
-    //   const res = await fetch(import.meta.env.VITE_POST_COLLECTION, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //       userId,
-    //       title,
-    //       content: body,
-    //       collectionsId: 
-    //     })
-    //   })
-    // } catch (error) {
-    //   console.error((error as Error).message)
-    // }
+    console.log(JSON.stringify(wholeThing))
+
+    try {
+      const res = await fetch(import.meta.env.VITE_POST_COLLECTION, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(wholeThing)
+      })
+
+      if(!res.ok){
+        throw new Error(`${res.status}`)
+      }
+
+      const data = await res.json();
+
+      console.log(data);
+      navigate("/custom")
+
+    } catch (error) {
+      console.error((error as Error).message)
+    }
   }
 
   return (
