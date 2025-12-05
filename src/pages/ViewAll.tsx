@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useEffect, useState } from "react";
 import type { namesCollectionType } from "../components/FormCustom";
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const ViewAll = () => {
     const {theme} = useTheme();
     const userId = localStorage.getItem("userId");
     const [collectionNames, setCollectionNames] = useState<namesCollectionType[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
 
 
     const testing = [
@@ -32,7 +35,8 @@ const ViewAll = () => {
 
                 const data: namesCollectionType[] = await res.json();
 
-                setCollectionNames(data)
+                setCollectionNames(data);
+                setLoading(true);
                 console.log(data);
             } catch (error) {
                 console.error((error as Error).message)
@@ -44,21 +48,28 @@ const ViewAll = () => {
 
     return (  
         <div className="viewAll">
-            <h1 className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} text-center font-bold text-4xl duration-500`}>Collections:</h1>
+            {!loading ? (
+                <div className="flex justify-center items-center h-full">
+                    <ClipLoader size={40} color={`${theme == "dark" ? "white" : "rgb(23,23,23)"}`} />;
+                </div>
+            ) : (
+                <>
+                    <h1 className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} text-center font-bold text-4xl duration-500`}>Collections:</h1>
 
-            <div className="customContainer">
-                {collectionNames.length > 0 && (
-                    <>
-                        {collectionNames.map(item => (
-                            <Link to={`/Custom/${item._id}`} key={item._id} className={`w-full flex justify-center items-center flex-col border ${theme == "light" ? "border-[rgb(23,23,23)] hover:bg-[rgb(23,23,23)] hover:text-white" : "text-white border-white hover:bg-white hover:text-[rgb(23,23,23)]"} rounded-xl p-5 gap-2 duration-500`}>
-                                <BookOpenText/>
-                                <span className={`rounded-xl w-full text-center font-bold`}>{item.name}</span>
-                            </Link>
-                        ))}
-                    </>
-                )}
-                
-            </div>
+                    <div className="customContainer">
+                        {collectionNames.length > 0 && (
+                            <>
+                                {collectionNames.map(item => (
+                                    <Link to={`/Custom/${item._id}`} key={item._id} className={`w-full flex justify-center items-center flex-col border ${theme == "light" ? "border-[rgb(23,23,23)] hover:bg-[rgb(23,23,23)] hover:text-white" : "text-white border-white hover:bg-white hover:text-[rgb(23,23,23)]"} rounded-xl p-5 gap-2 duration-500`}>
+                                        <BookOpenText/>
+                                        <span className={`rounded-xl w-full text-center font-bold`}>{item.name}</span>
+                                    </Link>
+                                ))}
+                            </>
+                        )}
+                    </div>
+                </>
+            ) }
         </div>
     );
 }

@@ -5,6 +5,7 @@ import { getTokenExpiration } from "../utils/getTokenExpiration";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../state/store";
 import { setToken } from "../state/Token/tokenSlice";
+import { setCollections } from "../state/Collections/collectionSlice";
 
 const ProtectedRoute = ({children}: {children: ReactNode}) => {
     const token = localStorage.getItem("token");
@@ -18,6 +19,8 @@ const ProtectedRoute = ({children}: {children: ReactNode}) => {
     if(isTokenExpired(token)){
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
+        dispatch(setToken(null));
+        dispatch(setCollections(null));
         return null;
     }
 
@@ -34,7 +37,8 @@ const ProtectedRoute = ({children}: {children: ReactNode}) => {
             console.log("Token Expired...");
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
-            dispatch(setToken(null))
+            dispatch(setToken(null));
+            dispatch(setCollections(null));
             navigate("/")
         }, timeUntilExpiration)
 
