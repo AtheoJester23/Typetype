@@ -14,6 +14,7 @@ import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
 import CustomText from './pages/CustomText'
 import ViewAll from './pages/ViewAll'
+import CustomTyping from './pages/CustomTyping'
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
                 <ViewAll/>
               </ProtectedRoute>
             }/>
+            <Route path='/Custom/:id' element={<CustomTyping/>}/>
             <Route path='/Signup' element={<SignUp/>}/>
             <Route path='/forgotPassword' element={<ForgotPassword/>}/>
             <Route path='*' element={<NonExistent/>}/>
