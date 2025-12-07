@@ -103,7 +103,7 @@ const CustomTyping = () => {
                 setReference(modes[num].content)
                 dispatch(setPerfectScore(modes[num].content.length));
             }else if(punctuationCheckbox && !numbersCheckbox ){
-                setReference(modes[num].content.replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim())
+                setReference(modes[num].content.replace(/^[^a-z]+/gi, "").replace(/[ ]/gi, " ").replace(/[0-9]/gi, "").trim())
                 dispatch(setPerfectScore(modes[num].content.replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim().length));
             }else if(!punctuationCheckbox && numbersCheckbox){
                 setReference(modes[num].content.trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, ""))
