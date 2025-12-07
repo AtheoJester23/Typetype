@@ -3,35 +3,41 @@ import { useTheme } from "../context/ThemeContext";
 import { ClipLoader } from "react-spinners";
 import type { AppDispatch, RootState } from "../state/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setDone, setPerfectScore, setScore} from "../state/Scoring/scoring";
+import {  setPerfectScore, setScore} from "../state/Scoring/scoring";
 import Result from "../components/Result";
-import { fetchData, setChosen} from "../state/references/referenceSlice";
-import Configuration from "../components/Configuration";
+import { fetchData} from "../state/references/referenceSlice";
 import { setToken } from "../state/Token/tokenSlice";
 import { useParams } from "react-router-dom";
-import ConfigurationCustom, { type customsType } from "../components/ConfigurationCustom";
+import { type customsType } from "../components/ConfigurationCustom";
+import { setNumbers, setPunctuation } from "../state/Config/configSlice";
+
+type customData = {
+    _id: string, 
+    title: string,
+    content: string,
+    userId: string,
+    collectionName: string,
+    collectionId: string
+}
 
 const CustomTyping = () => {
     // Redux state and dispatch
-    const loading = useSelector((state: RootState) => state.loading.isLoading);
+    const [loading, _] = useState<boolean>(false)
+    const [done, setDone] = useState<boolean>(false)
+
     const scoring = useSelector((state: RootState) => state.scoring.score)
-    const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore)
-    const done = useSelector((state: RootState) => state.scoring.done)
+    // const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore)
     const dispatch = useDispatch<AppDispatch>()
-    const theRef = useSelector((state: RootState) => state.fetching.mode);
-
-    const fetched: any = useSelector((state: RootState) => state.fetching.data);
-
+    
     const userId = localStorage.getItem("userId");
     const {id} = useParams();
 
     // Mode:
-    const modeChosen = useSelector((state: RootState) => state.fetching.chosen);
-    let currentMode = "";
+    const [modes, setModes] = useState<customData[]>([])
 
     const {theme} = useTheme();
     const [reference, setReference] = useState<string | null>(null)
-    const [num, setNum] = useState<number>(2);
+    const [num, setNum] = useState<number>(0);
 
     const textRef = useRef<HTMLTextAreaElement>(null);
 
@@ -47,13 +53,13 @@ const CustomTyping = () => {
     const handleNext = () => {
         setInput("");
         setNum(prev => prev < 10 ? prev + 1 : 1);
-        dispatch(setDone(false));
+        setDone(false);
         dispatch(setScore(0));
     }
 
     const handleFinish = () => {
         setInput("");
-        dispatch(setDone(true));
+        setDone(true);
     }
 
     useEffect(()=>{
@@ -70,8 +76,8 @@ const CustomTyping = () => {
 
                 const data = await res.json();
 
-                console.log("This the data: ", data.data.filter((item: customsType) => item.collectionId == id));
-                console.log("test: ", id);
+                const filteredData: customData[] = data.data.filter((item: customsType) => item.collectionId == id);
+                setModes(filteredData)
             } catch (error) {
                 console.error((error as Error).message)
             }
@@ -82,49 +88,35 @@ const CustomTyping = () => {
 
     useEffect(()=> {
         // initial setting for the reference;
-        if(modeChosen.length < 1 && Object.keys(fetched).length > 0){
-            dispatch(setChosen(theRef == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"]))
-            currentMode = theRef;
-        }else{
-            setReference("Something went wrong, try reloading the page...")
-        }
+        // if(modes.length < 1){
+        //     setReference("abcdefg")
+        //     setLoading(false)
+        // }else{
+        //     setReference("Something went wrong, try reloading the page...")
+        //     setLoading(false)
+        // }
 
-        // if reference already exist
-        if(modeChosen.length > 0){
-            if(theRef != currentMode){
-                currentMode = theRef
-                dispatch(setChosen(currentMode == "Quotes" ? fetched.Quotes : fetched["Ten Commandments"]))
-            }
-
-            //Situations:
-            // Punctuation with number
-            // Punctuation without number
-
-            // Without Punctuation but with number
-            // Without Punctuation and without number
+        if(modes.length > 0){
+            setReference("2 This next;")
 
             if(punctuationCheckbox && numbersCheckbox){
-                setReference(modeChosen[num])
-                dispatch(setPerfectScore(modeChosen[num].length));
+                setReference(modes[num].content)
+                dispatch(setPerfectScore(modes[num].content.length));
             }else if(punctuationCheckbox && !numbersCheckbox ){
-                setReference(modeChosen[num].replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim())
-                dispatch(setPerfectScore(modeChosen[num].replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim().length));
+                setReference(modes[num].content.replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim())
+                dispatch(setPerfectScore(modes[num].content.replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim().length));
             }else if(!punctuationCheckbox && numbersCheckbox){
-                setReference(modeChosen[num].trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, ""))
-                dispatch(setPerfectScore(modeChosen[num].trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, "").length));
+                setReference(modes[num].content.trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, ""))
+                dispatch(setPerfectScore(modes[num].content.trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, "").length));
             }else{
-                setReference(modeChosen[num].trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim())
-                dispatch(setPerfectScore(modeChosen[num].trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim().length));
+                setReference(modes[num].content.trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim())
+                dispatch(setPerfectScore(modes[num].content.trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim().length));
             }
-
-            // if(numbersCheckbox == false){
-            //     setReference(modeChosen[num].replace(/[\d]/g, ""))
-            // }
         }
 
         setInput("");
 
-    }, [theRef, num, reference, fetched, modeChosen, punctuationCheckbox, numbersCheckbox])
+    }, [num, modes , reference, punctuationCheckbox, numbersCheckbox])
     
     useEffect(() => {
         if (!enter) return;
@@ -165,22 +157,55 @@ const CustomTyping = () => {
         };
     }, [enter, handleNext]);
 
-    useEffect(()=>{
-        if(input.length != 0 && input.length == perfectScore){            
-            const theReference = reference?.slice(0, input.length)
+    // useEffect(()=>{
+    //     if(input.length != 0 && input.length == perfectScore){            
+    //         const theReference = reference?.slice(0, input.length)
 
-            const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
-            dispatch(setScore(theScore));
+    //         const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
+    //         dispatch(setScore(theScore));
 
-            setInput("");
-            handleFinish();
-        }
-    }, [input])
+    //         setInput("");
+    //         handleFinish();
+    //     }
+    // }, [input])
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
             {!done && (
-                <ConfigurationCustom reference={reference!}/>
+                <div className="flex justify-center items-center">
+                    <select 
+                        className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
+                        defaultValue="default" 
+                        onChange={(e)=>{
+                            setNum(modes.findIndex(item => item._id == e.target.value));
+                        }}
+                    >
+                            <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
+                            {modes.length > 0 && (
+                                <>
+                                    {modes.map(item => (
+                                        <option key={item._id} className="text-white hover:cursor-pointer" value={`${item._id}`}>{item.title}</option>
+                                    ))}
+                                </>
+                            )}
+                                            
+                    </select>
+        
+                    <div className="flex gap-2 mx-2">
+                        <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold">
+                            <input type="checkbox" name="Punctuation" id="Punctuation" onChange={()=>dispatch(setPunctuation(!punctuationCheckbox))} defaultChecked={punctuationCheckbox}/>
+                            <span className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} select-none`}>
+                                Punctuation
+                            </span>
+                        </label>
+                        <label htmlFor="Numbers" className="text-white flex gap-2 items-center font-bold">
+                            <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> dispatch(setNumbers(!numbersCheckbox))} defaultChecked={numbersCheckbox}/>
+                            <span className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} select-none`}>
+                                Numbers
+                            </span>
+                        </label>
+                    </div>
+                </div>
             )}
             
             <div className="refCont" id="textDisplay" ref={textDisplayRef}>
@@ -209,7 +234,7 @@ const CustomTyping = () => {
                             );
                             })}
                     </>
-                ): done ? (
+                ) : done ? (
                     <>
                         <Result/>
                     </>
@@ -219,7 +244,8 @@ const CustomTyping = () => {
                             <ClipLoader color={theme === "dark" ? "#ffffff" : "#000000"} size={50} />
                         </div>
                     </div>
-                )}
+                )
+                }
                 
             </div>
 
