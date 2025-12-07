@@ -26,7 +26,7 @@ const CustomTyping = () => {
     const [done, setDone] = useState<boolean>(false)
 
     const scoring = useSelector((state: RootState) => state.scoring.score)
-    // const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore)
+    const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore)
     const dispatch = useDispatch<AppDispatch>()
     
     const userId = localStorage.getItem("userId");
@@ -157,17 +157,17 @@ const CustomTyping = () => {
         };
     }, [enter, handleNext]);
 
-    // useEffect(()=>{
-    //     if(input.length != 0 && input.length == perfectScore){            
-    //         const theReference = reference?.slice(0, input.length)
+    useEffect(()=>{
+        if(input.length != 0 && input.length == perfectScore){            
+            const theReference = reference?.slice(0, input.length)
 
-    //         const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
-    //         dispatch(setScore(theScore));
+            const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
+            dispatch(setScore(theScore));
 
-    //         setInput("");
-    //         handleFinish();
-    //     }
-    // }, [input])
+            setInput("");
+            handleFinish();
+        }
+    }, [input])
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
@@ -194,13 +194,13 @@ const CustomTyping = () => {
                     <div className="flex gap-2 mx-2">
                         <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold">
                             <input type="checkbox" name="Punctuation" id="Punctuation" onChange={()=>dispatch(setPunctuation(!punctuationCheckbox))} defaultChecked={punctuationCheckbox} className="peer h-4 w-4 appearance-none rounded border border-white-300 checked:bg-green-600 checked:border-none" />
-                            <span className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} select-none`}>
+                            <span className={`select-none`}>
                                 Punctuation
                             </span>
                         </label>
                         <label htmlFor="Numbers" className="text-white flex gap-2 items-center font-bold">
                             <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> dispatch(setNumbers(!numbersCheckbox))} defaultChecked={numbersCheckbox} className="peer h-4 w-4 appearance-none rounded border border-white-300 checked:bg-green-600 checked:border-none" />
-                            <span className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} select-none`}>
+                            <span className={`select-none`}>
                                 Numbers
                             </span>
                         </label>
@@ -261,7 +261,7 @@ const CustomTyping = () => {
                             handleNext();
                             // console.log(perfectScore)
                             // console.log(done)
-                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
+                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Next</button>
                     </div>
                 </>
             )}
