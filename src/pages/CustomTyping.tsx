@@ -52,7 +52,7 @@ const CustomTyping = () => {
 
     const handleNext = () => {
         setInput("");
-        setNum(prev => prev < 10 ? prev + 1 : 1);
+        setNum(prev => prev < modes.length - 1 ? prev + 1 : 0);
         setDone(false);
         dispatch(setScore(0));
     }
@@ -172,7 +172,7 @@ const CustomTyping = () => {
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
             {!done && (
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center border bg-black rounded shadow-xl">
                     <select 
                         className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
                         defaultValue="default" 
@@ -193,13 +193,13 @@ const CustomTyping = () => {
         
                     <div className="flex gap-2 mx-2">
                         <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold">
-                            <input type="checkbox" name="Punctuation" id="Punctuation" onChange={()=>dispatch(setPunctuation(!punctuationCheckbox))} defaultChecked={punctuationCheckbox}/>
+                            <input type="checkbox" name="Punctuation" id="Punctuation" onChange={()=>dispatch(setPunctuation(!punctuationCheckbox))} defaultChecked={punctuationCheckbox} className="peer h-4 w-4 appearance-none rounded border border-white-300 checked:bg-green-600 checked:border-none" />
                             <span className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} select-none`}>
                                 Punctuation
                             </span>
                         </label>
                         <label htmlFor="Numbers" className="text-white flex gap-2 items-center font-bold">
-                            <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> dispatch(setNumbers(!numbersCheckbox))} defaultChecked={numbersCheckbox}/>
+                            <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> dispatch(setNumbers(!numbersCheckbox))} defaultChecked={numbersCheckbox} className="peer h-4 w-4 appearance-none rounded border border-white-300 checked:bg-green-600 checked:border-none" />
                             <span className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} select-none`}>
                                 Numbers
                             </span>
@@ -262,10 +262,6 @@ const CustomTyping = () => {
                             // console.log(perfectScore)
                             // console.log(done)
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
-                        
-                        <button onClick={()=>{
-                            // console.log(localStorage.getItem("token"))
-                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Check</button>
                     </div>
                 </>
             )}
