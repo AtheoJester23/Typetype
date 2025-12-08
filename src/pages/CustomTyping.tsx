@@ -10,6 +10,7 @@ import { setToken } from "../state/Token/tokenSlice";
 import { useParams } from "react-router-dom";
 import { type customsType } from "../components/ConfigurationCustom";
 import { setNumbers, setPunctuation } from "../state/Config/configSlice";
+import { prefetchDNS } from "react-dom";
 
 type customData = {
     _id: string, 
@@ -42,6 +43,7 @@ const CustomTyping = () => {
     const textRef = useRef<HTMLTextAreaElement>(null);
 
     const [input, setInput] = useState("");
+    const [started, setStarted] = useState(false);
     const textDisplayRef = useRef<HTMLDivElement>(null);
     
     const enter = (document.getElementById("userInput") as HTMLTextAreaElement);
@@ -59,7 +61,36 @@ const CustomTyping = () => {
 
     const handleFinish = () => {
         setInput("");
+        handleStop()
+        console.log("Na stop")
         setDone(true);
+    }
+
+    let startTime  = 0
+    let elapsedTime = 0;
+    let interval = null;
+
+    const handleStart = () => {
+        // console.log("Start");
+        // setStarted(true);
+        //Start timer
+        startTime = Date.now();
+
+        //Reset actual timer:
+        clearInterval(interval);
+
+        //Actual timer:
+        interval = setInterval(() => {
+            elapsedTime = (Date.now() - startTime) / 1000 //1 second;
+        }, 10) // update every 10 milisecond
+
+        console.log(elapsedTime);
+    }
+
+    const handleStop = () => {
+        // setStarted(false);
+        console.log((perfectScore / 5)/(elapsedTime / 60))
+        clearInterval(interval);
     }
 
     useEffect(()=>{
@@ -116,6 +147,8 @@ const CustomTyping = () => {
 
         setInput("");
 
+        console.log(perfectScore)
+
     }, [num, modes , reference, punctuationCheckbox, numbersCheckbox])
     
     useEffect(() => {
@@ -159,6 +192,7 @@ const CustomTyping = () => {
 
     useEffect(()=>{
         if(input.length != 0 && input.length == perfectScore){            
+            handleStop();
             const theReference = reference?.slice(0, input.length)
 
             const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
@@ -166,6 +200,11 @@ const CustomTyping = () => {
 
             setInput("");
             handleFinish();
+        }
+
+        if(input.length == 1){
+            handleStart();
+            console.log("testing")
         }
     }, [input])
 
@@ -192,13 +231,13 @@ const CustomTyping = () => {
                     </select>
         
                     <div className="flex gap-2 mx-2">
-                        <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold">
+                        <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold cursor-pointer">
                             <input type="checkbox" name="Punctuation" id="Punctuation" onChange={()=>dispatch(setPunctuation(!punctuationCheckbox))} defaultChecked={punctuationCheckbox} className="peer h-4 w-4 appearance-none rounded border border-white-300 checked:bg-green-600 checked:border-none" />
                             <span className={`select-none`}>
                                 Punctuation
                             </span>
                         </label>
-                        <label htmlFor="Numbers" className="text-white flex gap-2 items-center font-bold">
+                        <label htmlFor="Numbers" className="text-white flex gap-2 items-center font-bold cursor-pointer">
                             <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> dispatch(setNumbers(!numbersCheckbox))} defaultChecked={numbersCheckbox} className="peer h-4 w-4 appearance-none rounded border border-white-300 checked:bg-green-600 checked:border-none" />
                             <span className={`select-none`}>
                                 Numbers
@@ -252,7 +291,10 @@ const CustomTyping = () => {
             {reference && (
                 <>
                     {!done && (
-                        <textarea ref={textRef} value={input} onChange={(e) => setInput(e.target.value)} className="border border-black p-5 w-[90%] bg-white rounded-lg" id="userInput" autoComplete="none" autoCorrect="none"></textarea>
+                        <textarea ref={textRef} value={input} onChange={(e) => {
+                            setInput(e.target.value)
+                        }
+                    } className="border border-black p-5 w-[90%] bg-white rounded-lg" id="userInput" autoComplete="none" autoCorrect="none"></textarea>
                     )}
                         
                     
@@ -262,6 +304,14 @@ const CustomTyping = () => {
                             // console.log(perfectScore)
                             // console.log(done)
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Next</button>
+                        <button onClick={()=>{
+                            console.log("start");
+                            handleStart();
+                        }} className="bg-orange-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Start</button>
+                        <button onClick={()=>{
+                            console.log("stop");
+                            handleStop();
+                        }} className="bg-red-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Stop</button>
                     </div>
                 </>
             )}
