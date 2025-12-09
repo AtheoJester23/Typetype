@@ -43,7 +43,7 @@ const CustomTyping = () => {
     const textRef = useRef<HTMLTextAreaElement>(null);
 
     const [input, setInput] = useState("");
-    const [started, setStarted] = useState(false);
+    const [started, setStarted] = useState<number>(0);
     const textDisplayRef = useRef<HTMLDivElement>(null);
     
     const enter = (document.getElementById("userInput") as HTMLTextAreaElement);
@@ -77,20 +77,24 @@ const CustomTyping = () => {
         startTime = Date.now();
 
         //Reset actual timer:
-        clearInterval(interval);
+        // clearInterval(interval);
 
-        //Actual timer:
-        interval = setInterval(() => {
-            elapsedTime = (Date.now() - startTime) / 1000 //1 second;
-        }, 10) // update every 10 milisecond
+        // //Actual timer:
+        // interval = setInterval(() => {
+        //     elapsedTime = (Date.now() - startTime) / 1000 //1 second;
+        // }, 10) // update every 10 milisecond
 
-        console.log(elapsedTime);
+        // console.log(elapsedTime);
     }
 
     const handleStop = () => {
         // setStarted(false);
-        console.log((perfectScore / 5)/(elapsedTime / 60))
-        clearInterval(interval);
+        // console.log((perfectScore / 5)/(elapsedTime / 60))
+        // clearInterval(interval);
+
+        const elapsed = (Date.now() - started) / 1000; // seconds
+        const totalWPM = (((perfectScore / 5) / (elapsed / 60)).toFixed(2))
+        console.log(totalWPM);
     }
 
     useEffect(()=>{
@@ -203,7 +207,7 @@ const CustomTyping = () => {
         }
 
         if(input.length == 1){
-            handleStart();
+            setStarted(Date.now());
             console.log("testing")
         }
     }, [input])
@@ -275,7 +279,7 @@ const CustomTyping = () => {
                     </>
                 ) : done ? (
                     <>
-                        <Result/>
+                        <Result wpm={0}/>
                     </>
                 ) : (
                     <div className="block jusify-center items-center">
@@ -301,8 +305,6 @@ const CustomTyping = () => {
                     <div className="flex gap-2">
                         <button onClick={()=>{
                             handleNext();
-                            // console.log(perfectScore)
-                            // console.log(done)
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Next</button>
                         <button onClick={()=>{
                             console.log("start");
@@ -312,6 +314,10 @@ const CustomTyping = () => {
                             console.log("stop");
                             handleStop();
                         }} className="bg-red-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Stop</button>
+                        <button onClick={()=>{
+                            console.log("stop");
+                            console.log(started)
+                        }} className="bg-blue-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Check</button>
                     </div>
                 </>
             )}
