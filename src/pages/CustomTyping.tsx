@@ -227,7 +227,7 @@ const CustomTyping = () => {
                             setNum(modes.findIndex(item => item._id == e.target.value));
                         }}
                     >
-                            <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a mode</option>
+                            <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a topic</option>
                             {modes.length > 0 && (
                                 <>
                                     {modes.map(item => (

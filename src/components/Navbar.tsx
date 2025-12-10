@@ -1,4 +1,4 @@
-import { Keyboard, Moon, Plus, Sun, UserRound } from "lucide-react";
+import { Keyboard, Moon, Pencil, Sun, UserRound } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,7 +39,7 @@ const Navbar = () => {
 
                 {token && (
                     <Link to={"/custom"} className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
-                        <Plus/>
+                        <Pencil size={20}/>
                         Custom
                     </Link>
                 )}
