@@ -10,7 +10,6 @@ import { setToken } from "../state/Token/tokenSlice";
 import { useParams } from "react-router-dom";
 import { type customsType } from "../components/ConfigurationCustom";
 import { setNumbers, setPunctuation } from "../state/Config/configSlice";
-import { prefetchDNS } from "react-dom";
 
 type customData = {
     _id: string, 
@@ -67,27 +66,6 @@ const CustomTyping = () => {
         handleStop()
         console.log("Na stop")
         setDone(true);
-    }
-
-    let startTime  = 0
-    let elapsedTime = 0;
-    let interval = null;
-
-    const handleStart = () => {
-        // console.log("Start");
-        // setStarted(true);
-        //Start timer
-        startTime = Date.now();
-
-        //Reset actual timer:
-        // clearInterval(interval);
-
-        // //Actual timer:
-        // interval = setInterval(() => {
-        //     elapsedTime = (Date.now() - startTime) / 1000 //1 second;
-        // }, 10) // update every 10 milisecond
-
-        // console.log(elapsedTime);
     }
 
     const handleStop = () => {
