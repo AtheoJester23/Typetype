@@ -44,7 +44,11 @@ function App() {
                 <ViewAll/>
               </ProtectedRoute>
             }/>
-            <Route path='/Custom/:id' element={<CustomTyping/>}/>
+            <Route path='/Custom/:id' element={
+              <ProtectedRoute>
+                <CustomTyping/>
+              </ProtectedRoute>
+            }/>
             <Route path='/Signup' element={<SignUp/>}/>
             <Route path='/forgotPassword' element={<ForgotPassword/>}/>
             <Route path='*' element={<NonExistent/>}/>

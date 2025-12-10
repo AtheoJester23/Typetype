@@ -27,7 +27,11 @@ const Home = () => {
 
     const {theme} = useTheme();
     const [reference, setReference] = useState<string | null>(null)
-    const [num, setNum] = useState<number>(2);
+    const [num, setNum] = useState<number>(1);
+    
+    const [start, setStart] = useState<number>(0);
+    const [wpm, setWpm] = useState<number>(0);
+    const [time, setTime] = useState<number>(0);
 
     const textRef = useRef<HTMLTextAreaElement>(null);
 
@@ -51,6 +55,13 @@ const Home = () => {
         setInput("");
         dispatch(setDone(true));
     }
+
+    const handleStop = () => {
+        const elapsed = (Date.now() - start) / 1000;
+        const totalWPM = (((perfectScore / 5) / (elapsed / 60)).toFixed(2))
+        setWpm(Math.ceil(Number(totalWPM)));
+        setTime(Math.floor(elapsed));
+    } 
 
     useEffect(()=>{
         dispatch(fetchData());
@@ -149,9 +160,14 @@ const Home = () => {
 
             const theScore = theReference?.split('').map((item, index) => item === input[index]).filter(item => item === true).length;
             dispatch(setScore(theScore));
+            handleStop();
 
             setInput("");
             handleFinish();
+        }
+
+        if(input.length == 1){
+            setStart(Date.now());
         }
     }, [input])
 
@@ -189,7 +205,7 @@ const Home = () => {
                     </>
                 ): done ? (
                     <>
-                        <Result/>
+                        <Result wpm={wpm} time={time}/>
                     </>
                 ) : (
                     <div className="block jusify-center items-center">
@@ -216,7 +232,7 @@ const Home = () => {
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
                         
                         <button onClick={()=>{
-                            console.log(localStorage.getItem("token"))
+                            handleStop()
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Check</button>
                     </div>
                 </>

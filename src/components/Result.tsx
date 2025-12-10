@@ -34,7 +34,7 @@ const Result = ({wpm, time}: {wpm: number, time: number}) => {
                 </div>
 
                 <div className={`flex flex-col justify-center items-center border rounded-lg shadow ${theme == "light" ? "border-[rgba(184,180,180)] border-2 border-dashed" : "border-[rgb(11,11,11)] border-2 border-dashed"}`}>
-                    <h1 className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} text-7xl`}>{time}s</h1>
+                    <h1 className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} text-7xl`}>{time < 60 ? `${time}s` : time <= 3600 ? `${Math.floor(time / 60)}m` : `${Math.floor(time / 60)}h`}</h1>
                     <p className="text-green-500 font-bold">Time</p>
                 </div>
             </div>
