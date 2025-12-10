@@ -53,6 +53,16 @@
   flex-direction: column;
 }
 
+.profPage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  height: 100vh;
+  padding-top: 60px;
+  flex-direction: column;
+}
+
 .viewAll{
   display: flex;
   flex-direction: column;

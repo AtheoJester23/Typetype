@@ -69,10 +69,6 @@ const CustomTyping = () => {
     }
 
     const handleStop = () => {
-        // setStarted(false);
-        // console.log((perfectScore / 5)/(elapsedTime / 60))
-        // clearInterval(interval);
-
         const elapsed = (Date.now() - started) / 1000; // seconds
         const totalWPM = (((perfectScore / 5) / (elapsed / 60)).toFixed(2))
         setWpm(Math.ceil(Number(totalWPM)));
@@ -104,15 +100,6 @@ const CustomTyping = () => {
     }, [])
 
     useEffect(()=> {
-        // initial setting for the reference;
-        // if(modes.length < 1){
-        //     setReference("abcdefg")
-        //     setLoading(false)
-        // }else{
-        //     setReference("Something went wrong, try reloading the page...")
-        //     setLoading(false)
-        // }
-
         if(modes.length > 0){
             setReference("2 This next;")
 

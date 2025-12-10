@@ -1,7 +1,9 @@
 const Profile = () => {
     return (  
-        <div>
-            <p>123</p>
+        <div className="profPage">
+            <div className="bg-white">
+                <p>testing</p>
+            </div>
         </div>
     );
 }

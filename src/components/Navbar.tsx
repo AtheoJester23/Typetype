@@ -11,15 +11,6 @@ const Navbar = () => {
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate();
 
-    const handleAuth = () => {
-        if(!token){
-            navigate("/Login")
-        }else{
-            localStorage.removeItem("token");
-            dispatch(setToken(null))
-        }
-    }
-
     return (  
         <div className="Navbar">
             <div className="flex gap-2">
@@ -44,10 +35,17 @@ const Navbar = () => {
                     </Link>
                 )}
 
-                <button onClick={() => handleAuth()} className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
-                    
-                    {token ? <span className="flex gap-2"><UserRound/>Profile</span> : "Login"}
-                </button>
+                
+                {token ? (
+                            <Link to={"/Profile"} className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
+                                <span className="flex gap-2"><UserRound/>Profile</span>
+                            </Link> 
+                        ): (
+                            <Link to={"/Login"} className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
+                                <span className="flex gap-2"><UserRound/>Login</span>
+                            </Link> 
+                        )
+                }
             </div>
         </div>
     );

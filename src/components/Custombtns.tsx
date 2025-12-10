@@ -6,7 +6,7 @@ const Custombtns = () => {
     const {theme} = useTheme();
 
     return (  
-        <div className={`${theme == "dark" ? "text-white" : "text-black"} flex gap-5`}>
+        <div className={`${theme == "dark" ? "text-white" : "text-black"} grid gap-5 h-[50%] w-[50%]`}>
             <Link to={"/custom/create"} className={`flex flex-col justify-center items-center border rounded-xl p-5 gap-2 ${theme == "dark" ? "hover:bg-white hover:text-[rgb(23,23,23)]" : "hover:bg-black hover:text-white"} hover:text-[rgb(23,23,23)] hover:cursor-pointer duration-500`}>
                 <Plus/>
                 <strong>CREATE</strong>
