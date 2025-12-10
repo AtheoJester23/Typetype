@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../state/store";
+import { useTheme } from "../context/ThemeContext";
 
-const Result = ({wpm}: {wpm: number}) => {
+const Result = ({wpm, time}: {wpm: number, time: number}) => {
     const scoring = useSelector((state: RootState) => state.scoring.score)
     const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore);
+    const {theme} = useTheme();
 
     const handleAccurcacy = () => {
         const fractionPart: number = scoring / perfectScore;
@@ -19,14 +21,22 @@ const Result = ({wpm}: {wpm: number}) => {
     }
 
     return (  
-        <section className="resultContainer">
-            <h1 className="text-4xl font-mono text-white">Result</h1>
-            
-            <div>
-                <h1 className="text-white text-4xl">{wpm}</h1>
-                <h1 className="text-green-500">Your Score: {scoring}</h1>
-                <h1 className="text-green-500">Perfect Score: {perfectScore}</h1>
-                <p>Accuracy: {handleAccurcacy()}%</p>
+        <section className={`resultContainer ${theme === "light" ? "bg-white! border-none" : "bg-[rgb(23,23,23)]! border-none"}`}>            
+            <div className="stats">
+                <div className={`flex flex-col justify-center items-center border rounded-lg shadow ${theme == "light" ? "border-[rgba(184,180,180)] border-2 border-dashed" : "border-[rgb(11,11,11)] border-2 border-dashed"}`}>
+                    <h1 className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} text-7xl`}>{wpm}</h1>
+                    <p className="text-green-500 font-bold">WPM</p>
+                </div>
+                
+                <div className={`flex flex-col justify-center items-center border rounded-lg shadow ${theme == "light" ? "border-[rgba(184,180,180)] border-2 border-dashed" : "border-[rgb(11,11,11)] border-2 border-dashed"}`}>
+                    <h1 className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} text-7xl`}>{handleAccurcacy()}%</h1>
+                    <p className="text-green-500 font-bold">Accuracy</p>
+                </div>
+
+                <div className={`flex flex-col justify-center items-center border rounded-lg shadow ${theme == "light" ? "border-[rgba(184,180,180)] border-2 border-dashed" : "border-[rgb(11,11,11)] border-2 border-dashed"}`}>
+                    <h1 className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} text-7xl`}>{time}s</h1>
+                    <p className="text-green-500 font-bold">Time</p>
+                </div>
             </div>
         </section>
     );

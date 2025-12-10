@@ -44,6 +44,9 @@ const CustomTyping = () => {
 
     const [input, setInput] = useState("");
     const [started, setStarted] = useState<number>(0);
+    const [wpm, setWpm] = useState<number>(0)
+    const [time, setTime] = useState<number>(0)
+
     const textDisplayRef = useRef<HTMLDivElement>(null);
     
     const enter = (document.getElementById("userInput") as HTMLTextAreaElement);
@@ -94,7 +97,8 @@ const CustomTyping = () => {
 
         const elapsed = (Date.now() - started) / 1000; // seconds
         const totalWPM = (((perfectScore / 5) / (elapsed / 60)).toFixed(2))
-        console.log(totalWPM);
+        setWpm(Math.ceil(Number(totalWPM)));
+        setTime(Math.floor(elapsed));
     }
 
     useEffect(()=>{
@@ -279,7 +283,7 @@ const CustomTyping = () => {
                     </>
                 ) : done ? (
                     <>
-                        <Result wpm={0}/>
+                        <Result wpm={wpm} time={time}/>
                     </>
                 ) : (
                     <div className="block jusify-center items-center">
@@ -306,18 +310,6 @@ const CustomTyping = () => {
                         <button onClick={()=>{
                             handleNext();
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Next</button>
-                        <button onClick={()=>{
-                            console.log("start");
-                            handleStart();
-                        }} className="bg-orange-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Start</button>
-                        <button onClick={()=>{
-                            console.log("stop");
-                            handleStop();
-                        }} className="bg-red-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Stop</button>
-                        <button onClick={()=>{
-                            console.log("stop");
-                            console.log(started)
-                        }} className="bg-blue-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Check</button>
                     </div>
                 </>
             )}
