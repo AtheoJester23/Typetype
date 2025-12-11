@@ -230,10 +230,6 @@ const Home = () => {
                             console.log(perfectScore)
                             console.log(done)
                         }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Next</button>
-                        
-                        <button onClick={()=>{
-                            handleStop()
-                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer">Check</button>
                     </div>
                 </>
             )}

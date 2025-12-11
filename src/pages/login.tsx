@@ -13,7 +13,7 @@ const LoginPage = () => {;
             navigate("/Custom")
         }
 
-        console.log("This is token: ", token)
+        console.log("This is token123: ", token)
     }, [token])
 
     return (  

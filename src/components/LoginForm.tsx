@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -13,6 +13,7 @@ type cred = {
 const LoginForm = () => {
     const [show, setShow] = useState(false)    
     const dispatch = useDispatch<AppDispatch>()
+    const navigate = useNavigate();
 
     const getData = async(userCredentials: cred) => {
         try {
@@ -60,6 +61,8 @@ const LoginForm = () => {
         }
         
         getData(body);
+
+        navigate("/");
     }
 
     return (  

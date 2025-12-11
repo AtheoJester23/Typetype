@@ -13,6 +13,9 @@ const ViewAll = () => {
     const [collectionNames, setCollectionNames] = useState<namesCollectionType[]>([])
     const [loading, setLoading] = useState<boolean>(false)
 
+    //Selected Collection to be deleted:
+    const [selected, setSelected] = useState("")
+
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const testing = [
@@ -26,8 +29,32 @@ const ViewAll = () => {
 
     console.log(testing)
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         setIsOpen((prev) => !prev)
+        console.log(selected);
+
+        try {
+            const res = await fetch(import.meta.env.VITE_DELETE_COLLECTION + `/${userId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    collectionId: selected
+                })
+            })
+
+            if(!res.ok){
+                throw new Error(`${res.status}`)
+            }
+
+            const data = await res.json();
+            setCollectionNames(data.remainingCollections)
+
+            console.log(data);
+        } catch (error) {
+            console.error((error as Error).message)
+        }
     }
 
     useEffect(() => {
@@ -66,12 +93,15 @@ const ViewAll = () => {
                         {collectionNames.length > 0 && (
                             <>
                                 {collectionNames.map(item => (
-                                    <div className="relative">
-                                        <Link to={`/Custom/${item._id}`} key={item._id} className={`w-full flex justify-center items-center flex-col border ${theme == "light" ? "border-[rgb(23,23,23)] hover:bg-[rgb(23,23,23)] hover:text-white" : "text-white border-white hover:bg-white hover:text-[rgb(23,23,23)]"} rounded-xl p-5 gap-2 duration-500 relative`}>
+                                    <div className="relative" key={item._id}>
+                                        <Link to={`/Custom/${item._id}`} className={`w-full flex justify-center items-center flex-col border ${theme == "light" ? "border-[rgb(23,23,23)] hover:bg-[rgb(23,23,23)] hover:text-white" : "text-white border-white hover:bg-white hover:text-[rgb(23,23,23)]"} rounded-xl p-5 gap-2 duration-500 relative`}>
                                             <BookOpenText/>
                                             <span className={`rounded-xl w-full text-center font-bold`}>{item.name}</span>
                                         </Link>
-                                        <X onClick={() => setIsOpen(true)} className="absolute right-1 top-1 text-white cursor-pointer hover:bg-red-500 rounded-full" size={20}/>
+                                        <X onClick={() => {
+                                            setIsOpen(true)
+                                            setSelected(item._id)
+                                        }} className="absolute right-1 top-1 text-white cursor-pointer hover:bg-red-500 rounded-full" size={20}/>
                                     </div>
                                 ))}
                             </>
