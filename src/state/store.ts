@@ -5,6 +5,7 @@ import referenceReducer from "./references/referenceSlice"
 import configReducer from "./Config/configSlice"
 import tokenReducer from "./Token/tokenSlice"
 import collectionReducer from "./Collections/collectionSlice"
+import authReducer from "./AuthState/authSlice"
 
 const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
         fetching: referenceReducer,
         config: configReducer,
         token: tokenReducer,
-        collections: collectionReducer
+        collections: collectionReducer,
+        authState: authReducer
     }
 })
 
