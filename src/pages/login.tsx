@@ -10,7 +10,7 @@ const LoginPage = () => {;
 
     useEffect(()=>{
         if(token){
-            navigate("/Custom")
+            navigate("/")
         }
 
         console.log("This is token123: ", token)

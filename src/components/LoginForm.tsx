@@ -32,13 +32,15 @@ const LoginForm = () => {
 
             const data = await res.json();
 
-            console.log(data)
+            console.log(data.data.personalRecord)
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("userId", data.data._id);
             
             console.log("this is userId: ", data.data._id)
             dispatch(setToken(data.token));
+            navigate("/");
+            dispatch(setLog("pending"))
         } catch (error) {
             console.error("Failed to get the data: ", (error as Error).message)
             alert(`Invalid Email Address or Password`)
@@ -62,9 +64,6 @@ const LoginForm = () => {
         }
         
         getData(body);
-
-        navigate("/");
-        dispatch(setLog("pending"))
     }
 
     return (  
