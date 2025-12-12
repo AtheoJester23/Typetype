@@ -53,13 +53,13 @@
   flex-direction: column;
 }
 
-.profPage{
+.settingsPage{
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 30px;
   height: 100vh;
-  padding-top: 60px;
+  padding: 120px 60px 60px 60px;
   flex-direction: column;
 }
 

@@ -21,6 +21,11 @@ const Navbar = () => {
         dispatch(setToken(null));
     }
 
+    const handleSettings = () => {
+        setOpen(false);
+        navigate("/Settings")
+    }
+
     return (  
         <div className="Navbar">
             <div className="flex gap-2">
@@ -52,7 +57,7 @@ const Navbar = () => {
                                     <span className="flex gap-2"><UserRound/>Profile</span>
                                 </button> 
                                 <div className={`${open ? "visible" : "hidden"} flex flex-col bg-[rgb(23,23,23)] border border-white rounded-b absolute -bottom-17 right-0 left-0`}>
-                                    <button className="flex gap-1 items-center justify-center hover:text-[rgb(23,23,23)] p-1 text-white  hover:bg-white cursor-pointer">
+                                    <button onClick={() => handleSettings()} className="flex gap-1 items-center justify-center hover:text-[rgb(23,23,23)] p-1 text-white  hover:bg-white cursor-pointer">
                                         <Settings size={20}/>
                                         <span>Settings</span>
                                     </button>
