@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type initialType = {
-    value: "loggedOut" | "pending" | "loggedIn"
+    value: "loggedOut" | "pending" | "loggedIn",
 }
 
-const initialState = {
-    value: "loggedOut"
+const initialState: initialType = {
+    value: "loggedOut",
 }
 
 const authSlice = createSlice({
@@ -14,7 +14,8 @@ const authSlice = createSlice({
     reducers: {
         setLog(state, action){
             state.value = action.payload
-        }
+        },
+        
     }
 })
 

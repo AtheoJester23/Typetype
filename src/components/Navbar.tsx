@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { setToken } from "../state/Token/tokenSlice";
 import { useEffect, useState } from "react";
-import { setLog } from "../state/AuthState/authSlice";
+import { setLog} from "../state/AuthState/authSlice";
 
 const Navbar = () => {
     const {theme, toggleTheme} = useTheme();
@@ -19,9 +19,12 @@ const Navbar = () => {
     const handleLogOut = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
+        localStorage.removeItem("email");
+        localStorage.removeItem("username");
         setOpen(false)
         navigate("/")
         dispatch(setToken(null));
+        dispatch(setLog("loggedOut"))
     }
 
     const handleSettings = () => {

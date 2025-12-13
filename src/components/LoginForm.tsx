@@ -32,11 +32,13 @@ const LoginForm = () => {
 
             const data = await res.json();
 
-            console.log(data.data.personalRecord)
+            console.log(data)
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("userId", data.data._id);
-            
+            localStorage.setItem("username", data.data.username);
+            localStorage.setItem("email", data.data.email);
+
             console.log("this is userId: ", data.data._id)
             dispatch(setToken(data.token));
             navigate("/");
@@ -73,7 +75,7 @@ const LoginForm = () => {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
                     <label htmlFor="email" className="text-gray-500">Email: </label>
-                    <input type="text" name="email" id="email" className="border border-gray-500 rounded p-[10px]" placeholder="Enter email address" defaultValue={"atheojester@gmail.com"}/>
+                    <input type="text" name="email" id="email" className="border border-gray-500 rounded p-[10px]" placeholder="Enter email address" defaultValue={"gumanaba2@gmail.com"}/>
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="password" className="text-gray-500">Password: </label>
