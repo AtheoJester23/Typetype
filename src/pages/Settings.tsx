@@ -30,7 +30,7 @@ const Settings = () => {
 
             const data = await res.json();
 
-            //Remove all local data from the user:
+            //Remove all localStorage data from the user:
             localStorage.clear();
             dispatch(setToken(null));
             navigate("/")

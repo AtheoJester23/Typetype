@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch} from "../state/store";
 import { setToken } from "../state/Token/tokenSlice";
 import { setLog } from "../state/AuthState/authSlice";
+import { toast, ToastContainer } from "react-toastify";
+import { useTheme } from "../context/ThemeContext";
 
 type cred = {
     email: String,
@@ -12,6 +14,8 @@ type cred = {
 }
 
 const LoginForm = () => {
+    const { theme } = useTheme();
+
     const [show, setShow] = useState(false)    
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate();
@@ -45,7 +49,7 @@ const LoginForm = () => {
             dispatch(setLog("pending"))
         } catch (error) {
             console.error("Failed to get the data: ", (error as Error).message)
-            alert(`Invalid Email Address or Password`)
+            toast.error(`Invalid Email Address or Password`)
         }
     }
 
@@ -100,6 +104,7 @@ const LoginForm = () => {
             <p className="text-center">
                 Don't have an account? <Link to={'/Signup'} className="text-green-500">Sign Up</Link>
             </p>
+            <ToastContainer theme={theme == 'dark' ? "dark" : 'light'}/>
         </form>
     );
 }
