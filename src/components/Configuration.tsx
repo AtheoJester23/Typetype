@@ -45,13 +45,13 @@ const Configuration = ({reference}: {reference: String}) => {
             <div className="flex gap-2 mx-2">
                 <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold">
                     <input type="checkbox" name="Punctuation" id="Punctuation" onChange={()=>dispatch(setPunctuation(!punctuationCheckbox))} defaultChecked={punctuationCheckbox} className="peer h-4 w-4 appearance-none rounded border border-white-300 checked:bg-green-600 checked:border-none"/>
-                    <span className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} select-none`}>
+                    <span className={`text-white select-none`}>
                         Punctuation
                     </span>
                 </label>
                 <label htmlFor="Numbers" className="text-white flex gap-2 items-center font-bold">
                     <input type="checkbox" name="Numbers" id="Numbers" onChange={()=> dispatch(setNumbers(!numbersCheckbox))} defaultChecked={numbersCheckbox} className="peer h-4 w-4 appearance-none rounded border border-white-300 checked:bg-green-600 checked:border-none"/>
-                    <span className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"} select-none`}>
+                    <span className={`text-white select-none`}>
                         Numbers
                     </span>
                 </label>
