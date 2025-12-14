@@ -177,7 +177,7 @@ const Home = () => {
                 <Configuration reference={reference!}/>
             )}
             
-            <div className="refCont" id="textDisplay" ref={textDisplayRef}>
+            <div className="refCont select-none" id="textDisplay" ref={textDisplayRef}>
                 {reference && !loading && !done ? (
                     <>
                         {reference.split("").map((char, index) => {
