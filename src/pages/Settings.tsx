@@ -2,6 +2,7 @@ import { User } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../state/store";
 import { useTheme } from "../context/ThemeContext";
+import { Dialog } from "@headlessui/react";
 
 const Settings = () => {
     const {theme}= useTheme();
@@ -29,6 +30,9 @@ const Settings = () => {
                     </div>
                 </div>
             </div>
+            <Dialog open={false} onClose={() => {}}>
+                <div className='fixed inset-0 bg-black/30'></div>
+            </Dialog>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { BookOpenText, TriangleAlert, X} from "lucide-react";
+import { BookOpenText, PlusCircle, TriangleAlert, X} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useEffect, useState } from "react";
@@ -89,9 +89,9 @@ const ViewAll = () => {
                 <>
                     <h1 className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} text-center font-bold text-4xl duration-500`}>Collections:</h1>
 
-                    <div className="customContainer">
-                        {collectionNames.length > 0 && (
-                            <>
+                    <>
+                        {collectionNames.length > 0 ? (
+                            <div className="customContainer">
                                 {collectionNames.map(item => (
                                     <div className="relative" key={item._id}>
                                         <Link to={`/Custom/${item._id}`} className={`w-full flex justify-center items-center flex-col border ${theme == "light" ? "border-[rgb(23,23,23)] hover:bg-[rgb(23,23,23)] hover:text-white" : "text-white border-white hover:bg-white hover:text-[rgb(23,23,23)]"} rounded-xl p-5 gap-2 duration-500 relative`}>
@@ -104,9 +104,18 @@ const ViewAll = () => {
                                         }} className="absolute right-1 top-1 text-white cursor-pointer hover:bg-red-500 rounded-full" size={20}/>
                                     </div>
                                 ))}
-                            </>
+                            </div>
+                        ) : (
+                            <div className="justify-center items-center flex flex-col h-full gap-5">
+                                <Link to={"/custom/create"} className={`flex flex-col gap-5  text-center ${theme == 'dark' ? "text-white" : "text-[rgb(23,23,23)]"}`}>
+                                    <div className="border py-7 px-20 rounded cursor-pointer hover:-translate-y-1 duration-500">
+                                        <PlusCircle size="100%" className="max-sm:w-[20px] sm:w-[100px]"/>
+                                    </div>
+                                </Link>
+                                <p className={`text-gray-500 font-bold`}>No collection yet...</p>
+                            </div>
                         )}
-                    </div>
+                    </>
                 </>
             ) }
             <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
