@@ -101,7 +101,7 @@ const ViewAll = () => {
                                         <X onClick={() => {
                                             setIsOpen(true)
                                             setSelected(item._id)
-                                        }} className="absolute right-1 top-1 text-white cursor-pointer hover:bg-red-500 rounded-full" size={20}/>
+                                        }} className={`absolute right-1 top-1 ${theme == "light" ? "text-[rgb(11,11,11)]" : "text-white"} cursor-pointer hover:bg-red-500 rounded-full duration-200`} size={20}/>
                                     </div>
                                 ))}
                             </div>
