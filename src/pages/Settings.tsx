@@ -6,6 +6,7 @@ import { Description, Dialog, DialogDescription, DialogPanel, DialogTitle } from
 import { useState } from "react";
 import { setToken } from "../state/Token/tokenSlice";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const Settings = () => {
     //Delete user
@@ -28,14 +29,13 @@ const Settings = () => {
                 throw new Error(`${res}`)
             }
 
-            const data = await res.json();
-
             //Remove all localStorage data from the user:
             localStorage.clear();
             dispatch(setToken(null));
             navigate("/")
         } catch (error) {
             console.error((error as Error).message)
+            toast.error("Something went wrong while deleting your account.")
         }
     }
 
@@ -83,6 +83,7 @@ const Settings = () => {
                     </DialogPanel>
                 </div>
             </Dialog>
+            <ToastContainer theme={theme == "dark" ? "dark" : "light"}/>
         </div>
     );
 }

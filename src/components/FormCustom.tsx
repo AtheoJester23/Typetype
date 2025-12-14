@@ -4,6 +4,7 @@ import { Plus, X } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../state/store";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 export type namesCollectionType = {
   _id: string,
@@ -105,7 +106,7 @@ const FormCustom = () => {
 
     // Stop function if there's an error;
     if(Object.values(currentErrors).includes(true)){
-      console.log("There's an error")
+      toast.error("Please fix the errors in the form before submitting.")
       return;
     }
     
@@ -201,6 +202,7 @@ const FormCustom = () => {
         <div className="flex w-full justify-end mt-7">
             <button className="text-white font-bold w-auto bg-green-500 py-2 px-5 rounded-full cursor-pointer -translate-y-0.5 hover:translate-none duration-200">Submit</button>
         </div>
+      <ToastContainer theme={theme == "dark" ? "dark" : "light"}/>
     </form>
   )
 }
