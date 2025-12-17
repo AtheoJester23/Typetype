@@ -9,8 +9,9 @@ import { toast, ToastContainer } from "react-toastify";
 import { useTheme } from "../context/ThemeContext";
 
 type cred = {
-    email: String,
-    password: String
+    email: string,
+    password: string
+    rememberMe: boolean
 }
 
 const LoginForm = () => {
@@ -59,14 +60,18 @@ const LoginForm = () => {
         const formData = new FormData(e.currentTarget);
         const email = formData.get("email") as string
         const password = formData.get("password") as string;
+        const rememberMe = formData.get("rememberMe") as boolean | null;
 
         console.log("Email: ", email);
         console.log("Password: ", password);
+        console.log("Remember Me:", rememberMe ? true : false)
         
-        
+        // return;
+
         const body: cred = {
             email,
-            password
+            password,
+            rememberMe: rememberMe ? true : false 
         }
         
         getData(body);
