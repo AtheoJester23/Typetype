@@ -10,6 +10,7 @@ import { setToken } from "../state/Token/tokenSlice";
 import { useParams } from "react-router-dom";
 import { type customsType } from "../components/ConfigurationCustom";
 import { setNumbers, setPunctuation } from "../state/Config/configSlice";
+import { ArrowRight, Trash } from "lucide-react";
 
 type customData = {
     _id: string, 
@@ -270,10 +271,17 @@ const CustomTyping = () => {
                     )}
                         
                     
-                    <div className="flex gap-2">
+                    <div className="flex gap-3 justify-center items-center">
                         <button onClick={()=>{
                             handleNext();
-                        }} className="bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none">Next</button>
+                        }} className={`flex gap-2  ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-green-500 text-black font-bold py-2 px-5 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer select-none`}>
+                            <ArrowRight/>
+                            Next
+                        </button>
+                        <div className={`flex gap-2 font-bold ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-red-500 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer p-2`}>
+                            <Trash/>
+                            <p>Delete</p>
+                        </div>
                     </div>
                 </>
             )}
