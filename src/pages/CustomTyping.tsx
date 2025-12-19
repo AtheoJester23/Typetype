@@ -77,8 +77,7 @@ const CustomTyping = () => {
 
     useEffect(()=>{
         dispatch(fetchData());
-        dispatch(setToken(localStorage.getItem("token")))
-    
+        
         const getAllCustoms = async () => {
             try {
                 const res = await fetch(import.meta.env.VITE_GET_COLLECTIONS + `/${userId}`);

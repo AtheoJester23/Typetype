@@ -16,15 +16,31 @@ const Navbar = () => {
     const authState = useSelector((state: RootState) => state.authState.value)
 
 
-    const handleLogOut = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("email");
-        localStorage.removeItem("username");
-        setOpen(false)
-        navigate("/")
-        dispatch(setToken(null));
-        dispatch(setLog("loggedOut"))
+    const handleLogOut = async () => {
+        try {
+            const res = await fetch(import.meta.env.VITE_TEST_LOGOUT, {
+                method: "POST",
+                credentials: "include"                
+            })
+
+            if(!res.ok){
+                throw new Error(`${res.status}`);
+            }
+
+            const data = await res.json();
+
+            console.log(data);
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("email");
+            localStorage.removeItem("username");
+            setOpen(false)
+            navigate("/")
+            dispatch(setToken(null));
+            dispatch(setLog("loggedOut"))
+        } catch (error) {
+            console.error((error as Error).message)
+        }
     }
 
     const handleSettings = () => {

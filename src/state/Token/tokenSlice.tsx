@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type theToken = {
-    token: String | null,
-    expiration: String | null
+    token: string | null,
+    expiration: string | null
 }
 
 const initialState: theToken = {

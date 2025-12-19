@@ -23,12 +23,13 @@ const LoginForm = () => {
 
     const getData = async(userCredentials: cred) => {
         try {
-            const res = await fetch(import.meta.env.VITE_LOGIN, {
+            const res = await fetch(import.meta.env.VITE_TEST_LOGIN, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(userCredentials)
+                credentials: "include",
+                body: JSON.stringify(userCredentials),
             });
             
             if(!res.ok){
@@ -39,7 +40,6 @@ const LoginForm = () => {
 
             console.log(data)
 
-            localStorage.setItem("token", data.token);
             localStorage.setItem("userId", data.data._id);
             localStorage.setItem("username", data.data.username);
             localStorage.setItem("email", data.data.email);
@@ -84,7 +84,7 @@ const LoginForm = () => {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
                     <label htmlFor="email" className="text-gray-500">Email: </label>
-                    <input type="text" name="email" id="email" className="border border-gray-500 rounded p-[10px]" placeholder="Enter email address" defaultValue={"gumanaba2@gmail.com"}/>
+                    <input type="text" name="email" id="email" className="border border-gray-500 rounded p-[10px]" placeholder="Enter email address" defaultValue={"atheojester@gmail.com"}/>
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="password" className="text-gray-500">Password: </label>
