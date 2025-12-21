@@ -7,10 +7,12 @@ import {  setPerfectScore, setScore} from "../state/Scoring/scoring";
 import Result from "../components/Result";
 import { fetchData} from "../state/references/referenceSlice";
 import { setToken } from "../state/Token/tokenSlice";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { type customsType } from "../components/ConfigurationCustom";
 import { setNumbers, setPunctuation } from "../state/Config/configSlice";
-import { ArrowRight, Trash } from "lucide-react";
+import { ArrowRight, Plus, Trash, TriangleAlert } from "lucide-react";
+import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { toast, ToastContainer } from "react-toastify";
 
 type customData = {
     _id: string, 
@@ -23,7 +25,7 @@ type customData = {
 
 const CustomTyping = () => {
     // Redux state and dispatch
-    const [loading, _] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const [done, setDone] = useState<boolean>(false)
 
     const scoring = useSelector((state: RootState) => state.scoring.score)
@@ -76,11 +78,41 @@ const CustomTyping = () => {
         setTime(Math.floor(elapsed));
     }
 
+    const [isOpen, setIsOpen] = useState(false);
+    const [selected, setSelected] = useState("")
+    const navigate = useNavigate();
+
+    const handleDelete = async () => {
+        try {
+            const res = await fetch(import.meta.env.VITE_TEST_DELETETOPIC + `/${selected}`, {
+                method: "DELETE"
+            })
+
+            if(!res.ok){
+                throw new Error(`${res.status}`)
+            }
+
+            const data = await res.json();
+
+            navigate("/custom/viewAll")
+
+            console.log(data)
+            toast.success('Successfully deleted the topic.')
+        } catch (error) {
+            console.error((error as Error).message)
+            toast.error("Failed to delete the topic")
+        }finally{
+            setIsOpen(false)
+        }
+    }
+
     useEffect(()=>{
         dispatch(fetchData());
         
         const getAllCustoms = async () => {
             try {
+                setLoading(true)
+                
                 const res = await fetch(import.meta.env.VITE_GET_COLLECTIONS + `/${userId}`);
 
                 if(!res.ok){
@@ -91,8 +123,12 @@ const CustomTyping = () => {
 
                 const filteredData: customData[] = data.data.filter((item: customsType) => item.collectionId == id);
                 setModes(filteredData)
+
+                console.log("This data: ", filteredData.length)
             } catch (error) {
                 console.error((error as Error).message)
+            }finally{
+                setLoading(false)
             }
         }
 
@@ -105,15 +141,19 @@ const CustomTyping = () => {
 
             if(punctuationCheckbox && numbersCheckbox){
                 setReference(modes[num].content)
+                setSelected(modes[num]._id)
                 dispatch(setPerfectScore(modes[num].content.length));
             }else if(punctuationCheckbox && !numbersCheckbox ){
                 setReference(modes[num].content.replace(/^[^a-z]+/gi, "").replace(/[ ]/gi, " ").replace(/[0-9]/gi, "").trim())
+                setSelected(modes[num]._id)
                 dispatch(setPerfectScore(modes[num].content.replace(/^[^a-z]+/gi, "").replace(/[0-9 ]/gi, " ").trim().length));
             }else if(!punctuationCheckbox && numbersCheckbox){
                 setReference(modes[num].content.trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, ""))
+                setSelected(modes[num]._id)
                 dispatch(setPerfectScore(modes[num].content.trim().toLocaleLowerCase().replace(/[^0-9a-z ]/g, "").length));
             }else{
                 setReference(modes[num].content.trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim())
+                setSelected(modes[num]._id)
                 dispatch(setPerfectScore(modes[num].content.trim().toLocaleLowerCase().replace(/[^a-z ]/gi, "").trim().length));
             }
         }
@@ -183,12 +223,15 @@ const CustomTyping = () => {
 
     return (  
         <div className="flex justify-center items-center h-screen flex-col gap-5">
-            {!done && (
+            {!loading && modes.length > 0 ? (
+                <>
+                    {!done && (
                 <div className="flex justify-center items-center border bg-black rounded shadow-xl">
                     <select 
                         className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
                         defaultValue="default" 
                         onChange={(e)=>{
+                            setSelected(e.target.value)
                             setNum(modes.findIndex(item => item._id == e.target.value));
                         }}
                     >
@@ -278,13 +321,56 @@ const CustomTyping = () => {
                             <ArrowRight/>
                             Next
                         </button>
-                        <div className={`flex gap-2 font-bold ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-red-500 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer p-2`}>
+                        <div onClick={() => setIsOpen(true)} className={`flex gap-2 font-bold ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-red-500 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer p-2`}>
                             <Trash/>
                             <p>Delete</p>
                         </div>
+                        <button onClick={() => console.log(modes.length)} className="text-white font-bold">
+                            Testing
+                        </button>
                     </div>
                 </>
             )}
+                </>
+            ) : loading ? (
+                <div>
+                    <div className="flex justify-center items-center">
+                        <ClipLoader color={theme === "dark" ? "#ffffff" : "#000000"} size={50} />
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <Link to={"/custom/create"} className={`text-white font-bold text-4xl flex flex-col justify-center items-center border px-10 py-2 rounded -translate-y-1 hover:translate-none duration-500 cursor-pointer`}>
+                        <Plus size="100%" className="w-[100px]"/>
+                    </Link>
+                    <p className={`text-gray-500 font-bold`}>No topics yet in this collection.</p>
+                </>
+            )}
+
+            <ToastContainer theme={theme == "dark" ? "dark" : "light"}/>
+            <Dialog open={isOpen} onClose={() => {setIsOpen(false)}}>
+                <div className='fixed inset-0 bg-black/30'></div>
+            
+                <div className='fixed inset-0 flex w-screen items-center justify-center p-4'>
+                    <DialogPanel className="mx-auto max-w-sm rounded bg-white p-5 max-sm:w-[90%] sm:w-[50%]">
+                        <div className='flex justify-center flex-col items-center gap-3'>
+                            <TriangleAlert size={100} className='text-red-500'/>
+                            <div className='text-center'>
+                                <DialogTitle className="text-2xl font-bold">Are you sure?</DialogTitle>
+                                <Description className="text-gray-500">Warning: This action cannot be undone.</Description>
+                            </div>
+                            <div className='flex gap-3'>
+                                <button 
+                                    className='px-5 py-2 bg-red-500 text-white rounded-full cursor-pointer hover:bg-red-600 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' 
+                                    onClick={() => handleDelete()}>
+                                        Yes
+                                </button>
+                                <button className='px-5 py-2 bg-gray-500 text-white rounded-full cursor-pointer hover:bg-gray-600 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' onClick={() => setIsOpen(false)}>Cancel</button>
+                            </div>
+                        </div>
+                    </DialogPanel>
+                </div>
+            </Dialog>
         </div>
     );
 }
