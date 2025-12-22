@@ -1,12 +1,17 @@
-import { Pencil, TriangleAlert, User } from "lucide-react";
+import { Eye, EyeClosed, Keyboard, Pencil, TriangleAlert, User, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { useTheme } from "../context/ThemeContext";
 import { Description, Dialog, DialogDescription, DialogPanel, DialogTitle } from "@headlessui/react";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { setToken } from "../state/Token/tokenSlice";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+
+type updateTypes = {
+    username: string | null,
+    email: string | null
+}
 
 const Settings = () => {
     //Delete user
@@ -17,10 +22,75 @@ const Settings = () => {
 
     //Edit user details:
     const [edit, setEdit] = useState(false);
+    const [submitEdit, setSubmitEdit] = useState(false);
+    const [show, setShow] = useState(false);
+    const [inputs, setInputs] = useState<updateTypes>({username: null, email: null})
+
 
     const {theme}= useTheme();
     const username = localStorage.getItem("username");
     const email = localStorage.getItem("email");
+
+    const handleEdit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        console.log("testing")
+
+        const formData = new FormData(e.currentTarget);
+        const username = formData.get("username") as string
+        const email = formData.get("email") as string;
+
+        if((!username || username.replace(/[ ]/g, "") == "") && (!email || email.replace(/[ ]/g, "") == "")){
+            setEdit(false)
+            toast.error("No changes detected.")
+            return
+        }
+
+        setInputs((prev) => ({...prev, username: username, email: email}))
+
+        console.log(`${username}, ${email}`)
+
+        setSubmitEdit(true)
+    }
+
+    const confirmEdit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const password = formData.get("password")
+
+        console.log(`password: ${password}`)
+
+        try {
+             const res = await fetch(import.meta.env.VITE_USER + `/${userId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: inputs.username,
+                    email: inputs.email,
+                    oldPassword: password
+                })
+             })
+
+             if(!res.ok){
+                throw new Error(`${res}`)
+             }
+
+             const data = await res.json();
+             
+             console.log(data);
+
+             toast.success("User details updated successfully.")
+            setEdit(false);
+            setSubmitEdit(false);
+             navigate("/")
+        } catch (error) {
+            console.error((error as Error).message)
+            toast.error(`Something went wrong.`)
+        }
+    }
 
     const handleDelete = async () => {
         try {
@@ -44,7 +114,7 @@ const Settings = () => {
 
     return (  
         <div className="settingsPage">
-            {edit ? (
+            {!edit ? (
                 <>
                     <div className="border border-green-500 border-3 border-dashed rounded-t-xl  w-full h-full flex items-center justify-center text-white">
                         <div className="flex flex-col justify-center items-center gap-3">
@@ -59,9 +129,8 @@ const Settings = () => {
                                 <div>
                                     <p><strong>Username: </strong>{username}</p>
                                     <p><strong>Email: </strong>{email}</p>
-                                    <label>Password: *****</label>
                                 </div>
-                                <button className="absolute top-3 right-3">
+                                <button onClick={() => setEdit(true)} className="absolute top-3 right-3">
                                     <Pencil className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-[rgb(23,23,23)]"} cursor-pointer duration-500`}/>
                                 </button>
                                 <button onClick={() => setIsOpen(true)} className="bg-red-500 px-5 rounded-full cursor-pointer w-full">Delete Account</button>
@@ -81,20 +150,26 @@ const Settings = () => {
                         <User className="w-[25%] h-[75%]"/>
                         <div className="flex flex-col justify-center items-center">
                             <div>
-                                <div>
-                                    <p><strong>Username: </strong>{username}</p>
-                                    <p><strong>Email: </strong>{email}</p>
-                                    <label>Password: *****</label>
-                                </div>
-                                <button className="absolute top-3 right-3">
-                                    <Pencil className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-gray-500 hover:text-black"} cursor-pointer duration-500`}/>
+                                <form onSubmit={(e) => handleEdit(e)} className="flex flex-col gap-2">
+                                    <div className="relative">
+                                        <small className="absolute top-1 left-3 select-none">Username:</small>
+                                        <input name="username" type="text" placeholder={`${username}`} className="border px-3 pt-5.5 py-2 rounded "/>
+                                    </div>
+                                    <div className="relative">
+                                        <small className="absolute top-1 left-3 select-none">Email:</small>
+                                        <input name="email" type="text" placeholder={`${email}`} className="border px-3 pt-5.5 py-2 rounded "/>
+                                    </div>
+                                    <button className="bg-green-500 px-5 py-2 border border-white rounded cursor-pointer w-full text-white font-bold -translate-y-0.5 hover:translate-none duration-300">Submit</button>
+                                </form>
+                                <button onClick={() => setEdit(false)} className="absolute top-3 right-3">
+                                    <X className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-gray-500 hover:text-black"} cursor-pointer duration-500`}/>
                                 </button>
-                                <button onClick={() => setIsOpen(true)} className="bg-red-500 px-5 rounded-full cursor-pointer w-full">Delete Account</button>
                             </div>
                         </div>
                     </div>
                 </>
             )}
+            <ToastContainer theme={theme == "dark" ? "dark" : "light"  }/>
             <Dialog open={isOpen} onClose={() => {setIsOpen(false)}}>
                 <div className='fixed inset-0 bg-black/30'></div>
             
@@ -118,7 +193,36 @@ const Settings = () => {
                     </DialogPanel>
                 </div>
             </Dialog>
-            <ToastContainer theme={theme == "dark" ? "dark" : "light"}/>
+            <Dialog open={submitEdit} onClose={() => {setSubmitEdit(false)}}>
+                <div className='fixed inset-0 bg-black/30'></div>
+            
+                <div className='fixed inset-0 flex w-screen items-center justify-center p-4'>
+                    <DialogPanel className="mx-auto max-w-sm rounded bg-white p-5 max-sm:w-[90%] sm:w-[50%]">
+                        <form onSubmit={(e) => confirmEdit(e)} className='flex justify-center flex-col items-center gap-3'>
+                            <Keyboard size={100} className='text-gray-500'/>
+                            <div className='text-center'>
+                                <DialogTitle className="font-bold">To continue, first verify it’s you</DialogTitle>
+                                <div className="relative">
+                                    <input type={show ? "text" : "password"} name="password" className="w-full border border-gray-500 p-3 rounded select-none" placeholder="*******"/>
+                                    {show ? (
+                                        <Eye onClick={() => setShow((prev) => !prev)} className="absolute right-2 top-3 cursor-pointer"/>
+                                    ):(
+                                       <EyeClosed onClick={() => setShow((prev) => !prev)} className="absolute right-2 top-3 cursor-pointer"/>
+                                    )}
+                                </div>
+                            </div>
+                            <div className='flex gap-3'>
+                                <button type="submit" className='px-5 py-2 bg-green-500 text-white rounded-full cursor-pointer hover:bg-red-600 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' >
+                                        <span className="select-none">
+                                            Continue
+                                        </span>
+                                </button>
+                                <button type="button" className='px-5 py-2 bg-gray-500 text-white rounded-full cursor-pointer hover:bg-gray-600 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' onClick={() => setSubmitEdit(false)}>Cancel</button>
+                            </div>
+                        </form>
+                    </DialogPanel>
+                </div>
+            </Dialog>
         </div>
     );
 }
