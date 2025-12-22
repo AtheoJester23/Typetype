@@ -75,20 +75,35 @@ const Settings = () => {
              })
 
              if(!res.ok){
-                throw new Error(`${res}`)
+                throw new Error(`${res.status}`)
              }
 
              const data = await res.json();
              
              console.log(data);
 
-             toast.success("User details updated successfully.")
+            toast.success("User details updated successfully.")
             setEdit(false);
             setSubmitEdit(false);
-             navigate("/")
+            if(inputs.username){
+                localStorage.setItem("username", inputs.username);
+            }
+            if(inputs.email){
+                localStorage.setItem("email", inputs.email);
+            }
+            // navigate("/")
         } catch (error) {
-            console.error((error as Error).message)
-            toast.error(`Something went wrong.`)
+            if (error instanceof Error) {
+                console.error(error.message);
+
+                if (error.message.includes("401")) {
+                    toast.error("Incorrect password. Please try again.");
+                } else {
+                    toast.error("Something went wrong while updating your details.");
+                }
+            } else {
+                toast.error("An unexpected error occurred.");
+            }
         }
     }
 
