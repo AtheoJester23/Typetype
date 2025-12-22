@@ -14,7 +14,7 @@ const Home = () => {
     const loading = useSelector((state: RootState) => state.loading.isLoading);
     const scoring = useSelector((state: RootState) => state.scoring.score)
     const perfectScore = useSelector((state: RootState) => state.scoring.perfectScore)
-    const done = useSelector((state: RootState) => state.scoring.done)
+    const [done, setDone] = useState<boolean>(false)
     const dispatch = useDispatch<AppDispatch>()
     const theRef = useSelector((state: RootState) => state.fetching.mode);
 
@@ -51,13 +51,13 @@ const Home = () => {
     const handleNext = () => {
         setInput("");
         setNum(prev => prev < 10 ? prev + 1 : 1);
-        dispatch(setDone(false));
+        setDone(false);
         dispatch(setScore(0));
     }
 
     const handleFinish = () => {
         setInput("");
-        dispatch(setDone(true));
+        setDone(true);
     }
 
     const newPR = async (personalRecord: number) => {

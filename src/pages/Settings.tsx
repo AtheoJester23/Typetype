@@ -1,4 +1,4 @@
-import { Eye, EyeClosed, Keyboard, Pencil, Trash, TriangleAlert, User, X } from "lucide-react";
+import { Eye, EyeClosed, Heart, Keyboard, Pencil, Trash, TriangleAlert, User, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { useTheme } from "../context/ThemeContext";
@@ -163,7 +163,7 @@ const Settings = () => {
                 <>
                     <div className="border border-green-500 border-3 border-dashed rounded-t-xl  w-full h-full flex items-center justify-center text-white">
                         <div className="flex flex-col justify-center items-center gap-3">
-                            <h1 className="text-green-500 font-bold text-5xl">129wpm</h1>
+                            <h1 className="text-green-500 font-bold text-5xl">{pb ?? 0} wpm</h1>
                             <p className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"}`}>Personal Best</p>
                         </div>
                     </div>
@@ -190,6 +190,14 @@ const Settings = () => {
                     </div>
                 </>
             )}
+            
+            <div>
+                <button className={`${theme == "dark" ? "text-[rgb(23,23,23)]" : "text-gray-500"} flex gap-2`}>
+                    <Heart/>
+                    <span>Donate</span>
+                </button>
+            </div>
+
             <ToastContainer theme={theme == "dark" ? "dark" : "light"  }/>
             <Dialog open={isOpen} onClose={() => {setIsOpen(false)}}>
                 <div className='fixed inset-0 bg-black/30'></div>
