@@ -1,4 +1,4 @@
-import { Eye, EyeClosed, Keyboard, Pencil, TriangleAlert, User, X } from "lucide-react";
+import { Eye, EyeClosed, Keyboard, Pencil, Trash, TriangleAlert, User, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { useTheme } from "../context/ThemeContext";
@@ -140,15 +140,19 @@ const Settings = () => {
                     <div className={`border ${theme == "light" ? "border-[rgb(172,172,172)]" : "border-[rgb(18,18,18)]"} border-3 flex justify-center items-center border-dashed rounded-b-xl  w-full h-full ${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} relative`}>
                         <User className="w-[25%] h-[75%]"/>
                         <div className="flex flex-col justify-center items-center">
-                            <div>
-                                <div>
+                            <div className="flex flex-col gap-5">
+                                <div className="flex flex-col gap-5">
                                     <p><strong>Username: </strong>{username}</p>
                                     <p><strong>Email: </strong>{email}</p>
                                 </div>
-                                <button onClick={() => setEdit(true)} className="absolute top-3 right-3">
-                                    <Pencil className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-[rgb(23,23,23)]"} cursor-pointer duration-500`}/>
-                                </button>
-                                <button onClick={() => setIsOpen(true)} className="bg-red-500 px-5 rounded-full cursor-pointer w-full">Delete Account</button>
+                                <div className="absolute top-5 right-5 flex gap-3">
+                                    <button onClick={() => setEdit(true)}>
+                                        <Pencil className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-[rgb(23,23,23)]"} cursor-pointer duration-500`}/>
+                                    </button>
+                                    <button onClick={() => setIsOpen(true)} >
+                                        <Trash className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-[rgb(23,23,23)]"} cursor-pointer duration-500`}/>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -227,7 +231,7 @@ const Settings = () => {
                                 </div>
                             </div>
                             <div className='flex gap-3'>
-                                <button type="submit" className='px-5 py-2 bg-green-500 text-white rounded-full cursor-pointer hover:bg-red-600 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' >
+                                <button type="submit" className='px-5 py-2 bg-green-500 text-white rounded-full cursor-pointer hover:bg-green-400 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' >
                                         <span className="select-none">
                                             Continue
                                         </span>
