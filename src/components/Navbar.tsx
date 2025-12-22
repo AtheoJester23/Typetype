@@ -59,7 +59,7 @@ const Navbar = () => {
             <div className="flex gap-2">
                 <div className="flex justify-center items-center gap-2 p-2">
                     <Keyboard className="inline text-white"/>
-                    <Link to="/" className="text-white font-bold text-3xl">Typetype</Link>
+                    <a href="/" className="text-white font-bold text-3xl">Typetype</a>
                 </div>
             </div>
 

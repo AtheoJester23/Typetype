@@ -7,6 +7,7 @@ import { setDone, setPerfectScore, setScore} from "../state/Scoring/scoring";
 import Result from "../components/Result";
 import { fetchData, setChosen} from "../state/references/referenceSlice";
 import Configuration from "../components/Configuration";
+import { current } from "@reduxjs/toolkit";
 
 const Home = () => {
     // Redux state and dispatch
@@ -43,6 +44,10 @@ const Home = () => {
     const punctuationCheckbox = useSelector((state: RootState) => state.config.punctuation);
     const numbersCheckbox = useSelector((state: RootState) => state.config.numbers);
 
+    //Personal Best:
+    const pb = Number(localStorage.getItem("pb"));
+    const userId = localStorage.getItem("userId");
+
     const handleNext = () => {
         setInput("");
         setNum(prev => prev < 10 ? prev + 1 : 1);
@@ -55,11 +60,46 @@ const Home = () => {
         dispatch(setDone(true));
     }
 
+    const newPR = async (personalRecord: number) => {
+        try {
+            const res = await fetch(import.meta.env.VITE_TEST_USER + `/pb/${userId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    personalRecord
+                })
+            })
+
+            if(!res.ok){
+                throw new Error(`${res.status}`)
+            }
+
+            const data = await res.json();
+
+            console.log(data);
+        } catch (error) {
+            console.error("Failed to update personal record: ", (error as Error).message)
+        }
+    }
+
     const handleStop = () => {
         const elapsed = (Date.now() - start) / 1000;
         const totalWPM = (((perfectScore / 5) / (elapsed / 60)).toFixed(2))
-        setWpm(Math.ceil(Number(totalWPM)));
+        
+        const currentWPM = Math.ceil(Number(totalWPM));
+        setWpm(currentWPM);
         setTime(Math.floor(elapsed));
+
+
+        if(userId){
+            if(currentWPM > pb){
+                localStorage.setItem("pb", currentWPM.toString());
+                newPR(currentWPM)
+            }
+        }
     } 
 
     useEffect(()=>{

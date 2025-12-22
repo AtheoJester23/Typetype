@@ -26,10 +26,12 @@ const Settings = () => {
     const [show, setShow] = useState(false);
     const [inputs, setInputs] = useState<updateTypes>({username: null, email: null})
 
-
     const {theme}= useTheme();
+
+    //User data:
     const username = localStorage.getItem("username");
     const email = localStorage.getItem("email");
+    const pb = localStorage.getItem("pb");
 
     const handleEdit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -133,7 +135,7 @@ const Settings = () => {
                 <>
                     <div className="border border-green-500 border-3 border-dashed rounded-t-xl  w-full h-full flex items-center justify-center text-white">
                         <div className="flex flex-col justify-center items-center gap-3">
-                            <h1 className="text-green-500 font-bold text-5xl">129wpm</h1>
+                            <h1 className="text-green-500 font-bold text-5xl">{pb ?? 0} wpm</h1>
                             <p className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"}`}>Personal Best</p>
                         </div>
                     </div>
@@ -147,10 +149,10 @@ const Settings = () => {
                                 </div>
                                 <div className="absolute top-5 right-5 flex gap-3">
                                     <button onClick={() => setEdit(true)}>
-                                        <Pencil className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-[rgb(23,23,23)]"} cursor-pointer duration-500`}/>
+                                        <Pencil className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-gray-500 hover:text-[rgb(23,23,23)]"} cursor-pointer duration-500`}/>
                                     </button>
                                     <button onClick={() => setIsOpen(true)} >
-                                        <Trash className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-[rgb(23,23,23)]"} cursor-pointer duration-500`}/>
+                                        <Trash className={`${theme == "dark" ? "text-gray-500 hover:text-white" : "text-gray-500 hover:text-[rgb(23,23,23)]"} cursor-pointer duration-500`}/>
                                     </button>
                                 </div>
                             </div>

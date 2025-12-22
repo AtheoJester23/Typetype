@@ -43,6 +43,7 @@ const LoginForm = () => {
             localStorage.setItem("userId", data.data._id);
             localStorage.setItem("username", data.data.username);
             localStorage.setItem("email", data.data.email);
+            localStorage.setItem("pb", data.data.personalRecord)
 
             console.log("this is userId: ", data.data._id)
             dispatch(setToken(data.token));

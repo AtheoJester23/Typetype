@@ -325,9 +325,6 @@ const CustomTyping = () => {
                             <Trash/>
                             <p>Delete</p>
                         </div>
-                        <button onClick={() => console.log(modes.length)} className="text-white font-bold">
-                            Testing
-                        </button>
                     </div>
                 </>
             )}
