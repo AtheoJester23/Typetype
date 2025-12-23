@@ -24,6 +24,7 @@ const Settings = () => {
     const [edit, setEdit] = useState(false);
     const [submitEdit, setSubmitEdit] = useState(false);
     const [show, setShow] = useState(false);
+    const [del, setDel] = useState(false);
     const [inputs, setInputs] = useState<updateTypes>({username: null, email: null})
 
     const {theme}= useTheme();
@@ -109,10 +110,33 @@ const Settings = () => {
         }
     }
 
-    const handleDelete = async () => {
+    const handleConfirmDelete = () => {
+        setDel(true);
+        setIsOpen(false);
+    }
+
+
+    const handleDelete = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const password = formData.get("password")   
+
+        if(!password || password.toString().replace(/[ ]/g, "") == ""){
+            toast.error("Please enter your password to continue.");
+            return;
+        }
+
         try {
-            const res = await fetch(import.meta.env.VITE_USER + `/${userId}`, {
+            const res = await fetch(import.meta.env.VITE_TEST_USER + `/${userId}`, {
                 method: "DELETE",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    password
+                })
             })
 
             if(!res.ok){
@@ -199,6 +223,7 @@ const Settings = () => {
             </div>
 
             <ToastContainer theme={theme == "dark" ? "dark" : "light"  }/>
+            {/* Delete confirmation dialog */}
             <Dialog open={isOpen} onClose={() => {setIsOpen(false)}}>
                 <div className='fixed inset-0 bg-black/30'></div>
             
@@ -213,7 +238,7 @@ const Settings = () => {
                             <div className='flex gap-3'>
                                 <button 
                                     className='px-5 py-2 bg-red-500 text-white rounded-full cursor-pointer hover:bg-red-600 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' 
-                                    onClick={() => handleDelete()}>
+                                    onClick={() => handleConfirmDelete()}>
                                         Yes
                                 </button>
                                 <button className='px-5 py-2 bg-gray-500 text-white rounded-full cursor-pointer hover:bg-gray-600 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' onClick={() => setIsOpen(false)}>Cancel</button>
@@ -222,6 +247,40 @@ const Settings = () => {
                     </DialogPanel>
                 </div>
             </Dialog>
+
+            {/* Delete verification dialog */}
+            <Dialog open={del} onClose={() => {setDel(false)}}>
+                <div className='fixed inset-0 bg-black/30'></div>
+            
+                <div className='fixed inset-0 flex w-screen items-center justify-center p-4'>
+                    <DialogPanel className="mx-auto max-w-sm rounded bg-white p-5 max-sm:w-[90%] sm:w-[50%]">
+                        <form onSubmit={(e) => handleDelete(e)} className='flex justify-center flex-col items-center gap-3'>
+                            <Keyboard size={100} className='text-gray-500'/>
+                            <div className='text-center'>
+                                <DialogTitle className="font-bold">To continue, first verify it’s you</DialogTitle>
+                                <div className="relative">
+                                    <input type={show ? "text" : "password"} name="password" className="w-full border border-gray-500 p-3 rounded select-none" placeholder="*******" autoComplete="off"/>
+                                    {show ? (
+                                        <Eye onClick={() => setShow((prev) => !prev)} className="absolute right-2 top-3 cursor-pointer"/>
+                                    ):(
+                                       <EyeClosed onClick={() => setShow((prev) => !prev)} className="absolute right-2 top-3 cursor-pointer"/>
+                                    )}
+                                </div>
+                            </div>
+                            <div className='flex gap-3'>
+                                <button type="submit" className='px-5 py-2 bg-green-500 text-white rounded-full cursor-pointer hover:bg-green-400 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' >
+                                        <span className="select-none">
+                                            Continue
+                                        </span>
+                                </button>
+                                <button type="button" className='px-5 py-2 bg-gray-500 text-white rounded-full cursor-pointer hover:bg-gray-600 duration-200 -translate-y-0.25 hover:translate-none shadow hover:shadow-none' onClick={() => setDel(false)}>Cancel</button>
+                            </div>
+                        </form>
+                    </DialogPanel>
+                </div>
+            </Dialog>
+
+            {/* Edit confirmation dialog */}
             <Dialog open={submitEdit} onClose={() => {setSubmitEdit(false)}}>
                 <div className='fixed inset-0 bg-black/30'></div>
             
@@ -232,7 +291,7 @@ const Settings = () => {
                             <div className='text-center'>
                                 <DialogTitle className="font-bold">To continue, first verify it’s you</DialogTitle>
                                 <div className="relative">
-                                    <input type={show ? "text" : "password"} name="password" className="w-full border border-gray-500 p-3 rounded select-none" placeholder="*******"/>
+                                    <input type={show ? "text" : "password"} name="password" className="w-full border border-gray-500 p-3 rounded select-none" placeholder="*******" autoComplete="off"/>
                                     {show ? (
                                         <Eye onClick={() => setShow((prev) => !prev)} className="absolute right-2 top-3 cursor-pointer"/>
                                     ):(
