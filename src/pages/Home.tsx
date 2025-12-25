@@ -3,11 +3,10 @@ import { useTheme } from "../context/ThemeContext";
 import { ClipLoader } from "react-spinners";
 import type { AppDispatch, RootState } from "../state/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setDone, setPerfectScore, setScore} from "../state/Scoring/scoring";
+import { setPerfectScore, setScore} from "../state/Scoring/scoring";
 import Result from "../components/Result";
 import { fetchData, setChosen} from "../state/references/referenceSlice";
 import Configuration from "../components/Configuration";
-import { current } from "@reduxjs/toolkit";
 
 const Home = () => {
     // Redux state and dispatch

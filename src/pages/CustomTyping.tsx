@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {  setPerfectScore, setScore} from "../state/Scoring/scoring";
 import Result from "../components/Result";
 import { fetchData} from "../state/references/referenceSlice";
-import { setToken } from "../state/Token/tokenSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { type customsType } from "../components/ConfigurationCustom";
 import { setNumbers, setPunctuation } from "../state/Config/configSlice";

@@ -1,7 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
-import { getTokenExpiration } from "../utils/getTokenExpiration";
 import { setToken } from "../state/Token/tokenSlice";
 
 const CheckJWT = ({children}: {children: ReactNode}) => {
@@ -12,7 +11,7 @@ const CheckJWT = ({children}: {children: ReactNode}) => {
         dispatch(setToken(null));
     };
 
-    const [checking, setChecking] = useState(true)
+    const [_, setChecking] = useState(true)
         
     useEffect(() => {
         const checkSession = async () => {

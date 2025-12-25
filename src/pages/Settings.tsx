@@ -140,7 +140,7 @@ const Settings = () => {
             })
 
             if(!res.ok){
-                throw new Error(`${res}`)
+                throw new Error(`${res.status}`)
             }
 
             //Remove all localStorage data from the user:
@@ -149,7 +149,11 @@ const Settings = () => {
             navigate("/")
         } catch (error) {
             console.error((error as Error).message)
-            toast.error("Something went wrong while deleting your account.")
+            if((error as Error).message.includes("401")){
+                toast.error("Incorrect password. Please try again.")
+            }else{
+                toast.error("Something went wrong while deleting your account.")
+            }
         }
     }
 

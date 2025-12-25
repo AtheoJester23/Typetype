@@ -4,8 +4,6 @@ import { ThemeProvider } from './context/ThemeContext'
 import Home from './pages/Home'
 import NonExistent from './components/NonExistent'
 import Navbar from './components/Navbar'
-import { Provider, useDispatch, useSelector } from 'react-redux'
-import store, { type AppDispatch, type RootState } from './state/store'
 import LoginPage from './pages/login'
 import CustomOptions from './pages/CustomOptions'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -16,8 +14,6 @@ import CustomText from './pages/CustomText'
 import ViewAll from './pages/ViewAll'
 import CustomTyping from './pages/CustomTyping'
 import Settings from './pages/Settings'
-import { useEffect } from 'react'
-import { setToken } from './state/Token/tokenSlice'
 
 function App() {
   return (

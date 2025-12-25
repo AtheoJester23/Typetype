@@ -1,11 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { isTokenExpired } from "../utils/checkTokenExp";
-import { getTokenExpiration } from "../utils/getTokenExpiration";
+import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { setToken } from "../state/Token/tokenSlice";
-import { setCollections } from "../state/Collections/collectionSlice";
 
 const ProtectedRoute = ({children}: {children: ReactNode}) => {
     const token = useSelector((state: RootState) => state.token.token);
