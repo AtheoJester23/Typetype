@@ -72,7 +72,7 @@ const SignupForm = () => {
                 return;
             }
 
-            const res = await fetch(import.meta.env.VITE_USER, {
+            const res = await fetch(import.meta.env.VITE_TEST_USER, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -82,7 +82,8 @@ const SignupForm = () => {
                     email,
                     password,
                     rememberMe: rememberMe ? true : false 
-                })
+                }),
+                credentials: 'include'
             })
 
             if(!res.ok){
