@@ -14,6 +14,7 @@ import CustomText from './pages/CustomText'
 import ViewAll from './pages/ViewAll'
 import CustomTyping from './pages/CustomTyping'
 import Settings from './pages/Settings'
+import ResetPass from './pages/ResetPass'
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
             }/>
             <Route path='/Signup' element={<SignUp/>}/>
             <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+            <Route path='/reset-password' element={<ResetPass/>}/>
             <Route path='*' element={<NonExistent/>}/>
           </Routes>
         </BrowserRouter>
