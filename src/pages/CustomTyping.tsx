@@ -320,6 +320,10 @@ const CustomTyping = () => {
                             <ArrowRight/>
                             Next
                         </button>
+                        <div onClick={() => setIsOpen(true)} className={`flex gap-2 font-bold ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-blue-500 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer p-2`}>
+                            <Plus/>
+                            <p>New</p>
+                        </div>
                         <div onClick={() => setIsOpen(true)} className={`flex gap-2 font-bold ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-red-500 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer p-2`}>
                             <Trash/>
                             <p>Delete</p>
