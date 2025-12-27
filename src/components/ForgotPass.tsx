@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import validator from 'validator'
 
 type possibleError = {
@@ -8,6 +9,7 @@ type possibleError = {
 }
 
 const ForgotPass = () => {
+    const navigate = useNavigate()
     const [err, setErr] = useState<possibleError>({wrong: false, missing: false, notFound: false})
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -29,7 +31,7 @@ const ForgotPass = () => {
         }
 
         try {
-           const res = await fetch(import.meta.env.VITE_FP, {
+           const res = await fetch(import.meta.env.VITE_FP_LOCAL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -47,6 +49,8 @@ const ForgotPass = () => {
            }
 
            const data = await res.json();
+
+           navigate("/Login")
 
            console.log(data);
         } catch (error) {

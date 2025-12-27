@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useTheme } from "../context/ThemeContext"
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 type possibleErrs = {
     newPass: boolean,
@@ -10,7 +11,10 @@ type possibleErrs = {
 const ResetForm = () => {
     const { theme } = useTheme();
     const [errs, setErrs] = useState<possibleErrs>({newPass: false, confPass: false})
-    
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
+    const navigate = useNavigate();
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -28,13 +32,44 @@ const ResetForm = () => {
             currentErrs.confPass = true;
         }
 
+        if(conf !== pass){
+            currentErrs.newPass = true;
+            currentErrs.confPass = true;
+        }
+
         if(Object.values(currentErrs).includes(true)){
             toast.error("Please fix the errors in the form before submitting.")
             setErrs(currentErrs)
             return;
         }
 
-        console.log(`${pass}, ${conf}`)
+        try {
+            const res = await fetch(import.meta.env.VITE_RSTPASS_LOCAL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    newPassword: pass,
+                    token
+                })
+            })
+
+            if(!res.ok){
+                throw new Error(`${res.status}`)
+            }
+
+            const data = await res.json();
+
+            console.log(data);
+
+            navigate("/Login")
+
+            toast.success("Changed password successfully.")
+        } catch (error) {
+            console.error((error as Error).message)
+            toast.error("Something went wrong.")
+        }
     }
 
   return (
