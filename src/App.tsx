@@ -15,6 +15,7 @@ import ViewAll from './pages/ViewAll'
 import CustomTyping from './pages/CustomTyping'
 import Settings from './pages/Settings'
 import ResetPass from './pages/ResetPass'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
             <Route path='/reset-password' element={<ResetPass/>}/>
             <Route path='*' element={<NonExistent/>}/>
           </Routes>
+          <Footer/>
         </BrowserRouter>
       </ThemeProvider>
   )

@@ -3,11 +3,15 @@
 .Navbar{
   background-color: rgb(23,23,23);
   display: flex;
-  position: absolute;
+  position: fixed;
   width: 100%;
+  top: 0;
+  right: 0;
+  left: 0;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  z-index: 1000;
 }
 
 .dark{
@@ -49,7 +53,6 @@
   align-items: center;
   gap: 30px;
   height: 100vh;
-  padding-top: 60px;
   flex-direction: column;
 }
 
