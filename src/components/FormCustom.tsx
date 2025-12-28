@@ -3,7 +3,7 @@ import { useTheme } from "../context/ThemeContext";
 import { Plus, X } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../state/store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
 export type namesCollectionType = {
@@ -36,6 +36,11 @@ const FormCustom = () => {
   const userId = localStorage.getItem("userId")
 
   const navigate = useNavigate();
+
+  //Link params:
+    const [searchParams] = useSearchParams();
+    const selectedTopic = searchParams.get("topic");
+
 
   useEffect(() => {
     console.log("These ones: ", collections)
@@ -170,7 +175,7 @@ const FormCustom = () => {
                     setErr((prev) => ({...prev, collectionId: false}))
                   }}
                 >
-                  <option className={`${theme == "light" ? "text-[rgb(23,23,23)] bg-[rgb(200,200,200)]" : "text-white bg-[rgb(23,23,23)]"}`} value="default" disabled>Select a collection</option>
+                  <option className={`${theme == "light" ? "text-[rgb(23,23,23)] bg-[rgb(200,200,200)]" : "text-white bg-[rgb(23,23,23)]"}`} value={selectedTopic ? selectedTopic : "default"} disabled>Select a collection</option>
                   {choices.length > 0 && (
                     <>
                       {choices.map(item => (

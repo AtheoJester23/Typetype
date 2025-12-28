@@ -1,8 +1,8 @@
 import { Eye, EyeClosed, Heart, Keyboard, Pencil, Trash, TriangleAlert, User, X } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../state/store";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../state/store";
 import { useTheme } from "../context/ThemeContext";
-import { Description, Dialog, DialogDescription, DialogPanel, DialogTitle } from "@headlessui/react";
+import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState, type FormEvent } from "react";
 import { setToken } from "../state/Token/tokenSlice";
 import { useNavigate } from "react-router-dom";

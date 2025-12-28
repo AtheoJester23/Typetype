@@ -34,6 +34,7 @@ const Navbar = () => {
             localStorage.removeItem("userId");
             localStorage.removeItem("email");
             localStorage.removeItem("username");
+            localStorage.removeItem("pb");
             setOpen(false)
             navigate("/")
             dispatch(setToken(null));
