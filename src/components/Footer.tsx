@@ -3,7 +3,7 @@ import { Heart } from "lucide-react"
 const Footer = () => {
   return (
     <footer className='bg-[rgb(23,23,23)] text-white py-20 text-center flex flex-col gap-5 justify-center items-center'>
-      <a className="text-white font-bold text-3xl">Typetype</a>
+      <a className="text-white font-bold text-3xl select-none">Typetype</a>
       
       <p className="text-center text-gray-500 w-[50%]">
         This website is designed not only to improve typing speed, but also to emphasize the importance of repetition in memorizing sentences and paragraphs.

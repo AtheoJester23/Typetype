@@ -150,6 +150,10 @@ const FormCustom = () => {
 
   return (
     <form onSubmit={(e) => handleSubmit(e)} className="customForm w-[80%] h-[80%] flex flex-col gap-2 justify-center">
+        <h1 className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} text-center text-4xl select-none`}>
+            Create Custom Text
+        </h1>
+        
         <div className="flex justify-start flex-col">
           <div>
             <p className={`${theme == "dark" ? "text-white" : "text-[rgb(23,23,23)]"} font-bold`}>Collection<span className="text-red-500">*</span></p>
