@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../state/store";
 import { setToken } from "../state/Token/tokenSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { setLog} from "../state/AuthState/authSlice";
 
 const Navbar = () => {
@@ -12,9 +12,30 @@ const Navbar = () => {
     const token = useSelector((state: RootState) => state.token.token)
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate();
+    
     const [open, setOpen] = useState<boolean>(false)
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+
     const authState = useSelector((state: RootState) => state.authState.value)
 
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setOpen(false);
+            }
+        }
+
+        if (open) {
+        document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [open]);
 
     const handleLogOut = async () => {
         try {
@@ -82,20 +103,22 @@ const Navbar = () => {
 
                     
                     {token ? (
-                                <div className="relative">
+                                <div ref={dropdownRef} className="relative">
                                     <button onClick={() => setOpen(prev => !prev)} className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
                                         <span className="flex gap-2"><UserRound/>Profile</span>
                                     </button> 
-                                    <div className={`${open ? "visible" : "hidden"} flex flex-col bg-[rgb(23,23,23)] border border-white rounded-b absolute -bottom-17 right-0 left-0`}>
-                                        <button onClick={() => handleSettings()} className="flex gap-1 items-center justify-center hover:text-[rgb(23,23,23)] p-1 text-white  hover:bg-white cursor-pointer">
-                                            <Settings size={20}/>
-                                            <span>Settings</span>
-                                        </button>
-                                        <button onClick={() => handleLogOut()} className="flex gap-1 items-center justify-center hover:text-[rgb(23,23,23)] p-1 text-white  hover:bg-white cursor-pointer">
-                                            <LogOut size={20}/>
-                                            <span>Logout</span>
-                                        </button>
-                                    </div>
+                                    {open && (
+                                        <div className={`flex flex-col bg-[rgb(23,23,23)] border border-white rounded-b absolute -bottom-17 right-0 left-0`}>
+                                            <button onClick={() => handleSettings()} className="flex gap-1 items-center justify-center hover:text-[rgb(23,23,23)] p-1 text-white  hover:bg-white cursor-pointer">
+                                                <Settings size={20}/>
+                                                <span>Settings</span>
+                                            </button>
+                                            <button onClick={() => handleLogOut()} className="flex gap-1 items-center justify-center hover:text-[rgb(23,23,23)] p-1 text-white  hover:bg-white cursor-pointer">
+                                                <LogOut size={20}/>
+                                                <span>Logout</span>
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             ): (
                                 <Link to={"/Login"} className="border text-white py-2 px-5 rounded font-bold cursor-pointer flex justify-center items-center gap-1">
