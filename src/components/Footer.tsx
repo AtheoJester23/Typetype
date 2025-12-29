@@ -1,3 +1,5 @@
+import { Heart } from "lucide-react"
+
 const Footer = () => {
   return (
     <footer className='bg-[rgb(23,23,23)] text-white py-20 text-center flex flex-col gap-5 justify-center items-center'>
@@ -25,6 +27,21 @@ const Footer = () => {
         <a href="https://atheo.site" target="_blank" className="hover:-translate-y-1 hover:text-white duration-500">
           Atheo
         </a>
+      </div>
+      <div>
+          <button className="group cursor-pointer text-gray-500 flex gap-2" >
+              <Heart/>
+              <span className="max-w-0
+                overflow-hidden
+                whitespace-nowrap
+                opacity-0
+                transition-all
+                duration-300
+                group-hover:max-w-[80px]
+                group-hover:opacity-100">
+                  Donate
+              </span>
+          </button>
       </div>
     </footer>
   )

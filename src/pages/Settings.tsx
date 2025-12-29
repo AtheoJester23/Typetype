@@ -218,13 +218,6 @@ const Settings = () => {
                     </div>
                 </>
             )}
-            
-            <div>
-                <button className={`${theme == "dark" ? "text-[rgb(23,23,23)]" : "text-gray-500"} flex gap-2`}>
-                    <Heart/>
-                    <span>Donate</span>
-                </button>
-            </div>
 
             <ToastContainer theme={theme == "dark" ? "dark" : "light"  }/>
             {/* Delete confirmation dialog */}
