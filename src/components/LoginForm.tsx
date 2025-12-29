@@ -23,7 +23,7 @@ const LoginForm = () => {
 
     const getData = async(userCredentials: cred) => {
         try {
-            const res = await fetch(import.meta.env.VITE_TEST_LOGIN, {
+            const res = await fetch(import.meta.env.VITE_LOGIN, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

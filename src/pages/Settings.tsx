@@ -1,4 +1,4 @@
-import { Eye, EyeClosed, Heart, Keyboard, Pencil, Trash, TriangleAlert, User, X } from "lucide-react";
+import { Eye, EyeClosed, Keyboard, Pencil, Trash, TriangleAlert, User, X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../state/store";
 import { useTheme } from "../context/ThemeContext";

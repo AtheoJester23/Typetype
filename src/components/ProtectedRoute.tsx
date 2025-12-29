@@ -14,7 +14,7 @@ const ProtectedRoute = ({children}: {children: ReactNode}) => {
         const checkSession = async () => {
             if(!token){
                 try {
-                    const res = await fetch(import.meta.env.VITE_TEST_REFRESH, {
+                    const res = await fetch(import.meta.env.VITE_REFRESH, {
                         method: "POST",
                         credentials: "include"
                     })

@@ -17,13 +17,14 @@ const CheckJWT = ({children}: {children: ReactNode}) => {
         const checkSession = async () => {
             if(!token){
                 try {
-                    const res = await fetch(import.meta.env.VITE_TEST_REFRESH, {
+                    const res = await fetch(import.meta.env.VITE_REFRESH, {
                         method: "POST",
                         credentials: "include"
                     })
 
                     if(!res.ok){
-                        throw new Error(`${res.status}`)
+                        console.log(res)
+                        throw new Error(`test: ${res.status}`)
                     }
 
                     const data = await res.json();
