@@ -39,7 +39,7 @@ const Navbar = () => {
 
     const handleLogOut = async () => {
         try {
-            const res = await fetch(import.meta.env.VITE_TEST_LOGOUT, {
+            const res = await fetch(import.meta.env.VITE_LOGOUT, {
                 method: "POST",
                 credentials: "include"                
             })

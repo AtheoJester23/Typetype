@@ -83,7 +83,7 @@ const CustomTyping = () => {
 
     const handleDelete = async () => {
         try {
-            const res = await fetch(import.meta.env.VITE_TEST_DELETETOPIC + `/${selected}`, {
+            const res = await fetch(import.meta.env.VITE_DELETETOPIC + `/${selected}`, {
                 method: "DELETE"
             })
 
