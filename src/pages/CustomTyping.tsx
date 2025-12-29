@@ -221,7 +221,7 @@ const CustomTyping = () => {
     }, [input])
 
     return (  
-        <div className="flex justify-center items-center h-screen flex-col gap-5">
+        <div className="flex pt-[240px] pb-[240px] items-center flex-col gap-5">
             {!loading && modes.length > 0 ? (
                 <>
                     {!done && (
