@@ -132,6 +132,7 @@ const CustomTyping = () => {
         }
 
         console.log(getAllCustoms());
+
     }, [])
 
     useEffect(()=> {
@@ -158,6 +159,8 @@ const CustomTyping = () => {
         }
 
         setInput("");
+
+        textRef.current?.focus();
 
         console.log(perfectScore)
 

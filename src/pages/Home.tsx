@@ -105,6 +105,10 @@ const Home = () => {
         dispatch(fetchData());
     }, [])
 
+    useEffect(()=>{
+        textRef.current?.focus()
+    }, [fetched])
+
     useEffect(()=> {
         // initial setting for the reference;
         if(modeChosen.length < 1 && Object.keys(fetched).length > 0){
@@ -183,7 +187,9 @@ const Home = () => {
 
             }
         };
-
+        
+        textRef.current?.focus();
+        
         enter.addEventListener("keydown", handleKeyDown);
 
         return () => {
