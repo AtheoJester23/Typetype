@@ -1,6 +1,11 @@
+import { Dialog, DialogPanel } from "@headlessui/react"
 import { Heart } from "lucide-react"
+import { useState } from "react"
+import { siPaypal } from 'simple-icons/icons'
 
 const Footer = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <footer className='bg-[rgb(23,23,23)] text-white py-20 text-center flex flex-col gap-5 justify-center items-center'>
       <a className="text-white font-bold text-3xl select-none">Typetype</a>
@@ -29,7 +34,7 @@ const Footer = () => {
         </a>
       </div>
       <div>
-          <button className="group cursor-pointer text-gray-500 flex gap-2" >
+          <button onClick={() => setIsOpen(true)} className="group cursor-pointer text-gray-500 flex gap-2" >
               <Heart/>
               <span className="max-w-0
                 overflow-hidden
@@ -43,6 +48,39 @@ const Footer = () => {
               </span>
           </button>
       </div>
+      <Dialog open={isOpen} onClose={() => {setIsOpen(false)}}>
+        <div className="fixed inset-0 flex justify-center items-center">
+          <DialogPanel className={`mx-auto flex justify-center items-center`}>
+            <div className="bg-white w-full p-5 rounded shadow-lg flex">
+              <div className="p-5 border-r-1 border-gray-500 flex flex-col gap-5 justify-center items-center">
+                <div className="flex gap-3 items-center justify-center">
+                  <svg
+                    role="img"
+                    viewBox="0 0 24 24"
+                    width={24}
+                    height={24}
+                    fill="#00457C"
+                    dangerouslySetInnerHTML={{ __html: siPaypal.svg }}
+                  />
+                  <h1 className="font-bold text-4xl">Paypal</h1>
+                </div>
+                <a href="http://paypal.me/AtheoJester" className="bg-blue-500 text-white font-bold rounded-full py-3 px-5 flex justify-center items-center" target="_blank"><span>Donate</span></a>
+              </div>
+
+              <div className="p-5">
+                <div>
+                  <h1 className="font-bold text-4xl text-center">GCash</h1>
+                  <img
+                    src="/gcash-qr.jpg"
+                    alt="Scan to donate via GCash"
+                    className="mx-auto w-56"
+                  />
+                </div>
+              </div>
+            </div>
+          </DialogPanel>
+        </div>
+      </Dialog>
     </footer>
   )
 }
