@@ -85,12 +85,12 @@ const LoginForm = () => {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
                     <label htmlFor="email" className="text-gray-500">Email: </label>
-                    <input type="text" name="email" id="email" className="border border-gray-500 rounded p-[10px]" placeholder="Enter email address" defaultValue={"atheojester@gmail.com"}/>
+                    <input type="text" name="email" id="email" className="border border-gray-500 rounded p-[10px]" placeholder="Enter email address"/>
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="password" className="text-gray-500">Password: </label>
                     <div className="relative">
-                        <input type={show ? "text" : "password"} name="password" id="password" className="border border-gray-500 rounded p-[10px] w-full" placeholder="Password" autoComplete="off" defaultValue={"password123"}/>
+                        <input type={show ? "text" : "password"} name="password" id="password" className="border border-gray-500 rounded p-[10px] w-full" placeholder="Password" autoComplete="off"/>
                         <button type="button" className="absolute right-3 top-3" onClick={() => setShow(prev => !prev)}>{show ? <Eye className="text-gray-500"/> : <EyeClosed className="text-gray-500"/>}</button>
                     </div>
                 </div>
