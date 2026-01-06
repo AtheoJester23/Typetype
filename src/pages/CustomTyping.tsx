@@ -229,24 +229,29 @@ const CustomTyping = () => {
                 <>
                     {!done && (
                 <div className="flex justify-center items-center border bg-black rounded shadow-xl">
-                    <select 
-                        className="bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
-                        defaultValue="default" 
-                        onChange={(e)=>{
-                            setSelected(e.target.value)
-                            setNum(modes.findIndex(item => item._id == e.target.value));
-                        }}
-                    >
-                            <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a topic</option>
-                            {modes.length > 0 && (
-                                <>
-                                    {modes.map(item => (
-                                        <option key={item._id} className="text-white hover:cursor-pointer" value={`${item._id}`}>{item.title}</option>
-                                    ))}
-                                </>
-                            )}
-                                            
-                    </select>
+                    <div className={`px-5 bg-[rgb(18,18,18)] relative w-full border rounded`}>
+                        <select 
+                            className="appearance-none focus:outline-none w-full bg-[rgb(18,18,18)] text-white py-2 rounded px-5 text-center hover:cursor-pointer font-bold" 
+                            defaultValue="default" 
+                            onChange={(e)=>{
+                                setSelected(e.target.value)
+                                setNum(modes.findIndex(item => item._id == e.target.value));
+                            }}
+                        >
+                                <option className="text-gray-500 bg-[rgb(23,23,23)]" value="default" disabled>Select a topic</option>
+                                {modes.length > 0 && (
+                                    <>
+                                        {modes.map(item => (
+                                            <option key={item._id} className="text-white hover:cursor-pointer bg-green-500 w-full px-5" value={`${item._id}`}>{item.title}</option>
+                                        ))}
+                                    </>
+                                )}
+                                                
+                        </select>
+                        <span className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 ${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"}`}>
+                            ▼
+                        </span>
+                    </div>
         
                     <div className="flex gap-2 mx-2">
                         <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold cursor-pointer">
