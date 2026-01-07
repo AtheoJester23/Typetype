@@ -27,20 +27,25 @@ const Configuration = ({reference}: {reference: String}) => {
 
     return (  
         <div className="flex justify-center items-center border bg-black rounded shadow-xl">
-            <select 
-                className={`${theme == "light" ? "bg-white text-[rgb(23,23,23)] border border-[rgb(23,23,23)]" : "bg-[rgb(18,18,18)] text-white"}  py-2 rounded px-5 text-center hover:cursor-pointer font-bold`}
-                defaultValue="default" 
-                onChange={(e)=> {
-                    if(e.target.value == "Custom"){
-                        navigate("/custom")
-                    }
-                    dispatch(setMode(e.target.value))
-                }}
-            >
-                    <option className={`${theme == "light" ? "text-gray-500 bg-[rgba(206,206,206,1)]" : "text-gray-500 bg-[rgb(23,23,23)]"}`} value="default" disabled>Select a mode</option>
-                    <option className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white hover:cursor-pointer"}`} value={`Quotes`}>Quotes</option>
-                    <option className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white hover:cursor-pointer"}`} value={`Commandments`} >10 Commandments</option>
-            </select>
+            <div className="relative">
+                <select 
+                    className={`${theme == "light" ? "bg-white text-[rgb(23,23,23)] border border-[rgb(23,23,23)]" : "bg-[rgb(18,18,18)] text-white"} appearance-none py-2 rounded px-5 text-center hover:cursor-pointer font-bold`}
+                    defaultValue="default" 
+                    onChange={(e)=> {
+                        if(e.target.value == "Custom"){
+                            navigate("/custom")
+                        }
+                        dispatch(setMode(e.target.value))
+                    }}
+                >
+                        <option className={`${theme == "light" ? "text-gray-500 bg-[rgba(206,206,206,1)]" : "text-gray-500 bg-[rgb(23,23,23)]"}`} value="default" disabled>Select a mode</option>
+                        <option className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white hover:cursor-pointer"}`} value={`Quotes`}>Quotes</option>
+                        <option className={`${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white hover:cursor-pointer"}`} value={`Commandments`} >10 Commandments</option>
+                </select>
+                <span className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 ${theme == "light" ? "text-[rgb(23,23,23)]" : "text-white"}`}>
+                    ▼
+                </span>
+            </div>
 
             <div className="flex gap-2 mx-2">
                 <label htmlFor="Punctuation" className="text-white flex gap-2 items-center font-bold">
