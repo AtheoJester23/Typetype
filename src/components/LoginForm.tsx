@@ -78,40 +78,43 @@ const LoginForm = () => {
         getData(body);
     }
 
-    return (  
-        <form className="formLogin" onSubmit={(e)=>handleLogin(e)}>
-            <h1 className="text-center font-bold text-3xl text-[rgb(23,23,23)]">Login</h1>
+    return (
+        <div className="flex flex-col justify-center items-center gap-5 w-full">
+            <p className={`${theme == "dark" ? "text-yellow-500" : "text-[rgb(23,23,23)]"} text-center w-[700px]`}><strong>Note:</strong> This project is currently deployed on a free-tier cloud platform, which may cause the server to be temporarily unavailable at times. If the application does not respond immediately upon login, please allow one to two minutes for the server to become available.</p>
+            <form className="formLogin w-full" onSubmit={(e)=>handleLogin(e)}>
+                <h1 className="text-center font-bold text-3xl text-[rgb(23,23,23)]">Login</h1>
 
-            <div className="flex flex-col gap-2">
-                <div className="flex flex-col">
-                    <label htmlFor="email" className="text-gray-500">Email: </label>
-                    <input type="text" name="email" id="email" className="border border-gray-500 rounded p-[10px]" placeholder="Enter email address"/>
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="password" className="text-gray-500">Password: </label>
-                    <div className="relative">
-                        <input type={show ? "text" : "password"} name="password" id="password" className="border border-gray-500 rounded p-[10px] w-full" placeholder="Password" autoComplete="off"/>
-                        <button type="button" className="absolute right-3 top-3" onClick={() => setShow(prev => !prev)}>{show ? <Eye className="text-gray-500"/> : <EyeClosed className="text-gray-500"/>}</button>
+                <div className="flex flex-col gap-2">
+                    <div className="flex flex-col">
+                        <label htmlFor="email" className="text-gray-500">Email: </label>
+                        <input type="text" name="email" id="email" className="border border-gray-500 rounded p-[10px]" placeholder="Enter email address"/>
                     </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="password" className="text-gray-500">Password: </label>
+                        <div className="relative">
+                            <input type={show ? "text" : "password"} name="password" id="password" className="border border-gray-500 rounded p-[10px] w-full" placeholder="Password" autoComplete="off"/>
+                            <button type="button" className="absolute right-3 top-3" onClick={() => setShow(prev => !prev)}>{show ? <Eye className="text-gray-500"/> : <EyeClosed className="text-gray-500"/>}</button>
+                        </div>
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <input type="checkbox" name="rememberMe" id="rememberMe" />
-                    <label htmlFor="rememberMe" className="font-bold text-[rgb(23,23,23)] select-none">Remember Me</label>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <input type="checkbox" name="rememberMe" id="rememberMe" />
+                        <label htmlFor="rememberMe" className="font-bold text-[rgb(23,23,23)] select-none">Remember Me</label>
+                    </div>
+                    <Link to={"/forgotPassword"} className="text-green-500">Forgot Password</Link>
                 </div>
-                <Link to={"/forgotPassword"} className="text-green-500">Forgot Password</Link>
-            </div>
 
-            <button className="border border-[rgb(23,23,23)] bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
-        
-            <p className="text-center">
-                Don't have an account? <Link to={'/Signup'} className="text-green-500">Sign Up</Link>
-            </p>
-            <ToastContainer theme={theme == 'dark' ? "dark" : 'light'}/>
-        </form>
+                <button className="border border-[rgb(23,23,23)] bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
+            
+                <p className="text-center">
+                    Don't have an account? <Link to={'/Signup'} className="text-green-500">Sign Up</Link>
+                </p>
+                <ToastContainer theme={theme == 'dark' ? "dark" : 'light'}/>
+            </form>
+        </div>
     );
 }
  
