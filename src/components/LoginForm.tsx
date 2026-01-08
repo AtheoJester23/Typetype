@@ -20,9 +20,12 @@ const LoginForm = () => {
     const [show, setShow] = useState(false)    
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const getData = async(userCredentials: cred) => {
         try {
+            setLoading(true);
+
             const res = await fetch(import.meta.env.VITE_LOGIN, {
                 method: "POST",
                 headers: {
@@ -49,9 +52,11 @@ const LoginForm = () => {
             dispatch(setToken(data.token));
             navigate("/");
             dispatch(setLog("pending"))
+            setLoading(false)
         } catch (error) {
             console.error("Failed to get the data: ", (error as Error).message)
             toast.error(`Invalid Email Address or Password`)
+            setLoading(false)
         }
     }
 
@@ -107,7 +112,11 @@ const LoginForm = () => {
                     <Link to={"/forgotPassword"} className="text-green-500">Forgot Password</Link>
                 </div>
 
-                <button className="border border-[rgb(23,23,23)] bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
+                {loading ? (
+                    <div className="bg-blue-300 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200 flex justify-center items-center">Loading</div>
+                ):(
+                    <button className="border border-[rgb(23,23,23)] bg-green-500 text-white font-bold rounded p-[7px] cursor-pointer -translate-y-0.25 hover:translate-none duration-200">Submit</button>
+                )}
             
                 <p className="text-center">
                     Don't have an account? <Link to={'/Signup'} className="text-green-500">Sign Up</Link>
