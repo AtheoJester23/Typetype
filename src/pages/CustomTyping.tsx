@@ -9,7 +9,7 @@ import { fetchData} from "../state/references/referenceSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { type customsType } from "../components/ConfigurationCustom";
 import { setNumbers, setPunctuation } from "../state/Config/configSlice";
-import { ArrowRight, Plus, Trash, TriangleAlert } from "lucide-react";
+import { ArrowRight, Pencil, Plus, Trash, TriangleAlert } from "lucide-react";
 import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -331,6 +331,10 @@ const CustomTyping = () => {
                         <Link to={"/custom/create"} className={`flex gap-2 font-bold ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-blue-500 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer p-2`}>
                             <Plus/>
                             <p>New</p>
+                        </Link>
+                        <Link to={`/Edit/${selected}`} className={`flex gap-2 font-bold ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-orange-500 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer p-2`}>
+                            <Pencil/>
+                            <p>Edit</p>
                         </Link>
                         <div onClick={() => setIsOpen(true)} className={`flex gap-2 font-bold ${theme == "dark" ? "border-none text-white" : "border border-[rgb(23,23,23)] text-[rgb(23,23,23)]"} bg-red-500 rounded -translate-y-1 hover:translate-none duration-200 hover:cursor-pointer p-2`}>
                             <Trash/>

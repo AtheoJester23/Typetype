@@ -16,6 +16,7 @@ import CustomTyping from './pages/CustomTyping'
 import Settings from './pages/Settings'
 import ResetPass from './pages/ResetPass'
 import Footer from './components/Footer'
+import EditCustom from './pages/EditCustom'
 
 function App() {
   return (
@@ -52,6 +53,11 @@ function App() {
             <Route path='/Settings' element={
               <ProtectedRoute>
                 <Settings/>
+              </ProtectedRoute>
+            }/>
+            <Route path='/Edit/:id' element={
+              <ProtectedRoute>
+                <EditCustom/>
               </ProtectedRoute>
             }/>
             <Route path='/Signup' element={<SignUp/>}/>
