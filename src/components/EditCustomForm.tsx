@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react"
 import { useTheme } from "../context/ThemeContext";
-import { Plus, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../state/store";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -36,7 +36,6 @@ const EditCustomForm = () => {
   const [err, setErr] = useState<possibleErrors>({collection: false, title: false, content: false, collectionId: false, collectionName: false});
   const [createPlaylist, setCreatePlaylist] = useState(false);
   const [choices, setChoices] = useState<namesCollectionType[] | []>([])
-  const userId = localStorage.getItem("userId")
 
   const navigate = useNavigate();
 
@@ -120,23 +119,17 @@ const EditCustomForm = () => {
       return;
     }
     
-    const wholeThing = {
-      userId,
-      title,
-      content: body,
-      collectionId: collectionId ?? null,
-      collectionName: collectionName ?? null
-    }
-
-    console.log(JSON.stringify(wholeThing))
-
     try {
-      const res = await fetch(import.meta.env.VITE_POST_COLLECTION, {
-        method: "POST",
+      const res = await fetch(`${import.meta.env.VITE_TEST_UPDATE_TOPIC}/${id}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(wholeThing)
+        body: JSON.stringify({
+          title,
+          content: body
+        }),
+        credentials: 'include'
       })
 
       if(!res.ok){
